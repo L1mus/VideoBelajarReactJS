@@ -15,20 +15,21 @@ function App() {
     <>
       {/* // Gunakan div untuk menata letak di tengah layar */}
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 space-y-4">
-        <h1 className="text-2xl font-bold mb-4">
-          Contoh Penggunaan Komponen Button
-        </h1>
+        <h1 className="font-bold mb-4">Contoh Penggunaan Komponen Button</h1>
 
         {/* 3. Gunakan komponen Button seperti tag HTML */}
         <Button onClick={handleSimpan} variant="primary">
           Simpan Perubahan
         </Button>
 
-        <Button onClick={handleHapus} variant="tetrinary">
+        <Button onClick={handleHapus} variant="">
           Hapus Akun
         </Button>
 
-        <Button onClick={() => alert("Membatalkan aksi...")} variant="primary2">
+        <Button
+          onClick={() => alert("Membatalkan aksi...")}
+          variant="tertiary  "
+        >
           Batal
         </Button>
       </div>

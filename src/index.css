@@ -1,1 +1,83 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import "tailwindcss";
+
+@theme {
+  /* COLOR */
+  --font-Poppins: "Poppins", sans-serif;
+  --font-DM-Sans: "DM Sans", sans-serif;
+  --color-main-primary: #3ecf4c;
+  --color-main-primary1: #6be26b;
+  --color-main-primary2: #94f08b;
+  --color-main-primary3: #c0fab4;
+  --color-main-primary4: #e2fcd9cc;
+  --color-main-secondary: #ffbd3a;
+  --color-main-secondary1: #ffd26b;
+  --color-main-secondary2: #ffdf88;
+  --color-main-secondary3: #ffecb0;
+  --color-main-secondary4: #fff7d7cc;
+  --color-main-tertiary: #f64920;
+  --color-main-tertiary1: #f98256;
+  --color-main-tertiary2: #fca578;
+  --color-main-tertiary3: #fecaa5;
+  --color-main-tertiary4: #fee8d2cc;
+  --color-text-dark-primary: #222325;
+  --color-text-dark-secondary: #333333ad;
+  --color-text-light-primary: #ffffff;
+  --color-text-light-secondary: #c1c2c4;
+  --color-text-light-disabled: #9d9ea1;
+  --color-other-base-background: #f4f5fa;
+  --color-other-secondary-background: #f9fafc;
+  --color-other-border: #3a35411f;
+  --color-info-pressed: #044aa2;
+  --color-info-hover: #0663c2;
+  --color-info-default: #0980e2;
+  --color-info-background: #ebf9fe;
+  --color-success-pressed: #1c9675;
+  --color-success-hover: #38d189;
+  --color-success-default: #0980e2;
+  --color-success-background: #e0fddf;
+  --color-warning-pressed: #b5a40d;
+  --color-warning-hover: #d8c613;
+  --color-warning-default: #fce91b;
+  --color-warning-background: #fcf8ca;
+  --color-error-pressed: #b72315;
+  --color-error-hover: #db3d1f;
+  --color-error-default: #ff5c2b;
+  --color-error-background: #fce3d1;
+  --color-gradient-info: bg-linear-to-r from-[#6F9EFF] to-[#004CE8];
+  --color-gradient-success: bg-linear-to-r from-[#73FFA6] to-[#00C247];
+  --color-gradient-info: bg-linear-to-r from-[#FFE58036] to-[#FFE16A];
+  --color-gradient-info: bg-linear-to-r from-[#FF8A9B] to-[#FF3333];
+  --text-size-h2: 2.5rem;
+  --text-size-h3: 2rem;
+}
+
+@layer components {
+  .card {
+    background-color: var(--color-white);
+    border-radius: var(--radius-lg);
+    padding: --spacing(6);
+    box-shadow: var(--shadow-xl);
+  }
+}
+
+@layer base {
+  h1 {
+    font-size: var(--text-5xl--line-height);
+  }
+  h2 {
+    font-size: var(--text-size-h2);
+  }
+  h3 {
+    font-size: var(--text-size-h3);
+  }
+  h4 {
+    font-size: var(--text-2xl);
+  }
+  h5 {
+    font-size: var(--text-xl);
+  }
+  h6 {
+    font-size: var(--text-lg);
+  }
+}
