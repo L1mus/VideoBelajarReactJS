@@ -13,7 +13,7 @@ function App() {
 
   return (
     <>
-      // Gunakan div untuk menata letak di tengah layar
+      {/* // Gunakan div untuk menata letak di tengah layar */}
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 space-y-4">
         <h1 className="text-2xl font-bold mb-4">
           Contoh Penggunaan Komponen Button
@@ -28,7 +28,7 @@ function App() {
           Hapus Akun
         </Button>
 
-        <Button onClick={() => alert("Membatalkan aksi...")} variant="primary1">
+        <Button onClick={() => alert("Membatalkan aksi...")} variant="primary2">
           Batal
         </Button>
       </div>

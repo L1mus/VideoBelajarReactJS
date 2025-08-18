@@ -1,30 +1,27 @@
 // Komponen Tombol yang bisa dipakai ulang
 
-function Button({ onClick, children, variant = "primary" }) {
-  // 1. Definisikan gaya dasar (sama untuk semua varian)
+function Button({ onClick, children, variant = "" }) {
   const baseStyle =
-    "px-7 py-3 font-semibold text-white rounded-lg shadow-md transition-transform transform hover:scale-105 focus:outline-none";
+    "px-7 py-3 font-semibold rounded-lg shadow-md transition-transform transform hover:scale-105 focus:outline-none";
 
-  // 2. Definisikan gaya spesifik untuk setiap varian
+  // Gaya spesifik untuk setiap varian (sekarang menggunakan utility class Tailwind)
   const variantStyles = {
     primary:
-      "primaryMainColor lightPrimary hover:primaryMainColor4 hover:primaryMainColor",
+      "bg-primaryMainColor text-white hover:bg-primaryMainColor4 hover:text-primaryMainColor",
     secondary:
-      "secondaryMainColor lightPrimary hover:secondaryMainColor4 hover:secondaryMainColor",
+      "bg-secondaryMainColor text-white hover:bg-secondaryMainColor4 hover:text-secondaryMainColor",
     tetrinary:
-      "tetrinaryMainColor lightPrimary hover:tetrinaryMainColor4 hover:tetrinaryMainColor",
+      "bg-tertiaryMainColor text-white hover:bg-tertiaryMainColor4 hover:text-tertiaryMainColor",
     primary1:
-      "border-primaryMainColor text-primaryMainColor hover:bg-primaryMainColor4",
+      "border border-primaryMainColor text-primaryMainColor hover:bg-primaryMainColor4",
     secondary1:
-      "border-secondaryColor text-secondaryColor hover:bg-secondaryColor4",
+      "border border-secondaryMainColor text-secondaryMainColor hover:bg-secondaryMainColor4",
     tetrinary1:
-      "border-tetrinaryMainColor text-tetrinaryMainColor hover:bg-tetrinaryMainColor4",
+      "border border-tetrinaryMainColor text-tetrinaryMainColor hover:bg-tetrinaryMainColor4",
   };
 
-  // 3. Gabungkan gaya dasar dengan gaya varian yang dipilih
   const buttonClassName = `${baseStyle} ${variantStyles[variant]}`;
 
-  // 4. Render elemen <button> HTML dengan properti yang diterima
   return (
     <button onClick={onClick} className={buttonClassName}>
       {children}
@@ -32,5 +29,4 @@ function Button({ onClick, children, variant = "primary" }) {
   );
 }
 
-// 5. Ekspor komponen agar bisa diimpor di file lain
 export default Button;
