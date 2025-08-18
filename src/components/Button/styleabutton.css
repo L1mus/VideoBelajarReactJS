@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+/* MAIN STYLE COLOR*/
+
+/* Primary */
+.primaryMainColor {
+  @apply bg-[#3ECF4C];
+}
+.primaryMainColor1 {
+  @apply bg-[#6BE26B];
+}
+.primaryMainColor2 {
+  @apply bg-[#94F08B];
+}
+.primaryMainColor3 {
+  @apply bg-[#C0FAB4];
+}
+.primaryMainColor4 {
+  @apply bg-[#E2FCD9CC];
+}
+
+/* Secondary */
+.secondaryMainColor {
+  @apply bg-[#FFBD3A];
+}
+.secondaryMainColor1 {
+  @apply bg-[#FFD26B];
+}
+.secondaryMainColor2 {
+  @apply bg-[#FFDF88];
+}
+.secondaryMainColor3 {
+  @apply bg-[#FFECB0];
+}
+.secondaryMainColor4 {
+  @apply bg-[#FFF7D7CC];
+}
+
+/* Tertiary */
+.tertiaryMainColor {
+  @apply bg-[#F64920];
+}
+.tertiaryMainColor {
+  @apply bg-[#F98256];
+}
+.tertiaryMainColor {
+  @apply bg-[#FCA578];
+}
+.tertiaryMainColor {
+  @apply bg-[#FECAA5];
+}
+.tertiaryMainColor {
+  @apply bg-[#FEE8D2CC];
+}
+
+/* Text(Dark) */
+
+.darkPrimary {
+  @apply text-[#222325];
+}
+.darkSecondary {
+  @apply text-[#333333AD];
+}
+.darkTertiary {
+  @apply text-[#3A354161];
+}
+
+/* Text(Light) */
+
+.lightPrimary {
+  @apply text-[#FFFFFF];
+}
+.lightSecondary {
+  @apply text-[#C1C2C4];
+}
+.lightTertiary {
+  @apply text-[#9D9EA1];
+}
+
+/* Other */
+
+.primaryBackground {
+  @apply bg-[#FFFFFF];
+}
+.baseBackground {
+  @apply bg-[#F4F5FA];
+}
+.secondaryBackground {
+  @apply bg-[#F9FAFC];
+}
+.border {
+  @apply bg-[#3A35411F];
+}
+
+/* Gradient */
+
+.infoGradient {
+  @apply bg-linear-to-r from-[#6F9EFF] to-[#004CE8];
+}
+.successGradient {
+  @apply bg-linear-to-r from-[#73FFA6] to-[#00C247];
+}
+.warningGradient {
+  @apply bg-linear-to-r from-[#FFE58036] to-[#FFE16A];
+}
+.errorGradient {
+  @apply bg-linear-to-r from-[#FF8A9B] to-[#FF3333];
+}
