@@ -48,6 +48,7 @@
   --color-gradient-success: bg-linear-to-r from-[#73FFA6] to-[#00C247];
   --color-gradient-info: bg-linear-to-r from-[#FFE58036] to-[#FFE16A];
   --color-gradient-info: bg-linear-to-r from-[#FF8A9B] to-[#FF3333];
+  /* Text */
   --text-size-h2: 2.5rem;
   --text-size-h3: 2rem;
 }
@@ -62,6 +63,9 @@
 }
 
 @layer base {
+  body {
+    font-family: var(--font-DM-Sans);
+  }
   h1 {
     font-size: var(--text-5xl--line-height);
   }
