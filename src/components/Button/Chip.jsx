@@ -4,18 +4,15 @@ function Chip({
   style = "solid",
   disabled = false,
 }) {
-  // Base style untuk semua chip
   const baseStyle =
     "px-4 py-1.5 text-sm font-semibold rounded-full cursor-pointer transition-all duration-200";
 
-  // Objek untuk styling berdasarkan status disabled
   const disabledStyles = {
     light: "bg-gray-200 text-gray-400",
     solid: "bg-gray-300 text-gray-500",
     outline: "border border-gray-300 text-gray-400",
   };
 
-  // Objek untuk styling berdasarkan varian dan gaya
   const variantStyles = {
     light: {
       success: "bg-green-100 text-green-700",
@@ -43,7 +40,6 @@ function Chip({
     },
   };
 
-  // Mentukan kelas CSS
   const chipClassName = disabled
     ? `${baseStyle} ${disabledStyles[style]}`
     : `${baseStyle} ${variantStyles[style][variant]}`;

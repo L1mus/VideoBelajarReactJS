@@ -1,6 +1,3 @@
-// src/data/courses.js
-
-// Kita impor semua aset di sini agar terpusat
 import coverImage1 from "/assets/images/cover1.png";
 import coverImage2 from "/assets/images/cover2.png";
 import coverImage3 from "/assets/images/cover3.png";
@@ -17,7 +14,6 @@ export const courses = [
     description:
       "Pelajari strategi pemasaran digital dari dasar hingga mahir bersama praktisi terbaik.",
     author: {
-      // Data ini akan diteruskan ke komponen Avatar
       avatar: authorAvatar1,
       name: "Budi Siregar",
       role: "Digital Marketer @ Gojek",
@@ -55,7 +51,6 @@ export const courses = [
     rating: 4.7,
     reviews: 95,
     price: "180K",
-    originalPrice: "300K", // Data untuk diskon
+    originalPrice: "300K",
   },
-  // Anda bisa tambahkan data kursus lainnya di sini
 ];

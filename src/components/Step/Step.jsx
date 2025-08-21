@@ -27,7 +27,7 @@ function Step({ title, status }) {
           circle: "border-2 border-primary p-1 bg-white",
           title: "text-gray-800 font-bold",
         };
-      default: // upcoming
+      default:
         return {
           circle: "border-2 border-gray-300",
           title: "text-gray-400",

@@ -1,5 +1,4 @@
 function Switch({ isOn, onToggle, disabled = false }) {
-  // Style untuk background switch
   const backgroundStyle = `w-12 h-6 rounded-full flex items-center p-1 transition-colors duration-300 ease-in-out
     ${
       disabled
@@ -9,7 +8,6 @@ function Switch({ isOn, onToggle, disabled = false }) {
         : "bg-green-200 justify-start"
     }`;
 
-  // Style untuk bulatan (handle) switch
   const handleStyle = `w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300 ease-in-out`;
 
   return (

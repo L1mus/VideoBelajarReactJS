@@ -1,13 +1,12 @@
-import React from "react";
 import useMediaQuery from "../../hooks/useMediaQuery";
 import iconRating from "/assets/icon/icon-rating.png";
-import Avatar from "../Avatar/Avatar";
+import Avatar from "../Avatar";
 
 function CourseCard({ data }) {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const variant = isMobile ? "compact" : "normal";
 
-  // Menambahkan properti 'discount' pada data untuk logika
+  // Menambahkan properti 'discount'
   const isDiscount = data.originalPrice && data.price;
 
   const {

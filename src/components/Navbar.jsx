@@ -1,27 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import logo from "/assets/images/logo.png";
 
-function Navbar({ leftContent, children, mobileMenu }) {
+function Navbar({ leftContent, mobileContent, desktopContent, mobileMenu }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (navRef.current && !navRef.current.contains(event.target)) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
-    <nav className="bg-white shadow-md w-full relative">
-      <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+    <nav className="bg-white shadow-md w-full relative" ref={navRef}>
+      <div className="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
+        {/* Bagian Kiri */}
         <div className="flex items-center space-x-4">
           <img src={logo} alt="Videobelajar Logo" className="h-7" />
           <div className="hidden md:flex items-center">{leftContent}</div>
         </div>
 
-        <div className="hidden md:flex items-center space-x-4">{children}</div>
+        <div className="md:hidden">{mobileContent}</div>
+
+        <div className="hidden md:flex items-center space-x-4">
+          {desktopContent}
+        </div>
 
         <div className="md:hidden">
           <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
             <svg
-              className="w-6 h-6"
+              className="w-6 h-6 text-gray-700"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
-              xmlns="http://www.w.org/2000/svg"
             >
               <path
                 strokeLinecap="round"
@@ -35,7 +50,7 @@ function Navbar({ leftContent, children, mobileMenu }) {
       </div>
 
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-white absolute w-full shadow-lg">
+        <div className="md:hidden bg-white absolute w-full shadow-lg border-t border-gray-200">
           <div className="px-6 pt-2 pb-4 flex flex-col space-y-3">
             {mobileMenu}
           </div>
