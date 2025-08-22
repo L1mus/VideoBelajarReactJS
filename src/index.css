@@ -64,7 +64,7 @@
 
 @layer base {
   body {
-    font-family: var(--font-DM-Sans);
+    font-family: "DM Sans", serif;
   }
   h1 {
     font-size: var(--text-5xl--line-height);

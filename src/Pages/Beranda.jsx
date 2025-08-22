@@ -2,20 +2,24 @@ import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import CourseFilters from "../components/Coursefilter";
 import CourseCard from "../components/Card/CourseCard";
-import Newsletter from "../components/Newslatter";
+import Newsletter from "../components/Newsletter";
 import Footer from "../components/Footer";
 import Button from "../components/Button/Button";
 import Avatar from "../components/Avatar";
 import { courses } from "../data/courses";
 import userAvatar from "/assets/images/avatar.png";
 
-function Beranda({ isLoggedIn }) {
+function Beranda({ isLoggedIn, onNavigate }) {
   const displayCourses = [...courses, ...courses];
 
+  // 2. Ubah <a> menjadi <button> dan panggil onNavigate saat diklik
   const NavLinks = () => (
-    <a href="#" className="text-gray-600 hover:text-primary py-2">
+    <button
+      onClick={() => onNavigate("semuaproduk")}
+      className="text-gray-600 hover:text-primary py-2"
+    >
       Kategori
-    </a>
+    </button>
   );
 
   return (
@@ -31,8 +35,16 @@ function Beranda({ isLoggedIn }) {
             <>
               <NavLinks />
               <div className="flex items-center space-x-2">
-                <Button variant="primary">Login</Button>
-                <Button variant="primary-outline">Register</Button>
+                {/* Tombol Login dan Register juga perlu fungsi navigasi */}
+                <Button variant="primary" onClick={() => onNavigate("login")}>
+                  Login
+                </Button>
+                <Button
+                  variant="primary-outline"
+                  onClick={() => onNavigate("register")}
+                >
+                  Register
+                </Button>
               </div>
             </>
           )
@@ -44,10 +56,18 @@ function Beranda({ isLoggedIn }) {
             <>
               <NavLinks />
               <div className="pt-2 space-y-2">
-                <Button variant="primary" className="w-full">
+                <Button
+                  variant="primary"
+                  className="w-full"
+                  onClick={() => onNavigate("login")}
+                >
                   Login
                 </Button>
-                <Button variant="primary-outline" className="w-full">
+                <Button
+                  variant="primary-outline"
+                  className="w-full"
+                  onClick={() => onNavigate("register")}
+                >
                   Register
                 </Button>
               </div>

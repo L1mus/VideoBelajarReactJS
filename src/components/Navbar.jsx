@@ -18,7 +18,6 @@ function Navbar({ leftContent, mobileContent, desktopContent, mobileMenu }) {
   return (
     <nav className="bg-white shadow-md w-full relative" ref={navRef}>
       <div className="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
-        {/* Bagian Kiri */}
         <div className="flex items-center space-x-4">
           <img src={logo} alt="Videobelajar Logo" className="h-7" />
           <div className="hidden md:flex items-center">{leftContent}</div>
@@ -33,7 +32,7 @@ function Navbar({ leftContent, mobileContent, desktopContent, mobileMenu }) {
         <div className="md:hidden">
           <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
             <svg
-              className="w-6 h-6 text-gray-700"
+              className="w-6 h-6 text-text-dark-primary"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"

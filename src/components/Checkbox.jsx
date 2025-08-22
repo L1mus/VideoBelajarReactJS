@@ -1,11 +1,11 @@
 function Checkbox({ label, checked, onChange, disabled = false }) {
-  const boxStyle = `w-5 h-5 border-2 rounded flex-shrink-0 flex items-center justify-center transition-all duration-200 
+  const boxStyle = `w-5 h-5 border-1 rounded flex-shrink-0 flex items-center justify-center transition-all duration-200 
     ${
       disabled
-        ? "bg-gray-200 border-gray-300"
+        ? "bg-gray-200 border-border-main-primary"
         : checked
-        ? "bg-primary border-primary"
-        : "bg-white border-gray-300"
+        ? "bg-main-primary"
+        : "bg-main-primary4 border-1 border-main-primary"
     }`;
 
   const labelStyle = `ml-3 select-none ${

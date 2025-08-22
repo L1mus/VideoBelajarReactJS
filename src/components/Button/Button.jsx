@@ -10,6 +10,8 @@ function Button({ onClick, children, variant = "" }) {
       "bg-main-tertiary text-text-light-primary hover:bg-main-tertiary3 hover:text-main-tertiary",
     primary1:
       "border border-main-primary text-main-primary hover:bg-main-primary4",
+    primary2:
+      "bg-main-primary4 text-main-primary hover:bg-main-primary2 hover:text-text-light-primary",
     secondary1:
       "border border-main-secondary text-main-secondary hover:bg-main-secondary4",
     tertiary1:

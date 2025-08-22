@@ -69,10 +69,10 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-white font-sans text-gray-700 py-10 px-6 md:px-10">
+    <footer className="bg-white font-DM-SansSans text-gray-700 py-10 px-6 md:px-10">
       <div className="container mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <div className="lg:col-span-1">
+        <div className="flex justify-between flex-col md:flex-row gap-8">
+          <div className="flex-col justify-between w-xs lg:col-span-1 gap-4">
             <img src={logo} alt="Videobelajar Logo" className="h-8 mb-4" />
             <p className="font-bold text-lg mb-2">
               Gali Potensi Anda Melalui Pembelajaran Video di hariesok.id!
@@ -85,7 +85,7 @@ const Footer = () => {
           <div className="hidden md:col-span-1 lg:col-span-3 md:grid grid-cols-2 lg:grid-cols-3 gap-8">
             {Object.keys(links).map((category) => (
               <div key={category}>
-                <h3 className="font-poppins font-bold text-base mb-4">
+                <h3 className="font-Poppins font-bold text-base mb-4">
                   {category}
                 </h3>
                 <ul className="space-y-3">
@@ -116,18 +116,14 @@ const Footer = () => {
           </div>
         </div>
         <hr className="my-8 border-gray-200" />
-        <div className="flex flex-col-reverse md:flex-row justify-between items-center">
+        <div className="flex flex-col-reverse md:flex-row justify-between items-start">
           <p className="text-sm text-gray-500 mt-6 md:mt-0">
             @2023 Gerobok Sayur All Rights Reserved.
           </p>
           <div className="flex space-x-4">
             {socialMedia.map((social) => (
-              <a
-                href="#"
-                key={social.alt}
-                className="text-gray-500 border border-gray-300 rounded-full p-2 hover:bg-gray-100"
-              >
-                <img src={social.icon} alt={social.alt} className="w-5 h-5" />
+              <a href="#" key={social.alt} className=" hover:bg-gray-100">
+                <img src={social.icon} alt={social.alt} />
               </a>
             ))}
           </div>
