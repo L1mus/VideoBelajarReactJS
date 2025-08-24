@@ -1,15 +1,18 @@
+import React, { useState } from "react";
 import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import FilterSidebar from "../components/Layout/FilterSidebar";
+import FilterSidebar from "../components/Layout/Filtersidebar";
 import CourseCard from "../components/Card/CourseCard";
-import Select from "../components/Dropdown/Select";
+import { courses } from "../data/courses";
+import Footer from "../components/Footer";
 import Button from "../components/Button/Button";
 import Avatar from "../components/Avatar";
-import { courses } from "../data/courses";
-// import userAvatar from "/assets/images/avatar.png";
+import userAvatar from "/assets/images/avatar.png";
+import Dropdown from "../components/Dropdown/Dropdownmenu";
+import DropdownItem from "../components/Dropdown/Dropdonwitem";
+import iconLogout from "/assets/icon/icon-logout.png";
 
-function SemuaProduk({ isLoggedIn, onNavigate }) {
-  const displayCourses = [...courses, ...courses, ...courses];
+function SemuaProduk({ isLoggedIn, onNavigate, onLogout }) {
+  const displayCourses = [...courses, ...courses];
   const SORT_OPTIONS = [
     { value: "harga-rendah", label: "Harga Rendah" },
     { value: "harga-tinggi", label: "Harga Tinggi" },
@@ -19,21 +22,91 @@ function SemuaProduk({ isLoggedIn, onNavigate }) {
     { value: "rating-terendah", label: "Rating Terendah" },
   ];
 
+  const [sortOption, setSortOption] = useState(null);
+
   const NavLinks = () => (
-    <>
-      <button
-        onClick={() => onNavigate("beranda")}
-        className="text-gray-600 hover:text-primary py-2"
-      >
-        Beranda
-      </button>
+    <div className="flex items-center space-x-4">
       <span className="text-primary font-semibold py-2">Kategori</span>
-    </>
+    </div>
+  );
+
+  const LogoutIcon = () => (
+    <img src={iconLogout} alt="Logout" className="pl-1 w-5 h-5" />
   );
 
   return (
     <div className="bg-main-secondary4">
-      <Navbar isLoggedIn={isLoggedIn} onNavigate={onNavigate} />
+      <Navbar
+        onLogoClick={() => onNavigate("beranda")}
+        desktopContent={
+          isLoggedIn ? (
+            <>
+              <NavLinks />
+              <Dropdown
+                trigger={
+                  <button>
+                    <Avatar src={userAvatar} alt="User Avatar" size="md" />
+                  </button>
+                }
+              >
+                <DropdownItem onClick={() => onNavigate("profil")}>
+                  Profil Saya
+                </DropdownItem>
+                <DropdownItem onClick={() => onNavigate("kelas")}>
+                  Kelas Saya
+                </DropdownItem>
+                <DropdownItem onClick={() => onNavigate("pesanan")}>
+                  Pesanan Saya
+                </DropdownItem>
+                <div className="my-1 border-t border-gray-200" />
+                <DropdownItem onClick={onLogout}>
+                  <div className="flex items-center font-semibold text-red-600">
+                    Keluar <LogoutIcon />
+                  </div>
+                </DropdownItem>
+              </Dropdown>
+            </>
+          ) : (
+            <>
+              <NavLinks />
+              <div className="flex items-center space-x-2">
+                <Button variant="primary" onClick={() => onNavigate("login")}>
+                  Login
+                </Button>
+                <Button
+                  variant="primary1"
+                  onClick={() => onNavigate("register")}
+                >
+                  Register
+                </Button>
+              </div>
+            </>
+          )
+        }
+        mobileMenu={
+          <>
+            <NavLinks />
+            {!isLoggedIn && (
+              <div className="pt-2 space-y-2">
+                <Button
+                  variant="primary"
+                  className="w-full"
+                  onClick={() => onNavigate("login")}
+                >
+                  Login
+                </Button>
+                <Button
+                  variant="primary1"
+                  className="w-full"
+                  onClick={() => onNavigate("register")}
+                >
+                  Register
+                </Button>
+              </div>
+            )}
+          </>
+        }
+      />
 
       <main className="container mx-auto px-6 py-10">
         <div className="text-center md:text-left">
@@ -48,27 +121,61 @@ function SemuaProduk({ isLoggedIn, onNavigate }) {
         <div className="flex flex-col lg:flex-row gap-8 mt-8">
           <FilterSidebar />
           <div className="w-full lg:w-3/4">
-            <div className="flex flex-col sm:flex-row justify-end items-center mb-6 gap-4 p-4">
-              <Select options={SORT_OPTIONS} placeholder="Urutkan" />
-              <div className="relative w-full sm:w-auto">
+            <div className="flex flex-row justify-end items-center mb-6 gap-4">
+              <div className="w-1/2 sm:w-48">
+                <Dropdown
+                  trigger={
+                    <button className="flex items-center justify-between w-full px-4 py-2.5 border border-gray-300 rounded-lg bg-white text-left focus:outline-none focus:ring-2 focus:ring-primary">
+                      <span className="text-gray-800 truncate">
+                        {sortOption ? sortOption.label : "Urutkan"}
+                      </span>
+                      <svg
+                        className="fill-current h-4 w-4 text-gray-500 flex-shrink-0"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                      </svg>
+                    </button>
+                  }
+                >
+                  {SORT_OPTIONS.map((option) => (
+                    <DropdownItem
+                      key={option.value}
+                      isSelected={
+                        sortOption && sortOption.value === option.value
+                      }
+                      onClick={() => setSortOption(option)}
+                    >
+                      {option.label}
+                    </DropdownItem>
+                  ))}
+                </Dropdown>
+              </div>
+
+              <div className="relative w-1/2 sm:w-auto">
                 <input
                   type="text"
                   placeholder="Cari Kelas..."
-                  className="w-full sm:w-64 px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary bg-white"
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:border-primary bg-white"
                 />
-                <span className="absolute right-3 top-2.5 text-gray-400">
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
                   🔍
                 </span>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="flex flex-wrap gap-x-6 gap-y-5 justify-end">
               {displayCourses.map((course, index) => (
-                <CourseCard key={`${course.id}-${index}`} data={course} />
+                <CourseCard
+                  key={`${course.id}-${index}`}
+                  data={course}
+                  onClick={() => onNavigate("detailproduk")}
+                />
               ))}
             </div>
 
-            <div className="flex justify-center mt-10">
+            <div className="flex justify-end mt-10">
               <div className="flex items-center space-x-1">
                 <button className="px-3 py-1 border rounded-md hover:bg-gray-100">
                   {"<"}

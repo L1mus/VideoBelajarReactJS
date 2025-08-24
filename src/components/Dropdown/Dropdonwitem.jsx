@@ -1,7 +1,7 @@
 function DropdownItem({ children, onClick, isFirst = false }) {
   const textStyle = isFirst
-    ? "text-gray-800 font-bold bg-gray-100"
-    : "text-gray-600";
+    ? "text-text-dark-primary font-bold bg-other-secondary-backround"
+    : "text-text-dark-secondary";
 
   return (
     <a
@@ -10,7 +10,7 @@ function DropdownItem({ children, onClick, isFirst = false }) {
         e.preventDefault();
         if (onClick) onClick();
       }}
-      className={`block px-4 py-3 text-base hover:bg-gray-100 ${textStyle}`}
+      className={`block px-4 py-3 text-base hover:bg-other-secondary-backround ${textStyle}`}
     >
       {children}
     </a>

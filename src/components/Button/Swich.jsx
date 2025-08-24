@@ -5,10 +5,10 @@ function Switch({ isOn, onToggle, disabled = false }) {
         ? "bg-gray-300 cursor-not-allowed"
         : isOn
         ? "bg-primary justify-end"
-        : "bg-green-200 justify-start"
+        : "bg-main-primary4 justify-start"
     }`;
 
-  const handleStyle = `w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300 ease-in-out`;
+  const handleStyle = `w-4 h-4 bg-other-primary-background rounded-full shadow-md transform transition-transform duration-300 ease-in-out`;
 
   return (
     <button

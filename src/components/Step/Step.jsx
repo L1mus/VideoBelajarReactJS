@@ -24,13 +24,14 @@ function Step({ title, status }) {
         };
       case "active":
         return {
-          circle: "border-2 border-primary p-1 bg-white",
-          title: "text-gray-800 font-bold",
+          circle:
+            "border-2 border-other-border p-1 bg-other-primary-background",
+          title: "text-text-dark-primary font-bold",
         };
       default:
         return {
-          circle: "border-2 border-gray-300",
-          title: "text-gray-400",
+          circle: "border-2 border-text-light-secondary",
+          title: "text-text-dark-primary",
         };
     }
   };

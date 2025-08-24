@@ -29,7 +29,7 @@ function Avatar({ src, name, size = "md", className = "" }) {
 
   return (
     <div
-      className={`flex items-center justify-center rounded-full bg-gray-200 text-gray-600 font-bold ${sizeStyles[size]} ${className}`}
+      className={`flex items-center justify-center rounded-full bg-other-secondary-background text-text-dark-secondary font-bold ${sizeStyles[size]} ${className}`}
     >
       <span>{getInitials(name)}</span>
     </div>

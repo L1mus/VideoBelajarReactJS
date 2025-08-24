@@ -19,7 +19,7 @@ function Dropdown({ trigger, children }) {
       <div onClick={() => setIsOpen(!isOpen)}>{trigger}</div>
       {isOpen && (
         <div
-          className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl z-10"
+          className="absolute left-0 mt-2 w-56 bg-other-primary-background rounded-lg shadow-xl z-10"
           style={{ animation: "fadeIn 0.2s ease-out" }}
         >
           <div className="py-1">{children}</div>

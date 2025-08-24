@@ -1,14 +1,14 @@
 function SelectField({ label, name, options }) {
   const baseStyle =
-    "w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-hover appearance-none";
+    "w-full px-4 py-3 border border-other-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-hover appearance-none";
 
   return (
     <div className="w-full">
       <label
         htmlFor={name}
-        className="block font-sans font-medium text-gray-700 mb-2"
+        className="block font-medium text-text-dark-primary mb-2"
       >
-        {label} <span className="text-red-500">*</span>
+        {label} <span className="text-error-default">*</span>
       </label>
       <div className="relative">
         <select id={name} name={name} className={baseStyle}>
@@ -18,7 +18,7 @@ function SelectField({ label, name, options }) {
             </option>
           ))}
         </select>
-        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-700">
+        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-text-dark-primary">
           <svg
             className="fill-current h-4 w-4"
             xmlns="http://www.w3.org/2000/svg"

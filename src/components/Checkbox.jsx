@@ -9,12 +9,12 @@ function Checkbox({ label, checked, onChange, disabled = false }) {
     }`;
 
   const labelStyle = `ml-3 select-none ${
-    disabled ? "text-gray-400" : "text-gray-700"
+    disabled ? "text-text-dark-secondary" : "text-text-dark-primary"
   }`;
 
   const checkIcon = (
     <svg
-      className="w-3 h-3 text-white"
+      className="w-3 h-3 text-shadow-text-light-primary"
       fill="none"
       stroke="currentColor"
       viewBox="0 0 24 24"

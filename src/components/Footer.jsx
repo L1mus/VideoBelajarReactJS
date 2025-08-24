@@ -1,4 +1,3 @@
-// src/components/common/Footer.jsx
 import React, { useState } from "react";
 import logo from "/assets/images/logo.png";
 import iconLinkedin from "/assets/icon/icon-linkedin.png";
@@ -8,10 +7,10 @@ import iconTwitter from "/assets/icon/icon-twitter.png";
 import iconArrow from "/assets/icon/icon-arrow.png";
 
 const AccordionItem = ({ title, links, isOpen, onClick }) => (
-  <div className="border-b border-gray-200 py-4">
+  <div className="border-b border-other-border py-4">
     <button
       onClick={onClick}
-      className="w-full flex justify-between items-center text-left font-poppins font-bold text-gray-800"
+      className="w-full flex justify-between items-center text-left font-bold text-text-dark-primary"
     >
       <span>{title}</span>
       <img
@@ -26,7 +25,7 @@ const AccordionItem = ({ title, links, isOpen, onClick }) => (
       <ul className="mt-3 pl-2 space-y-2">
         {links.map((link) => (
           <li key={link}>
-            <a href="#" className="text-gray-600 hover:text-primary">
+            <a href="#" className="text-text-dark-secondary hover:text-primary">
               {link}
             </a>
           </li>
@@ -69,7 +68,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-white font-DM-SansSans text-gray-700 py-10 px-6 md:px-10">
+    <footer className="bg-other-primary-background text-text-dark-primary py-10 px-6 md:px-10">
       <div className="container mx-auto">
         <div className="flex justify-between flex-col md:flex-row gap-8">
           <div className="flex-col justify-between w-xs lg:col-span-1 gap-4">
@@ -115,14 +114,18 @@ const Footer = () => {
             ))}
           </div>
         </div>
-        <hr className="my-8 border-gray-200" />
+        <hr className="my-8 border-other-border" />
         <div className="flex flex-col-reverse md:flex-row justify-between items-start">
-          <p className="text-sm text-gray-500 mt-6 md:mt-0">
-            @2023 Gerobok Sayur All Rights Reserved.
+          <p className="text-sm text-text-dark-secondary mt-6 md:mt-0">
+            @2023 Gerobak Sayur All Rights Reserved.
           </p>
           <div className="flex space-x-4">
             {socialMedia.map((social) => (
-              <a href="#" key={social.alt} className=" hover:bg-gray-100">
+              <a
+                href="#"
+                key={social.alt}
+                className=" hover:bg-other-secondary-background"
+              >
                 <img src={social.icon} alt={social.alt} />
               </a>
             ))}

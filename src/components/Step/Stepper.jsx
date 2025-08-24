@@ -1,4 +1,6 @@
+import React from "react";
 import Step from "./Step";
+
 function Stepper({ steps = [], currentStep = 0 }) {
   return (
     <div className="flex items-center space-x-2">
@@ -19,7 +21,9 @@ function Stepper({ steps = [], currentStep = 0 }) {
             {!isLastStep && (
               <div
                 className={`flex-grow h-0.5 transition-all duration-300 ${
-                  isConnectorActive ? "bg-primary" : "bg-gray-300"
+                  isConnectorActive
+                    ? "bg-main-primary"
+                    : "bg-other-base-background"
                 } w-12`}
               ></div>
             )}

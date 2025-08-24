@@ -25,6 +25,7 @@
   --color-text-light-primary: #ffffff;
   --color-text-light-secondary: #c1c2c4;
   --color-text-light-disabled: #9d9ea1;
+  --color-other-primary-background: #ffffff;
   --color-other-base-background: #f4f5fa;
   --color-other-secondary-background: #f9fafc;
   --color-other-border: #3a35411f;
@@ -59,6 +60,11 @@
     border-radius: var(--radius-lg);
     padding: --spacing(6);
     box-shadow: var(--shadow-xl);
+  }
+  .custom-border {
+    border-bottom-style: var(--tw-border-style);
+    border-bottom-width: 2px;
+    border-bottom-height: 1px;
   }
 }
 

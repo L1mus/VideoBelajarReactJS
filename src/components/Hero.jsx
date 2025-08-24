@@ -1,10 +1,9 @@
-import Button from "./Button/Button"; // Pastikan path ini benar
+import Button from "./Button/Button";
 
 function Hero() {
   return (
     <section
-      className="py-20 px-4 text-white text-center rounded-lg shadow-lg overflow-hidden relative"
-      // Ganti dengan path gambar hero Anda
+      className="py-20 px-4 text-text-light-primary text-center rounded-lg shadow-lg overflow-hidden relative"
       style={{
         backgroundImage: `url('/assets/images/jumbotron.png')`,
         backgroundSize: "cover",
@@ -17,7 +16,7 @@ function Hero() {
           Revolusi Pembelajaran: Temukan Ilmu Baru melalui Platform Video
           Interaktif!
         </h1>
-        <p className="mt-4 text-lg text-gray-200">
+        <p className="mt-4 text-lg text-text-light-primary">
           Temukan ilmu baru yang menarik dan mendalam melalui koleksi video
           pembelajaran berkualitas tinggi. Tidak hanya itu, Anda juga dapat
           berpartisipasi dalam latihan interaktif yang akan meningkatkan

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-// Ikon panah (chevron)
+// Icon panah
 const ChevronIcon = ({ isOpen }) => (
   <svg
     className={`w-4 h-4 text-main-primary transform transition-transform duration-300 ${
@@ -24,7 +24,7 @@ function FilterAccordion({ title, icon, children, defaultOpen = false }) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-4 mb-4">
+    <div className="bg-other-primary-background rounded-lg shadow-sm p-4 mb-4">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex justify-between items-center text-left"
