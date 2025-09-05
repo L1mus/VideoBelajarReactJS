@@ -8,10 +8,11 @@ import MetodePembayaran from "./Pages/Payment/Metode";
 import HalamanBayar from "./Pages/Payment/Bayar";
 import UbahMetode from "./Pages/Payment/Ubahmetode";
 import InfoPayment from "./Pages/Payment/Infopayment";
+import PesananSaya from "./Pages/Pesanan";
 
 function App() {
-  const [currentPage, setCurrentPage] = useState("beranda");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [currentPage, setCurrentPage] = useState("pesanan");
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   const handleNavigate = (page) => {
     setCurrentPage(page);
@@ -20,6 +21,11 @@ function App() {
 
   const handleLogin = () => {
     setIsLoggedIn(true);
+    handleNavigate("beranda");
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
     handleNavigate("beranda");
   };
 
@@ -57,6 +63,14 @@ function App() {
         );
       case "infopayment":
         return <InfoPayment onNavigate={handleNavigate} status="success" />;
+      case "pesanan":
+        return (
+          <PesananSaya
+            onNavigate={handleNavigate}
+            isLoggedIn={isLoggedIn}
+            onLogout={handleLogout}
+          />
+        );
     }
   };
 

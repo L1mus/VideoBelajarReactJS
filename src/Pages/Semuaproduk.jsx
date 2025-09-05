@@ -9,6 +9,7 @@ import Avatar from "../components/Avatar";
 import userAvatar from "/assets/images/avatar.png";
 import Dropdown from "../components/Dropdown/Dropdownmenu";
 import DropdownItem from "../components/Dropdown/Dropdonwitem";
+import Pagination from "../components/Pagination";
 import iconLogout from "/assets/icon/icon-logout.png";
 
 function SemuaProduk({ isLoggedIn, onNavigate, onLogout }) {
@@ -21,7 +22,8 @@ function SemuaProduk({ isLoggedIn, onNavigate, onLogout }) {
     { value: "rating-tertinggi", label: "Rating Tertinggi" },
     { value: "rating-terendah", label: "Rating Terendah" },
   ];
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = 6;
   const [sortOption, setSortOption] = useState(null);
 
   const NavLinks = () => (
@@ -29,6 +31,9 @@ function SemuaProduk({ isLoggedIn, onNavigate, onLogout }) {
       <span className="text-primary font-semibold py-2">Kategori</span>
     </div>
   );
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   const LogoutIcon = () => (
     <img src={iconLogout} alt="Logout" className="pl-1 w-5 h-5" />
@@ -176,32 +181,11 @@ function SemuaProduk({ isLoggedIn, onNavigate, onLogout }) {
             </div>
 
             <div className="flex justify-end mt-10">
-              <div className="flex items-center space-x-1">
-                <button className="px-3 py-1 border rounded-md hover:bg-gray-100">
-                  {"<"}
-                </button>
-                <button className="px-3 py-1 border rounded-md bg-yellow-400 text-gray-800 font-bold">
-                  1
-                </button>
-                <button className="px-3 py-1 border rounded-md hover:bg-gray-100">
-                  2
-                </button>
-                <button className="px-3 py-1 border rounded-md hover:bg-gray-100">
-                  3
-                </button>
-                <button className="px-3 py-1 border rounded-md hover:bg-gray-100">
-                  4
-                </button>
-                <button className="px-3 py-1 border rounded-md hover:bg-gray-100">
-                  5
-                </button>
-                <button className="px-3 py-1 border rounded-md hover:bg-gray-100">
-                  6
-                </button>
-                <button className="px-3 py-1 border rounded-md hover:bg-gray-100">
-                  {">"}
-                </button>
-              </div>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
             </div>
           </div>
         </div>

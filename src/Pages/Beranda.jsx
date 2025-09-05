@@ -1,6 +1,7 @@
+import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
-import CourseFilters from "../components/Coursefilter";
+import FilterTabs from "../components/Filtertabs";
 import CourseCard from "../components/Card/CourseCard";
 import { courses } from "../data/courses";
 import Newsletter from "../components/Newsletter";
@@ -18,7 +19,7 @@ function Beranda({ isLoggedIn, onNavigate, onLogout }) {
   const NavLinks = () => (
     <button
       onClick={() => onNavigate("semuaproduk")}
-      className="text-gray-600 hover:text-primary py-2"
+      className="text-text-dark-secondary hover:text-primary py-2"
     >
       Kategori
     </button>
@@ -27,6 +28,15 @@ function Beranda({ isLoggedIn, onNavigate, onLogout }) {
   const LogoutIcon = () => (
     <img src={iconLogout} alt="Logout" className="pl-1 w-5 h-5" />
   );
+
+  const [activeCategory, setActiveCategory] = useState("Semua Kelas");
+  const categories = [
+    "Semua Kelas",
+    "Pemasaran",
+    "Desain",
+    "Pengembangan Diri",
+    "Bisnis",
+  ];
 
   return (
     <div className="bg-main-secondary4">
@@ -106,7 +116,12 @@ function Beranda({ isLoggedIn, onNavigate, onLogout }) {
 
       <main className="container mx-auto px-6 py-10 space-y-16">
         <Hero />
-        <CourseFilters />
+        <FilterTabs
+          tabs={categories}
+          activeTab={activeCategory}
+          onTabClick={setActiveCategory}
+          activeColorClass="border-main-tertiary text-main-tertiary"
+        />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-7">
           {displayCourses.map((course, index) => (
             <CourseCard
