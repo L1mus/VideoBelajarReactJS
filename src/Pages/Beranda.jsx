@@ -14,15 +14,17 @@ import DropdownItem from "../components/Dropdown/Dropdonwitem";
 import iconLogout from "/assets/icon/icon-logout.png";
 
 function Beranda({ isLoggedIn, onNavigate, onLogout }) {
+  // Menggandakan data kursus untuk mengisi halaman
   const displayCourses = [...courses, ...courses];
 
   const NavLinks = () => (
-    <button
+    <a
+      href="#"
       onClick={() => onNavigate("semuaproduk")}
       className="text-text-dark-secondary hover:text-primary py-2"
     >
       Kategori
-    </button>
+    </a>
   );
 
   const LogoutIcon = () => (
@@ -114,23 +116,38 @@ function Beranda({ isLoggedIn, onNavigate, onLogout }) {
         }
       />
 
-      <main className="container mx-auto px-6 py-10 space-y-16">
+      {/* --- PERUBAHAN CONTAINER UTAMA UNTUK RESPONSIVITAS LAYAR LEBAR --- */}
+      <main className="container mx-auto max-w-screen-xl px-6 py-10 space-y-16">
         <Hero />
-        <FilterTabs
-          tabs={categories}
-          activeTab={activeCategory}
-          onTabClick={setActiveCategory}
-          activeColorClass="border-main-tertiary text-main-tertiary"
-        />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-7">
-          {displayCourses.map((course, index) => (
-            <CourseCard
-              key={`${course.id}-${index}`}
-              data={course}
-              onClick={() => onNavigate("detailproduk")}
-            />
-          ))}
-        </div>
+
+        {/* --- BAGIAN KOLEKSI VIDEO DENGAN JUDUL BARU --- */}
+        <section className="space-y-6">
+          <div className="text-center md:text-left">
+            <h2 className="text-3xl font-bold font-poppins text-text-dark-primary">
+              Koleksi Video Pembelajaran Unggulan
+            </h2>
+            <p className="text-text-dark-secondary mt-1">
+              Jelajahi Dunia Pengetahuan Melalui Pilihan Kami!
+            </p>
+          </div>
+          <FilterTabs
+            tabs={categories}
+            activeTab={activeCategory}
+            onTabClick={setActiveCategory}
+            borderColorClass="bg-main-tertiary"
+            activeColorClass="text-main-tertiary"
+          />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-8">
+            {displayCourses.map((course, index) => (
+              <CourseCard
+                key={`${course.id}-${index}`}
+                data={course}
+                onClick={() => onNavigate("detailproduk")}
+              />
+            ))}
+          </div>
+        </section>
+
         <Newsletter />
       </main>
 

@@ -6,7 +6,7 @@ function FilterTabs({
   borderColorClass = "bg-main-tertiary",
 }) {
   return (
-    <div className="flex items-center gap-6 border-b border-other-border">
+    <div className="flex items-center gap-6 flex-nowrap overflow-x-auto">
       {tabs.map((tab) => (
         <a
           key={tab}
@@ -15,7 +15,7 @@ function FilterTabs({
             e.preventDefault();
             onTabClick(tab);
           }}
-          className={`relative py-3 px-1 text-sm font-semibold transition-colors duration-200 ${
+          className={`relative py-3 px-1 text-sm font-semibold transition-colors duration-200 whitespace-nowrap ${
             activeTab === tab
               ? activeColorClass
               : "text-text-dark-secondary hover:text-main-tertiary"

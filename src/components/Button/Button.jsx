@@ -1,4 +1,4 @@
-function Button({ onClick, children, variant = "" }) {
+function Button({ onClick, children, variant = "", className = "" }) {
   const baseStyle =
     "px-7 py-3 font-semibold rounded-lg shadow-md transition-transform transform hover:scale-105 focus:outline-none";
   const variantStyles = {
@@ -18,7 +18,8 @@ function Button({ onClick, children, variant = "" }) {
       "border border-main-tertiary text-main-tertiary hover:bg-main-tertiary4",
   };
 
-  const buttonClassName = `${baseStyle} ${variantStyles[variant]}`;
+  // Menggabungkan gaya dasar, varian, dan className tambahan
+  const buttonClassName = `${baseStyle} ${variantStyles[variant]} ${className}`;
 
   return (
     <button onClick={onClick} className={buttonClassName}>

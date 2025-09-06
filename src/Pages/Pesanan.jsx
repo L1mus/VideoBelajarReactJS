@@ -3,41 +3,25 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Avatar from "../components/Avatar";
 import Dropdown from "../components/Dropdown/Dropdownmenu";
-import FilterTabs from "../components/Filtertabs";
 import DropdownItem from "../components/Dropdown/Dropdonwitem";
+import FilterTabs from "../components/Filtertabs";
 import OrderCard from "../components/Card/OrderCard";
 import Pagination from "../components/Pagination";
+import Sidebar from "../components/Layout/Sidebar";
 import { orders } from "../Data/Order";
 import userAvatar from "/assets/images/avatar.png";
 import iconLogout from "/assets/icon/icon-logout.png";
 
-import IconProfile from "../components/icons/Iconprofile";
-import IconClass from "../components/icons/Iconkelas";
-import IconOrder from "../components/icons/Iconpesanan";
-
-const SidebarLink = ({ children, active = false, onClick }) => (
-  <button
-    onClick={onClick}
-    className={`w-full flex items-center gap-3 px-4 py-3 text-left rounded-lg transition-colors duration-200 
-      ${
-        active
-          ? "bg-main-secondary4 text-main-secondary font-bold border border-main-secondary"
-          : "text-text-light-disabled hover:bg-other-primary-background"
-      }`}
-  >
-    {children}
-  </button>
-);
-
 function PesananSaya({ onNavigate, onLogout }) {
-  const [activeSidebarTab, setActiveSidebarTab] = useState("Pesanan Saya");
   const [activeOrderTab, setActiveOrderTab] = useState("Semua Pesanan");
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortOption, setSortOption] = useState(null);
   const totalPages = 6;
 
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
+  const SORT_OPTIONS = [
+    { value: "terbaru", label: "Terbaru" },
+    { value: "terlama", label: "Terlama" },
+  ];
 
   const NavLinks = () => (
     <a
@@ -76,13 +60,13 @@ function PesananSaya({ onNavigate, onLogout }) {
                 </button>
               }
             >
-              <DropdownItem onClick={() => setActiveSidebarTab("Profil Saya")}>
+              <DropdownItem onClick={() => onNavigate("profil")}>
                 Profil Saya
               </DropdownItem>
-              <DropdownItem onClick={() => setActiveSidebarTab("Kelas Saya")}>
+              <DropdownItem onClick={() => onNavigate("kelas")}>
                 Kelas Saya
               </DropdownItem>
-              <DropdownItem onClick={() => setActiveSidebarTab("Pesanan Saya")}>
+              <DropdownItem onClick={() => onNavigate("pesanan")}>
                 Pesanan Saya
               </DropdownItem>
               <div className="my-1 border-t border-other-border" />
@@ -97,84 +81,86 @@ function PesananSaya({ onNavigate, onLogout }) {
         mobileMenu={<NavLinks />}
       />
 
-      <main className="container mx-auto px-4 sm:px-6 py-10">
+      <main className="container mx-auto max-w-screen-xl px-4 sm:px-6 py-10">
         <h1 className="text-2xl md:text-3xl font-bold font-poppins text-text-dark-primary">
           Daftar Pesanan
         </h1>
         <p className="text-text-dark-secondary mt-1">
-          Informasi terperinci mengenai pembelian
+          Informasi terperinci mengenai pembelian Anda.
         </p>
 
         <div className="flex flex-col lg:flex-row gap-8 mt-8">
-          {/* Sidebar */}
-          <aside className="w-full lg:w-1/4">
-            <div className="bg-other-primary-background p-4 rounded-lg shadow-sm space-y-2">
-              <SidebarLink
-                active={activeSidebarTab === "Profil Saya"}
-                onClick={() => setActiveSidebarTab("Profil Saya")}
-              >
-                <IconProfile className="w-5 h-5" /> <span>Profil Saya</span>
-              </SidebarLink>
-              <SidebarLink
-                active={activeSidebarTab === "Kelas Saya"}
-                onClick={() => setActiveSidebarTab("Kelas Saya")}
-              >
-                <IconClass className="w-5 h-5" /> <span>Kelas Saya</span>
-              </SidebarLink>
-              <SidebarLink
-                active={activeSidebarTab === "Pesanan Saya"}
-                onClick={() => setActiveSidebarTab("Pesanan Saya")}
-              >
-                <IconOrder className="w-5 h-5" /> <span>Pesanan Saya</span>
-              </SidebarLink>
-            </div>
-          </aside>
+          <Sidebar activeTab="Pesanan Saya" onNavigate={onNavigate} />
 
-          {/* Main Content Area */}
           <div className="w-full lg:w-3/4">
-            {activeSidebarTab === "Profil Saya" && (
-              <div className="bg-other-primary-background p-6 rounded-lg shadow-sm text-center">
-                <h2 className="text-xl font-bold">Halaman Profil Saya</h2>
-                <p className="mt-2 text-text-dark-secondary">
-                  Konten untuk profil akan ditampilkan di sini.
-                </p>
-              </div>
-            )}
+            <div className="bg-other-primary-background p-6 rounded-lg shadow-sm">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
+                <FilterTabs
+                  tabs={filterTabs}
+                  activeTab={activeOrderTab}
+                  onTabClick={setActiveOrderTab}
+                />
+                <div className="flex items-center gap-4 w-full sm:w-auto">
+                  <div className="relative w-full sm:w-auto">
+                    <input
+                      type="text"
+                      placeholder="Cari Kelas..."
+                      className="w-full sm:w-48 px-4 py-2.5 border border-other-border rounded-lg focus:outline-none focus:border-primary bg-other-primary-background"
+                    />
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-text-light-disabled">
+                      🔍
+                    </span>
+                  </div>
 
-            {activeSidebarTab === "Kelas Saya" && (
-              <div className="bg-other-primary-background p-6 rounded-lg shadow-sm text-center">
-                <h2 className="text-xl font-bold">Halaman Kelas Saya</h2>
-                <p className="mt-2 text-text-dark-secondary">
-                  Konten untuk kelas akan ditampilkan di sini.
-                </p>
-              </div>
-            )}
-
-            {activeSidebarTab === "Pesanan Saya" && (
-              <div className="bg-other-primary-background p-6 rounded-lg shadow-sm">
-                <div className="flex flex-wrap items-center justify-between gap-4 mb-6 border-b border-other-border">
-                  <FilterTabs
-                    tabs={filterTabs}
-                    activeTab={activeOrderTab}
-                    onTabClick={setActiveOrderTab}
-                  />
+                  <div className="w-full sm:w-48">
+                    <Dropdown
+                      trigger={
+                        <button className="flex items-center justify-between w-full px-4 py-2.5 border border-other-border rounded-lg bg-other-primary-background text-left">
+                          <span className="text-text-dark-secondary truncate">
+                            {sortOption ? sortOption.label : "Urutkan"}
+                          </span>
+                          <svg
+                            className="fill-current h-4 w-4 text-text-dark-secondary flex-shrink-0"
+                            viewBox="0 0 20 20"
+                          >
+                            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                          </svg>
+                        </button>
+                      }
+                    >
+                      {SORT_OPTIONS.map((option) => (
+                        <DropdownItem
+                          key={option.value}
+                          onClick={() => setSortOption(option)}
+                        >
+                          {option.label}
+                        </DropdownItem>
+                      ))}
+                    </Dropdown>
+                  </div>
                 </div>
+              </div>
 
-                <div className="space-y-5">
-                  {filteredOrders.map((order) => (
+              <div className="space-y-5">
+                {filteredOrders.length > 0 ? (
+                  filteredOrders.map((order) => (
                     <OrderCard key={order.id} data={order} />
-                  ))}
-                </div>
-
-                <div className="flex justify-end mt-10">
-                  <Pagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={handlePageChange}
-                  />
-                </div>
+                  ))
+                ) : (
+                  <p className="text-center text-text-dark-secondary">
+                    Tidak ada pesanan dalam kategori ini.
+                  </p>
+                )}
               </div>
-            )}
+
+              <div className="flex justify-end mt-10">
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={setCurrentPage}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </main>

@@ -9,9 +9,11 @@ import HalamanBayar from "./Pages/Payment/Bayar";
 import UbahMetode from "./Pages/Payment/Ubahmetode";
 import InfoPayment from "./Pages/Payment/Infopayment";
 import PesananSaya from "./Pages/Pesanan";
+import KelasSaya from "./Pages/Kelas";
+import ProfilSaya from "./Pages/Profile";
 
 function App() {
-  const [currentPage, setCurrentPage] = useState("pesanan");
+  const [currentPage, setCurrentPage] = useState("beranda");
   const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   const handleNavigate = (page) => {
@@ -66,6 +68,22 @@ function App() {
       case "pesanan":
         return (
           <PesananSaya
+            onNavigate={handleNavigate}
+            isLoggedIn={isLoggedIn}
+            onLogout={handleLogout}
+          />
+        );
+      case "kelas":
+        return (
+          <KelasSaya
+            onNavigate={handleNavigate}
+            isLoggedIn={isLoggedIn}
+            onLogout={handleLogout}
+          />
+        );
+      case "profil":
+        return (
+          <ProfilSaya
             onNavigate={handleNavigate}
             isLoggedIn={isLoggedIn}
             onLogout={handleLogout}

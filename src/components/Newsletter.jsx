@@ -20,16 +20,20 @@ function Newsletter() {
           spesial dan program-program terbaik lainnya.
         </p>
         <div className="mt-6 max-w-md mx-auto">
+          {/* Form sekarang hanya mengatur layout, bukan sebagai kontainer putih */}
           <form
             action="Submit"
-            className="flex flex-col gap-3 sm:flex-row sm:gap-0 items-center bg-other-primary-background rounded-lg shadow px-2 py-2 max-w-md mx-auto"
+            className="flex flex-col sm:flex-row gap-3 sm:gap-0 items-center"
           >
             <input
               type="email"
               placeholder="Masukkan alamat email"
-              className="flex-grow px-4 py-2 rounded-lg focus:outline-none text-text-dark-primary bg-transparent w-full"
+              className="w-full flex-grow px-4 py-3 bg-other-primary-background text-text-dark-primary rounded-lg sm:rounded-r-none focus:outline-none focus:ring-2 focus:ring-main-secondary"
             />
-            <Button variant="secondary" className="flex-shrink-0">
+            <Button
+              variant="secondary"
+              className="w-full sm:w-auto flex-shrink-0 sm:rounded-l-none"
+            >
               Berlangganan
             </Button>
           </form>

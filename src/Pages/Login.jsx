@@ -1,14 +1,28 @@
+import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import InputField from "../components/InputFormControl/InputField";
 import Button from "../components/Button/Button";
 import iconGoogle from "/assets/icon/icon-google.png";
 
 const LoginPage = ({ onNavigate, onLogin }) => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
   return (
     <div>
       <Navbar />
       <div className="min-h-screen px-3 md:px-9 flex items-center justify-center gap-9 bg-main-secondary4">
-        <div className="bg-other-primary-background  p-9 rounded-xl shadow-lg w-full max-w-xl">
+        <div className="bg-other-primary-background p-9 rounded-xl shadow-lg w-full max-w-xl">
           <div className="text-center mb-8">
             <h2 className="font-poppins text-3xl font-bold">Masuk ke Akun</h2>
             <p className=" text-text-dark-secondary mt-2">
@@ -18,22 +32,26 @@ const LoginPage = ({ onNavigate, onLogin }) => {
           <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
             <InputField
               label="E-Mail"
-              name="emailLogin"
+              name="email"
               type="email"
               placeholder="contoh@email.com"
+              value={formData.email}
+              onChange={handleInputChange}
             />
             <InputField
               label="Kata Sandi"
-              name="passwordLogin"
+              name="password"
               type="password"
               placeholder="********"
+              value={formData.password}
+              onChange={handleInputChange}
             />
             <div className="text-right -mt-2">
               <a href="#" className="text-sm text-primary hover:underline">
                 Lupa Password?
               </a>
             </div>
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3 pt-3">
               <Button variant="primary" onClick={onLogin}>
                 Masuk
               </Button>

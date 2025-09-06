@@ -1,37 +1,27 @@
-function Avatar({ src, name, size = "md", className = "" }) {
-  const sizeStyles = {
-    sm: "w-8 h-8 text-xs",
-    md: "w-10 h-10 text-sm",
-    lg: "w-14 h-14 text-lg",
-    xl: "w-20 h-20 text-xl",
-  };
+import React from "react";
 
-  // tampilkan gambar.
-  if (src) {
-    return (
-      <img
-        src={src}
-        alt={name || "Avatar"}
-        className={`rounded-full object-cover ${sizeStyles[size]} ${className}`}
-      />
-    );
-  }
+const sizeClasses = {
+  sm: "w-8 h-8",
+  md: "w-10 h-10",
+  lg: "w-12 h-12",
+  xl: "w-16 h-16",
+};
 
-  // tampilkan inisial nama.
-  const getInitials = (nameStr) => {
-    if (!nameStr) return "?";
-    const names = nameStr.split(" ");
-    if (names.length > 1) {
-      return `${names[0][0]}${names[names.length - 1][0]}`.toUpperCase();
-    }
-    return nameStr.substring(0, 2).toUpperCase();
-  };
+function Avatar({ src, alt, size = "md", className = "" }) {
+  const classes = sizeClasses[size] || sizeClasses.md;
 
   return (
     <div
-      className={`flex items-center justify-center rounded-full bg-other-secondary-background text-text-dark-secondary font-bold ${sizeStyles[size]} ${className}`}
+      className={`${classes} overflow-hidden bg-gray-200 flex items-center justify-center ${className}`}
+      style={{ borderRadius: "25%" }}
     >
-      <span>{getInitials(name)}</span>
+      {src ? (
+        <img src={src} alt={alt} className="w-full h-full object-cover" />
+      ) : (
+        <span className="text-gray-600 text-sm font-medium">
+          {alt ? alt[0].toUpperCase() : "N/A"}
+        </span>
+      )}
     </div>
   );
 }

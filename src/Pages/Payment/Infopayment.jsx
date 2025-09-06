@@ -1,5 +1,5 @@
 import React from "react";
-import useMediaQuery from "../../hooks/useMediaQuery";
+import useMediaQuery from "../../Hooks/useMediaQuery";
 import Navbar from "../../components/Navbar";
 import Stepper from "../../components/Step/Stepper";
 import Button from "../../components/Button/Button";
@@ -20,7 +20,7 @@ const InfoCard = ({ status, onNavigate }) => {
       <img src={image} alt={title} className="w-64 h-auto mx-auto mb-6" />
       <h1 className="text-3xl font-bold font-poppins mb-3">{title}</h1>
       <p className="text-text-light-disabled mb-8">{message}</p>
-      <Button variant="primary" onClick={() => onNavigate("beranda")}>
+      <Button variant="primary" onClick={() => onNavigate("pesanan")}>
         Lihat Detail Pesanan
       </Button>
     </div>
@@ -28,7 +28,6 @@ const InfoCard = ({ status, onNavigate }) => {
 };
 
 function InfoPayment({ onNavigate, status = "success" }) {
-  // status bisa 'success' atau 'failed'
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
   return (

@@ -1,11 +1,29 @@
+import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import InputField from "../components/InputFormControl/InputField";
 import SelectField from "../components/InputFormControl/SelectField";
 import Button from "../components/Button/Button";
 import iconGoogle from "/assets/icon/icon-google.png";
-import iconIndonesia from "/assets/icon/icon-indonesia.png";
+import PhoneNumberInput from "../components/InputFormControl/PhoneNumberInput";
 
 const RegisterPage = ({ onNavigate }) => {
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    gender: "pria",
+    phone: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
   const genderOptions = [
     { value: "wanita", label: "Wanita" },
     { value: "pria", label: "Pria" },
@@ -31,65 +49,48 @@ const RegisterPage = ({ onNavigate }) => {
                 name="fullName"
                 type="text"
                 placeholder="Masukkan nama lengkap"
+                value={formData.fullName}
+                onChange={handleInputChange}
               />
               <InputField
                 label="E-Mail"
-                name="emailRegister"
+                name="email"
                 type="email"
                 placeholder="contoh@email.com"
+                value={formData.email}
+                onChange={handleInputChange}
               />
               <SelectField
                 label="Jenis Kelamin"
                 name="gender"
                 options={genderOptions}
+                value={formData.gender}
+                onChange={handleInputChange}
               />
-              <div>
-                <label className="block font-medium text-text-dark-primary mb-2">
-                  No. Hp <span className="text-error-default">*</span>
-                </label>
-                <div className="flex items-center">
-                  <div className="flex items-center border border-r-0 border-other-border bg-other-secondary-background rounded-l-lg px-3 py-3">
-                    <img src={iconIndonesia} alt="ID" className="w-6 h-auto" />
-                    <span className="font-sans ml-2 text-text-dark-primary">
-                      +62
-                    </span>
-                    <svg
-                      className="w-4 h-4 ml-2 text-text-dark-secondary"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                  </div>
-                  <input
-                    type="tel"
-                    name="phone"
-                    placeholder="812..."
-                    className="w-full px-4 py-3 border border-other-border rounded-r-lg focus:outline-none focus:ring-2 focus:ring-primary-hover"
-                  />
-                </div>
-              </div>
-
+              <PhoneNumberInput
+                label="No. Hp"
+                name="phone"
+                value={formData.phone}
+                onChange={handleInputChange}
+              />
               <InputField
                 label="Kata Sandi"
-                name="passwordRegister"
+                name="password"
                 type="password"
                 placeholder="********"
+                value={formData.password}
+                onChange={handleInputChange}
               />
               <InputField
                 label="Konfirmasi Kata Sandi"
                 name="confirmPassword"
                 type="password"
                 placeholder="********"
+                value={formData.confirmPassword}
+                onChange={handleInputChange}
               />
 
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-3 pt-3">
                 <Button
                   variant="primary"
                   className="w-full"
