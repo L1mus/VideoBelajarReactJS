@@ -7,7 +7,6 @@ import Footer from "../../components/Footer";
 import OrderSummaryCard from "../../components/Card/OrderSummaryCard";
 import useMediaQuery from "../../hooks/useMediaQuery";
 
-// Import Ikon
 import iconCheck from "/assets/icon/icon-checkgreen.png";
 import iconBCA from "/assets/images/bca.png";
 import iconBNI from "/assets/images/bni.png";
@@ -42,7 +41,6 @@ const PaymentOption = ({ method, selectedMethod, onSelect }) => (
   </div>
 );
 
-// Menerima props 'selectedMethodId' dan 'onMethodChange'
 function MetodePembayaran({ onNavigate, selectedMethodId, onMethodChange }) {
   const isDesktop = useMediaQuery("(min-width: 768px)");
 

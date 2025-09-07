@@ -1,5 +1,3 @@
-// l1mus/videobelajarreactjs/VideoBelajarReactJS-f94cdd3291ac4190efaea3aba624300d2429d870/src/Pages/Detailproduk.jsx
-
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Avatar from "../components/Avatar";
@@ -201,8 +199,7 @@ function DetailProdukPage({ onNavigate, isLoggedIn, course, onBuatPesanan }) {
     "Berkarier di bidang HR selama lebih dari 3 tahun. Saat ini bekerja sebagai Senior Talent Acquisition Specialist di Wings Group Indonesia (Sayap Mas Utama) selama hampir 1 tahun.";
 
   return (
-    // UBAH KELAS LATAR BELAKANG DI SINI
-    <div className="bg-other-base-background">
+    <div className="bg-main-secondary4">
       <Navbar
         desktopContent={
           isLoggedIn ? (

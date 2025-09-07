@@ -27,7 +27,7 @@ function SemuaProduk({ isLoggedIn, onNavigate, onLogout }) {
   const [sortOption, setSortOption] = useState(null);
   const [filters, setFilters] = useState({
     studyFields: {},
-    price: {}, // Mengubah state harga menjadi objek
+    price: {},
     duration: "",
   });
 

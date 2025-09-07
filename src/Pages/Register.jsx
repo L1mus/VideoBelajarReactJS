@@ -25,9 +25,7 @@ const RegisterPage = ({ onNavigate, onAddUser }) => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault(); // Mencegah reload halaman
-
-    // Validasi sederhana (bisa dikembangkan lebih lanjut)
+    e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
       alert("Konfirmasi kata sandi tidak cocok!");
       return;
@@ -37,7 +35,7 @@ const RegisterPage = ({ onNavigate, onAddUser }) => {
       return;
     }
 
-    // Memanggil fungsi onAddUser dari props dengan membawa data form
+    // fungsi onAddUser dari props
     onAddUser(formData);
   };
 

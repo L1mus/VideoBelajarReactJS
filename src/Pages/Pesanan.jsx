@@ -42,7 +42,7 @@ function PesananSaya({ onNavigate, onLogout, currentUser, onDeleteOrder }) {
     if (!currentUser || !currentUser.orders) {
       return [];
     }
-    // Logika filter bisa tetap digunakan jika diperlukan
+
     return currentUser.orders;
   }, [currentUser]);
 
