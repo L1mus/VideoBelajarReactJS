@@ -1,3 +1,5 @@
+// l1mus/videobelajarreactjs/VideoBelajarReactJS-f94cdd3291ac4190efaea3aba624300d2429d870/src/Pages/Detailproduk.jsx
+
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Avatar from "../components/Avatar";
@@ -13,11 +15,17 @@ import iconStar from "/assets/icon/icon-star.png";
 import iconStarEmpty from "/assets/icon/icon-star2.png";
 import heroImage from "/assets/images/cover4.png";
 
+import iconUjian from "/assets/icon/icon-checktask.png";
+import iconVideo from "/assets/icon/icon-video.png";
+import iconDocument from "/assets/icon/icon-book.png";
+import iconCertificate from "/assets/icon/icon-certificate.png";
+import iconPretest from "/assets/icon/icon-edittask.png";
+import iconWorld from "/assets/icon/icon-world.png";
 import iconPlay2 from "/assets/icon/icon-play2.png";
 
 const PurchaseCard = ({ course, onBuatPesanan }) => {
   const formatPriceK = (value) => {
-    if (value === 0) return "Gratis";
+    if (!value) return "Gratis";
     return `Rp ${value / 1000}K`;
   };
 
@@ -27,9 +35,22 @@ const PurchaseCard = ({ course, onBuatPesanan }) => {
       )
     : 0;
 
+  const includes = course.includes || [
+    { icon: iconUjian, text: "Ujian Akhir" },
+    { icon: iconVideo, text: "10 Video" },
+    { icon: iconDocument, text: "Dokumen" },
+    { icon: iconCertificate, text: "Sertifikat" },
+    { icon: iconPretest, text: "Pretest" },
+  ];
+
+  const language = course.language || {
+    icon: iconWorld,
+    text: "Bahasa Indonesia",
+  };
+
   return (
     <div className="w-full lg:w-96 bg-other-primary-background rounded-lg shadow-lg lg:sticky top-10 p-6">
-      <h2 className="font-poppins font-bold text-2xl leading-tight mb-3">
+      <h2 className="font-poppins font-bold text-xl leading-tight mb-3">
         {course.title}
       </h2>
       <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 mb-2">
@@ -49,33 +70,43 @@ const PurchaseCard = ({ course, onBuatPesanan }) => {
           </Chip>
         )}
       </div>
-      <p className="text-sm text-info-default font-semibold mb-4 cursor-pointer hover:underline">
-        {course.offerText}
-      </p>
+
+      {course.offerText && (
+        <p className="text-sm text-info-default font-semibold mb-4 cursor-pointer hover:underline">
+          {course.offerText}
+        </p>
+      )}
+
       <Button variant="primary" className="w-full" onClick={onBuatPesanan}>
         Beli Sekarang
       </Button>
       <hr className="my-5 border-other-border" />
-      <h4 className="font-bold mb-3 text-text-dark-primary">
-        Kelas Ini Sudah Termasuk
-      </h4>
-      <div className="grid grid-cols-2 gap-y-2 text-sm text-text-dark-secondary">
-        {(course.includes || []).map((item, index) =>
-          item && item.icon && item.text ? (
-            <div key={index} className="flex items-center gap-2">
-              <img src={item.icon} alt="" className="w-4 h-4" /> {item.text}
-            </div>
-          ) : null
-        )}
-      </div>
-      <hr className="my-5 border-other-border" />
-      <h4 className="font-bold mb-3 text-text-dark-primary">
-        Bahasa Pengantar
-      </h4>
-      <div className="flex items-center gap-2 text-sm text-text-dark-secondary">
-        <img src={course.language.icon} alt="" className="w-4 h-4" />
-        {course.language.text}
-      </div>
+
+      <>
+        <h4 className="font-bold mb-3 text-text-dark-primary">
+          Kelas Ini Sudah Termasuk
+        </h4>
+        <div className="grid grid-cols-2 gap-y-2 text-sm text-text-dark-secondary">
+          {includes.map((item, index) =>
+            item && item.icon && item.text ? (
+              <div key={index} className="flex items-center gap-2">
+                <img src={item.icon} alt="" className="w-4 h-4" /> {item.text}
+              </div>
+            ) : null
+          )}
+        </div>
+        <hr className="my-5 border-other-border" />
+      </>
+
+      <>
+        <h4 className="font-bold mb-3 text-text-dark-primary">
+          Bahasa Pengantar
+        </h4>
+        <div className="flex items-center gap-2 text-sm text-text-dark-secondary">
+          <img src={language.icon} alt="" className="w-4 h-4" />
+          {language.text}
+        </div>
+      </>
     </div>
   );
 };
@@ -170,7 +201,8 @@ function DetailProdukPage({ onNavigate, isLoggedIn, course, onBuatPesanan }) {
     "Berkarier di bidang HR selama lebih dari 3 tahun. Saat ini bekerja sebagai Senior Talent Acquisition Specialist di Wings Group Indonesia (Sayap Mas Utama) selama hampir 1 tahun.";
 
   return (
-    <div className="bg-main-secondary4">
+    // UBAH KELAS LATAR BELAKANG DI SINI
+    <div className="bg-other-base-background">
       <Navbar
         desktopContent={
           isLoggedIn ? (
@@ -230,14 +262,7 @@ function DetailProdukPage({ onNavigate, isLoggedIn, course, onBuatPesanan }) {
                 Deskripsi
               </h2>
               <p className="text-text-dark-secondary leading-relaxed">
-                Foundations of User Experience (UX) Design adalah yang pertama
-                dari rangkaian tujuh kursus yang akan membekali Anda dengan
-                keterampilan yang dibutuhkan untuk melamar pekerjaan tingkat
-                pemula dalam desain pengalaman pengguna. Desainer UX fokus pada
-                interaksi yang dilakukan orang dengan produk seperti situs web,
-                aplikasi seluler, dan objek fisik. Desainer UX membuat interaksi
-                sehari-hari itu dapat digunakan, menyenangkan, dan dapat
-                diakses.
+                {course.description}
               </p>
             </div>
             <div className="bg-other-primary-background p-6 rounded-lg shadow-sm">
@@ -317,7 +342,7 @@ function DetailProdukPage({ onNavigate, isLoggedIn, course, onBuatPesanan }) {
                   <CourseCard
                     key={course.id}
                     data={course}
-                    onClick={() => onNavigate("detailproduk")}
+                    onClick={() => onNavigate("detailproduk", course)}
                   />
                 ))}
               </div>
