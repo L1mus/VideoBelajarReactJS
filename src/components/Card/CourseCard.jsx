@@ -1,5 +1,5 @@
 import Avatar from "../Avatar";
-import useMediaQuery from "../../Hooks/useMediaQuery";
+import useMediaQuery from "../../hooks/useMediaQuery";
 import iconRating from "/assets/icon/icon-rating.png";
 
 function CourseCard({ data, onClick }) {

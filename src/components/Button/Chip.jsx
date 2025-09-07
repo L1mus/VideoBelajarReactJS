@@ -27,8 +27,8 @@ function Chip({
       info: "bg-info-hover text-text-light-primary",
       warning: "bg-warning-hover text-text-light-primary",
       error: "bg-error-hover text-text-light-primary",
-      primary: "bg-main-primary4 text-main-primary",
-      secondary: "bg-main-secondary4 text-main-secondary",
+      primary: "bg-main-primary text-text-light-primary",
+      secondary: "bg-main-secondary text-text-light-primary",
     },
     outline: {
       success: "border border-success-hover text-success-hover ",

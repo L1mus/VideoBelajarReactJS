@@ -40,13 +40,15 @@ const OrderSummaryCard = () => {
       <h3 className="font-bold text-text-dark-primary leading-tight mb-2">
         {course.title}
       </h3>
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-4">
-        <span className="text-xl font-bold text-main-primary">
-          {formatPriceK(course.price)}
-        </span>
-        <span className="text-gray-400 line-through">
-          {formatPriceK(course.originalPrice)}
-        </span>
+      <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 mb-4">
+        <div className="flex flex-wrap items-center gap-x-3">
+          <span className="text-xl font-bold text-main-primary">
+            {formatPriceK(course.price)}
+          </span>
+          <span className="text-text-light-disabled line-through">
+            {formatPriceK(course.originalPrice)}
+          </span>
+        </div>
         <Chip variant="secondary" style="solid">
           Diskon {discount}%
         </Chip>

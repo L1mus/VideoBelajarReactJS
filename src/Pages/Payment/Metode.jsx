@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Navbar from "../../components/Navbar";
 import Stepper from "../../components/Step/Stepper";
 import Accordion from "../../components/Layout/Accordion";
@@ -26,8 +26,8 @@ const PaymentOption = ({ method, selectedMethod, onSelect }) => (
     onClick={() => onSelect(method.id)}
     className={`flex justify-between items-center p-4 border rounded-lg cursor-pointer transition-all duration-200 ${
       selectedMethod === method.id
-        ? "border-main-primary bg-main-primary4"
-        : "border-gray-200 hover:bg-gray-50"
+        ? "border-other-border bg-other-primary-background"
+        : "border-other-border hover:bg-gray-50"
     }`}
   >
     <div className="flex items-center gap-4">
@@ -42,8 +42,8 @@ const PaymentOption = ({ method, selectedMethod, onSelect }) => (
   </div>
 );
 
-function MetodePembayaran({ onNavigate }) {
-  const [selectedMethod, setSelectedMethod] = useState("bca");
+// Menerima props 'selectedMethodId' dan 'onMethodChange'
+function MetodePembayaran({ onNavigate, selectedMethodId, onMethodChange }) {
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
   const paymentMethods = {
@@ -65,8 +65,16 @@ function MetodePembayaran({ onNavigate }) {
     <Stepper steps={["Pilih Metode", "Bayar", "Selesai"]} currentStep={0} />
   );
 
+  const handleBayarSekarang = () => {
+    if (!selectedMethodId) {
+      alert("Silakan pilih metode pembayaran terlebih dahulu.");
+    } else {
+      onNavigate("bayar");
+    }
+  };
+
   return (
-    <div className="bg-other-base-background min-h-screen">
+    <div className="bg-main-secondary4 min-h-screen">
       <Navbar desktopContent={isDesktop ? stepperComponent : null} />
       <div className="container mx-auto px-4 sm:px-6 py-10">
         {!isDesktop && <div className="mb-8">{stepperComponent}</div>}
@@ -77,37 +85,40 @@ function MetodePembayaran({ onNavigate }) {
           </div>
 
           <div className="w-full lg:w-2/3 lg:order-1 space-y-6">
-            {/* Kartu Metode Pembayaran */}
-            <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="bg-other-primary-background rounded-lg shadow-md p-6">
               <h1 className="text-2xl font-bold font-poppins mb-4">
                 Metode Pembayaran
               </h1>
-              <Accordion title="Transfer Bank" defaultOpen={true}>
+              <Accordion
+                title="Transfer Bank"
+                defaultOpen={true}
+                titleColor="dark-primary"
+              >
                 <div className="space-y-3">
                   {paymentMethods.bank.map((method) => (
                     <PaymentOption
                       key={method.id}
                       method={method}
-                      selectedMethod={selectedMethod}
-                      onSelect={setSelectedMethod}
+                      selectedMethod={selectedMethodId}
+                      onSelect={onMethodChange}
                     />
                   ))}
                 </div>
               </Accordion>
-              <Accordion title="E-Wallet">
+              <Accordion title="E-Wallet" titleColor="dark-primary">
                 <div className="space-y-3">
                   {paymentMethods.ewallet.map((method) => (
                     <PaymentOption
                       key={method.id}
                       method={method}
-                      selectedMethod={selectedMethod}
-                      onSelect={setSelectedMethod}
+                      selectedMethod={selectedMethodId}
+                      onSelect={onMethodChange}
                     />
                   ))}
                 </div>
               </Accordion>
-              <Accordion title="Kartu Kredit/Debit">
-                <div className="p-4 border border-gray-200 rounded-lg">
+              <Accordion title="Kartu Kredit/Debit" titleColor="dark-primary">
+                <div className="p-4 border border-other-border rounded-lg">
                   <div className="flex items-center gap-3">
                     <img src={iconVisa} alt="Visa" className="h-6" />
                     <img
@@ -121,7 +132,7 @@ function MetodePembayaran({ onNavigate }) {
               </Accordion>
             </div>
 
-            <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="bg-other-primary-background rounded-lg shadow-md p-6">
               <h2 className="text-xl font-bold font-poppins mb-4">
                 Ringkasan Pesanan
               </h2>
@@ -149,7 +160,7 @@ function MetodePembayaran({ onNavigate }) {
               <Button
                 variant="primary"
                 className="w-full mt-6"
-                onClick={() => onNavigate("bayar")}
+                onClick={handleBayarSekarang}
               >
                 Beli Sekarang
               </Button>

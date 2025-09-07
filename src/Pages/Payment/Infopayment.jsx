@@ -1,5 +1,5 @@
 import React from "react";
-import useMediaQuery from "../../Hooks/useMediaQuery";
+import useMediaQuery from "../../hooks/useMediaQuery";
 import Navbar from "../../components/Navbar";
 import Stepper from "../../components/Step/Stepper";
 import Button from "../../components/Button/Button";
@@ -19,7 +19,7 @@ const InfoCard = ({ status, onNavigate }) => {
     <div className="bg-other-primary-background p-8 rounded-lg shadow-md max-w-lg mx-auto text-center">
       <img src={image} alt={title} className="w-64 h-auto mx-auto mb-6" />
       <h1 className="text-3xl font-bold font-poppins mb-3">{title}</h1>
-      <p className="text-text-light-disabled mb-8">{message}</p>
+      <p className="text-text-dark-secondary mb-8">{message}</p>
       <Button variant="primary" onClick={() => onNavigate("pesanan")}>
         Lihat Detail Pesanan
       </Button>
@@ -30,30 +30,25 @@ const InfoCard = ({ status, onNavigate }) => {
 function InfoPayment({ onNavigate, status = "success" }) {
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
-  return (
-    <div className="bg-other-base-background min-h-screen font-DM-Sans">
-      <Navbar
-        centerContent={
-          isDesktop ? (
-            <Stepper
-              steps={["Pilih Metode", "Bayar", "Selesai"]}
-              currentStep={2}
-            />
-          ) : null
-        }
-      />
+  const stepperComponent = (
+    <Stepper steps={["Pilih Metode", "Bayar", "Selesai"]} currentStep={2} />
+  );
 
-      <div className="container mx-auto px-6 py-12 flex flex-col items-center">
-        {!isDesktop && (
-          <div className="w-full max-w-3xl mb-8">
-            <Stepper
-              steps={["Pilih Metode", "Bayar", "Selesai"]}
-              currentStep={2}
-            />
-          </div>
-        )}
-        <InfoCard status={status} onNavigate={onNavigate} />
-      </div>
+  return (
+    <div className="bg-main-secondary4 min-h-screen flex flex-col">
+      <Navbar desktopContent={isDesktop ? stepperComponent : null} />
+
+      <main className="flex-grow flex items-center justify-center container mx-auto px-4 sm:px-6 py-10">
+        <div className="w-full">
+          {!isDesktop && (
+            <div className="w-full max-w-3xl mx-auto mb-8">
+              {stepperComponent}
+            </div>
+          )}
+          <InfoCard status={status} onNavigate={onNavigate} />
+        </div>
+      </main>
+
       <Footer />
     </div>
   );

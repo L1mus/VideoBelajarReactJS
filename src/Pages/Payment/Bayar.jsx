@@ -3,21 +3,13 @@ import Navbar from "../../components/Navbar";
 import Stepper from "../../components/Step/Stepper";
 import Accordion from "../../components/Layout/Accordion";
 import Button from "../../components/Button/Button";
-import Chip from "../../components/Button/Chip";
 import Footer from "../../components/Footer";
 import useMediaQuery from "../../hooks/useMediaQuery";
-
-import courseImage from "/assets/images/cover1.png";
-import iconBCA from "/assets/images/bca.png";
-import iconUjian from "/assets/icon/icon-checktask.png";
-import iconVideo from "/assets/icon/icon-video.png";
-import iconDokumen from "/assets/icon/icon-notebook.png";
-import iconSertifikat from "/assets/icon/icon-certificate.png";
-import iconPretest from "/assets/icon/icon-edittask.png";
-import iconBahasa from "/assets/icon/icon-world.png";
+import OrderSummaryCard from "../../components/Card/OrderSummaryCard";
+import { paymentDetails } from "../../Data/MetodePay";
 
 const CountdownTimer = () => {
-  const [timeLeft, setTimeLeft] = useState(24 * 60 * 60 + 55);
+  const [timeLeft, setTimeLeft] = useState(55 * 60 + 55); // 50 menit 55 detik
 
   useEffect(() => {
     if (timeLeft === 0) return;
@@ -41,182 +33,173 @@ const CountdownTimer = () => {
   const { h, m, s } = formatTime(timeLeft);
 
   return (
-    <div className="text-center bg-other-primary-background p-4 rounded-lg shadow-md">
+    <div className="text-center bg-main-tertiary4 p-4 rounded-lg shadow-md">
       <h2 className="text-lg font-semibold text-text-dark-primary">
         Selesaikan pemesanan dalam
       </h2>
-      <div className="text-2xl font-bold text-error-default mt-2">
-        <span>{h}</span> : <span>{m}</span> : <span>{s}</span>
+      <div className="flex justify-center items-center gap-2 text-2xl font-bold mt-2">
+        <span className="bg-main-tertiary text-text-light-primary px-3 py-2 rounded-md min-w-[48px] text-center">
+          {h}
+        </span>
+        <span className="text-main-tertiary">:</span>
+        <span className="bg-main-tertiary text-text-light-primary px-3 py-2 rounded-md min-w-[48px] text-center">
+          {m}
+        </span>
+        <span className="text-main-tertiary">:</span>
+        <span className="bg-main-tertiary text-text-light-primary px-3 py-2 rounded-md min-w-[48px] text-center">
+          {s}
+        </span>
       </div>
     </div>
   );
 };
 
-const OrderSummaryCard = () => (
-  <div className="bg-other-primary-background p-4 rounded-lg shadow-md">
-    <img
-      src={courseImage}
-      alt="Course"
-      className="hidden lg:block w-full h-40 object-cover rounded-md mb-4"
-    />
-    <h3 className="font-bold text-text-dark-primary leading-tight mb-2">
-      Gapai Karier Impianmu sebagai Seorang UI/UX Designer & Product Manager.
-    </h3>
-    <div className="flex items-center gap-3 mb-4">
-      <span className="text-xl font-bold text-main-primary1">Rp 250K</span>
-      <span className="text-text-dark-secondary line-through">Rp 500K</span>
-      <Chip variant="error" style="light">
-        Diskon 50%
-      </Chip>
-    </div>
-    <hr className="my-4" />
-    <h4 className="font-bold mb-3">Kelas Ini Sudah Termasuk</h4>
-    <div className="grid grid-cols-2 gap-y-2 text-sm text-text-dark-secondary">
-      <div className="flex items-center gap-2">
-        <img src={iconUjian} alt="Icon" className="w-4 h-4" /> Ujian Akhir
-      </div>
-      <div className="flex items-center gap-2">
-        <img src={iconVideo} alt="Icon" className="w-4 h-4" /> 49 Video
-      </div>
-      <div className="flex items-center gap-2">
-        <img src={iconDokumen} alt="Icon" className="w-4 h-4" /> 7 Dokumen
-      </div>
-      <div className="flex items-center gap-2">
-        <img src={iconSertifikat} alt="Icon" className="w-4 h-4" /> Sertifikat
-      </div>
-      <div className="flex items-center gap-2">
-        <img src={iconPretest} alt="Icon" className="w-4 h-4" /> Pretest
-      </div>
-    </div>
-    <hr className="my-4" />
-    <h4 className="font-bold mb-2">Bahasa Pengantar</h4>
-    <div className="flex items-center gap-2 text-sm text-text-dark-secondary">
-      <img src={iconBahasa} alt="Icon" className="w-4 h-4" /> Bahasa Indonesia
-    </div>
-  </div>
-);
+function HalamanBayar({ onNavigate, selectedMethodId = "bca" }) {
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
+  const method = paymentDetails[selectedMethodId] || paymentDetails.bca;
 
-function HalamanBayar({ onNavigate }) {
-  const isDesktop = useMediaQuery("(min-width: 768px)");
+  const stepperComponent = (
+    <Stepper steps={["Pilih Metode", "Bayar", "Selesai"]} currentStep={1} />
+  );
+
   return (
-    <div className="bg-other-base-background min-h-screen">
-      <Navbar
-        centerContent={
-          isDesktop ? (
-            <Stepper
-              steps={["Pilih Metode", "Bayar", "Selesai"]}
-              currentStep={1}
-            />
-          ) : null
-        }
-      />
+    <div className="bg-main-secondary4 min-h-screen">
+      <Navbar desktopContent={isDesktop ? stepperComponent : null} />
 
-      <div className="container mx-auto px-6 py-8">
+      <div className="container mx-auto px-4 sm:px-6 py-8">
+        {!isDesktop && (
+          <div className="max-w-3xl mx-auto mb-6">{stepperComponent}</div>
+        )}
         <div className="max-w-xl mx-auto mb-6">
           <CountdownTimer />
         </div>
 
-        {/* Tampilkan mobile */}
-        {!isDesktop && (
-          <div className="max-w-3xl mx-auto mb-6">
-            <Stepper
-              steps={["Pilih Metode", "Bayar", "Selesai"]}
-              currentStep={1}
-            />
-          </div>
-        )}
-
-        <div className="flex flex-col lg:flex-row gap-8 items-start max-w-6xl mx-auto">
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-8 items-start">
           <div className="w-full lg:w-1/3 order-1 lg:order-2">
             <OrderSummaryCard />
           </div>
-          <div className="w-full lg:w-2/3 space-y-6 order-2 lg:order-1">
-            <div>
-              <h2 className="text-xl font-bold mb-4">Metode Pembayaran</h2>
-              <div className="bg-other-primary-background p-6 rounded-lg shadow-md flex flex-col items-center text-center gap-2">
-                <img src={iconBCA} alt="BCA" className="h-10 mb-2" />
+
+          <div className="w-full lg:w-2/3 order-2 lg:order-1 space-y-6">
+            <div className="bg-other-primary-background p-6 rounded-lg shadow-md">
+              <h2 className="text-xl font-bold font-poppins mb-4">
+                Metode Pembayaran
+              </h2>
+              <div className="flex flex-col items-center text-center gap-2 border border-other-border p-4 rounded-lg">
+                <img
+                  src={method.icon}
+                  alt={method.name}
+                  className="h-10 mb-2"
+                />
                 <p className="font-semibold text-lg">
-                  Bayar Melalui Virtual Account BCA
+                  Bayar Melalui {method.name}
                 </p>
                 <div>
-                  <span className="text-text-dark-secondary">
-                    11739 081234567890
-                  </span>
-                  <span className="text-main-tertiary font-semibold cursor-pointer ml-2">
+                  <span className="text-text-dark-secondary">{method.va}</span>
+                  <span className="text-main-primary font-semibold cursor-pointer ml-2 hover:underline">
                     Salin
                   </span>
                 </div>
               </div>
             </div>
 
-            <div>
+            <div className="bg-other-primary-background p-6 rounded-lg shadow-md">
               <h2 className="text-xl font-bold font-poppins mb-4">
                 Ringkasan Pesanan
               </h2>
-              <div className="bg-other-primary-background p-6 rounded-lg shadow-md">
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <p className="text-text-dark-primary max-w-xs">
-                      Video Learning: Gapai Karier Impianmu...
-                    </p>
-                    <p className="text-text-dark-primary">Rp 767.500</p>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <p className="text-text-light-disabled">Biaya Admin</p>
-                    <p className="text-text-dark-primary">Rp 7.000</p>
-                  </div>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center">
+                  <p className="text-text-dark-secondary max-w-xs">
+                    Video Learning: Gapai Karier Impianmu...
+                  </p>
+                  <p className="text-text-dark-primary font-semibold">
+                    Rp 767.500
+                  </p>
                 </div>
-                <hr className="my-4" />
-                <div className="flex justify-between font-bold text-lg">
-                  <p>Total Pembayaran</p>
-                  <p className="text-main-primary">Rp 774.500</p>
+                <div className="flex justify-between items-center">
+                  <p className="text-text-dark-secondary">Biaya Admin</p>
+                  <p className="text-text-dark-primary font-semibold">
+                    Rp 7.000
+                  </p>
                 </div>
-                <div className="flex flex-col md:flex-row gap-4 mt-6">
-                  <Button
-                    variant="primary1"
-                    className="w-full"
-                    onClick={() => onNavigate("ubahmetode")}
-                  >
-                    Ganti Metode Pembayaran
-                  </Button>
-                  <Button
-                    variant="primary"
-                    className="w-full"
-                    onClick={() => onNavigate("infopayment")}
-                  >
-                    Bayar Sekarang
-                  </Button>
-                </div>
+              </div>
+              <hr className="my-4" />
+              <div className="flex justify-between font-bold text-lg">
+                <p>Total Pembayaran</p>
+                <p className="text-main-primary">Rp 774.500</p>
+              </div>
+              <div className="flex flex-col md:flex-row gap-4 mt-6">
+                <Button
+                  variant="primary1"
+                  className="w-full"
+                  onClick={() => onNavigate("ubahmetode")}
+                >
+                  Ganti Metode Pembayaran
+                </Button>
+                <Button
+                  variant="primary"
+                  className="w-full"
+                  onClick={() => onNavigate("infopayment")}
+                >
+                  Bayar Sekarang
+                </Button>
               </div>
             </div>
 
             <div className="bg-other-primary-background p-6 rounded-lg shadow-md">
-              <h2 className="text-xl font-bold mb-2">Tata Cara Pembayaran</h2>
-
-              {/* Tampilan Desktop */}
-              <div className="hidden lg:block">
-                <Accordion title="ATM BCA" defaultOpen={true}>
-                  <ol className="list-decimal list-inside space-y-2 text-text-dark-secondary">
-                    <li>Masukkan kartu ATM dan PIN BCA Anda.</li>
-                    <li>Di menu utama, pilih "Transaksi Lainnya".</li>
-                  </ol>
-                </Accordion>
-                <Accordion title="Mobile Banking BCA">
-                  <ol className="list-decimal list-inside space-y-2 text-text-dark-secondary">
-                    <li>Buka Aplikasi BCA Mobile.</li>
-                  </ol>
-                </Accordion>
-                <Accordion title="Internet Banking BCA">
-                  <ol className="list-decimal list-inside space-y-2 text-text-dark-secondary">
-                    <li>Login ke KlikBCA Individual.</li>
-                  </ol>
-                </Accordion>
-              </div>
-              {/* Tampilan Mobile */}
-              <div className="lg:hidden">
-                <Accordion title="Transfer Bank"></Accordion>
-                <Accordion title="E-Wallet"></Accordion>
-                <Accordion title="Kartu Kredit/Debit"></Accordion>
+              <h2 className="text-xl font-bold font-poppins mb-2">
+                Tata Cara Pembayaran
+              </h2>
+              <div>
+                {method.instructions.atm && (
+                  <Accordion
+                    title={`ATM ${method.name}`}
+                    defaultOpen={true}
+                    titleColor="dark-primary"
+                  >
+                    <ol className="list-decimal list-inside space-y-1 text-sm text-text-dark-secondary">
+                      {method.instructions.atm.map((step, i) => (
+                        <li key={i}>{step}</li>
+                      ))}
+                    </ol>
+                  </Accordion>
+                )}
+                {method.instructions.mobile && (
+                  <Accordion
+                    title={`Mobile Banking ${method.name}`}
+                    titleColor="dark-primary"
+                  >
+                    <ol className="list-decimal list-inside space-y-1 text-sm text-text-dark-secondary">
+                      {method.instructions.mobile.map((step, i) => (
+                        <li key={i}>{step}</li>
+                      ))}
+                    </ol>
+                  </Accordion>
+                )}
+                {method.instructions.internet && (
+                  <Accordion
+                    title={`Internet Banking ${method.name}`}
+                    titleColor="dark-primary"
+                  >
+                    <ol className="list-decimal list-inside space-y-1 text-sm text-text-dark-secondary">
+                      {method.instructions.internet.map((step, i) => (
+                        <li key={i}>{step}</li>
+                      ))}
+                    </ol>
+                  </Accordion>
+                )}
+                {method.instructions.ewallet && (
+                  <Accordion
+                    title={`Panduan ${method.name}`}
+                    defaultOpen={true}
+                    titleColor="dark-primary"
+                  >
+                    <ol className="list-decimal list-inside space-y-1 text-sm text-text-dark-secondary">
+                      {method.instructions.ewallet.map((step, i) => (
+                        <li key={i}>{step}</li>
+                      ))}
+                    </ol>
+                  </Accordion>
+                )}
               </div>
             </div>
           </div>

@@ -110,7 +110,7 @@ function SemuaProduk({ isLoggedIn, onNavigate, onLogout }) {
   );
 
   return (
-    <div className="bg-other-base-background min-h-screen">
+    <div className="bg-main-secondary4 min-h-screen">
       <Navbar
         onLogoClick={() => onNavigate("beranda")}
         desktopContent={
@@ -186,10 +186,10 @@ function SemuaProduk({ isLoggedIn, onNavigate, onLogout }) {
       <main className="container mx-auto px-4 sm:px-6 py-10">
         <div className="max-w-7xl mx-auto">
           <div className="text-center md:text-left mb-8">
-            <h1 className="text-3xl font-bold font-poppins text-gray-800">
+            <h1 className="text-3xl font-bold text-text-dark-primary">
               Koleksi Video Pembelajaran Unggulan
             </h1>
-            <p className="text-gray-500 mt-1">
+            <p className="text-text-dark-secondary mt-1">
               Jelajahi Dunia Pengetahuan Melalui Pilihan Kami!
             </p>
           </div>
@@ -205,12 +205,12 @@ function SemuaProduk({ isLoggedIn, onNavigate, onLogout }) {
                 <div className="w-full sm:w-48">
                   <Dropdown
                     trigger={
-                      <button className="flex items-center justify-between w-full px-4 py-2.5 border border-gray-300 rounded-lg bg-white text-left focus:outline-none focus:ring-2 focus:ring-primary">
-                        <span className="text-gray-800 truncate">
+                      <button className="flex items-center justify-between w-full px-4 py-2.5 border border-other-border rounded-lg bg-other-primary-background text-left focus:outline-none focus:ring-2 focus:ring-primary">
+                        <span className="text-text-dark-primary truncate">
                           {sortOption ? sortOption.label : "Urutkan"}
                         </span>
                         <svg
-                          className="fill-current h-4 w-4 text-gray-500 flex-shrink-0"
+                          className="fill-current h-4 w-4 text-text-dark-secondary flex-shrink-0"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 20 20"
                         >
@@ -234,9 +234,9 @@ function SemuaProduk({ isLoggedIn, onNavigate, onLogout }) {
                   <input
                     type="text"
                     placeholder="Cari Kelas..."
-                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:border-primary bg-white"
+                    className="w-full px-4 py-2.5 border border-other-border rounded-lg focus:outline-none focus:border-primary bg-other-primary-background"
                   />
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-text-light-disabled">
                     🔍
                   </span>
                 </div>

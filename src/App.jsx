@@ -13,8 +13,9 @@ import KelasSaya from "./Pages/Kelas";
 import ProfilSaya from "./Pages/Profile";
 
 function App() {
-  const [currentPage, setCurrentPage] = useState("beranda");
+  const [currentPage, setCurrentPage] = useState("kelas");
   const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
 
   const handleNavigate = (page) => {
     setCurrentPage(page);
@@ -53,15 +54,26 @@ function App() {
           <MetodePembayaran
             onNavigate={handleNavigate}
             isLoggedIn={isLoggedIn}
+            selectedMethodId={selectedPaymentMethod}
+            onMethodChange={setSelectedPaymentMethod}
           />
         );
       case "bayar":
         return (
-          <HalamanBayar onNavigate={handleNavigate} isLoggedIn={isLoggedIn} />
+          <HalamanBayar
+            onNavigate={handleNavigate}
+            isLoggedIn={isLoggedIn}
+            selectedMethodId={selectedPaymentMethod}
+          />
         );
       case "ubahmetode":
         return (
-          <UbahMetode onNavigate={handleNavigate} isLoggedIn={isLoggedIn} />
+          <UbahMetode
+            onNavigate={handleNavigate}
+            isLoggedIn={isLoggedIn}
+            selectedMethodId={selectedPaymentMethod}
+            onMethodChange={setSelectedPaymentMethod}
+          />
         );
       case "infopayment":
         return <InfoPayment onNavigate={handleNavigate} status="success" />;

@@ -20,16 +20,33 @@ const ChevronIcon = ({ isOpen }) => (
 );
 
 // Nama komponen diubah menjadi 'Accordion' agar lebih umum
-function Accordion({ title, children, defaultOpen = false }) {
+function Accordion({
+  title,
+  children,
+  defaultOpen = false,
+  titleColor = "main-primary",
+}) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
+  const getTextColorClass = () => {
+    switch (titleColor) {
+      case "dark-primary":
+        return "text-text-dark-primary";
+      case "main-primary":
+      default:
+        return "text-main-primary";
+    }
+  };
+
   return (
-    <div className="border-b last:border-b-0 border-gray-200">
+    <div className="border-b last:border-b-0 border-other-border">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex justify-between items-center text-left py-4"
       >
-        <h3 className="font-bold text-main-primary text-base">{title}</h3>
+        <h3 className={`font-bold text-base ${getTextColorClass()}`}>
+          {title}
+        </h3>
         <ChevronIcon isOpen={isOpen} />
       </button>
       {isOpen && <div className="pb-4 space-y-3">{children}</div>}

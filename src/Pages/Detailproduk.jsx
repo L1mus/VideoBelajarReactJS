@@ -40,15 +40,17 @@ const PurchaseCard = ({ course, onNavigate }) => {
       <h2 className="font-poppins font-bold text-2xl leading-tight mb-3">
         {course.title}
       </h2>
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mb-2">
-        <span className="text-2xl font-bold text-main-primary">
-          {formatPriceK(course.price)}
-        </span>
-        {course.originalPrice && (
-          <span className="text-lg text-gray-400 line-through">
-            {formatPriceK(course.originalPrice)}
+      <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 mb-2">
+        <div className="flex flex-wrap items-center gap-x-3">
+          <span className="text-2xl font-bold text-main-primary">
+            {formatPriceK(course.price)}
           </span>
-        )}
+          {course.originalPrice && (
+            <span className="text-lg text-text-light-disabled line-through">
+              {formatPriceK(course.originalPrice)}
+            </span>
+          )}
+        </div>
         {discount > 0 && (
           <Chip variant="secondary" style="solid">
             Diskon {discount}%

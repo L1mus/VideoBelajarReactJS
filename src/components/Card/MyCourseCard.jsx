@@ -24,6 +24,7 @@ function MyCourseCard({ data }) {
   } = data;
 
   const chipProps = statusStyles[status] || {};
+  const isCompleted = status === "Selesai";
 
   return (
     <div className="bg-other-primary-background border border-other-border rounded-lg shadow-sm">
@@ -79,32 +80,34 @@ function MyCourseCard({ data }) {
 
       {/* Footer */}
       <div className="border-t border-other-border p-4 flex flex-col md:flex-row justify-between items-center gap-4">
-        <div className="w-full md:w-1/2">
-          <p className="text-sm font-semibold mb-1">
-            Progres Kelas: {progressPercent}%
+        <div
+          className={`w-full ${
+            isCompleted ? "md:w-1/2" : "md:w-2/3"
+          } flex items-center gap-3`}
+        >
+          <p className="text-sm text-text-dark-secondary whitespace-nowrap">
+            Progres Kelas:{" "}
+            <span className="text-sm font-semibold text-text-dark-primary">
+              {progressPercent}%
+            </span>
           </p>
-
-          <div className="w-full bg-main-tertiary3 rounded-full h-1">
+          <p></p>
+          <div className="w-full bg-red-200 rounded-full h-2">
             <div
-              className="bg-main-tertiary h-1 rounded-full"
+              className="bg-red-500 h-2 rounded-full"
               style={{ width: `${progressPercent}%` }}
             ></div>
           </div>
         </div>
+
         <div className="w-full md:w-auto flex flex-col sm:flex-row gap-3">
           {status === "Selesai" ? (
             <>
-              <Button variant="primary2" className="w-full">
-                Unduh Sertifikat
-              </Button>
-              <Button variant="primary" className="w-full">
-                Lihat Detail Kelas
-              </Button>
+              <Button variant="primary1">Unduh Sertifikat</Button>
+              <Button variant="primary">Lihat Detail Kelas</Button>
             </>
           ) : (
-            <Button variant="primary" className="w-full">
-              Lanjutkan Pembelajaran
-            </Button>
+            <Button variant="primary">Lanjutkan Pembelajaran</Button>
           )}
         </div>
       </div>

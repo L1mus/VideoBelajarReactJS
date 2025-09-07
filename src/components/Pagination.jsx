@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import useMediaQuery from "../Hooks/useMediaQuery";
+import useMediaQuery from "../hooks/useMediaQuery";
 
 const DOTS = "...";
 
@@ -75,7 +75,7 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
   const NavButton = ({ children, onClick }) => (
     <button
       onClick={onClick}
-      className="w-10 h-10 p-2 flex items-center justify-center rounded bg-gray-100 transition-colors duration-200 hover:bg-gray-200"
+      className="w-10 h-10 p-2 flex items-center justify-center rounded bg-other-base-background transition-colors duration-200 hover:bg-gray-200"
     >
       {children}
     </button>
