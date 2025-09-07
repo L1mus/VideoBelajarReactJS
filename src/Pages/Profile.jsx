@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Avatar from "../components/Avatar";
@@ -13,15 +13,32 @@ import PhoneNumberInput from "../components/InputFormControl/PhoneNumberInput";
 import userAvatar from "/assets/images/avatar.png";
 import iconLogout from "/assets/icon/icon-logout.png";
 
-function ProfilSaya({ onNavigate, onLogout }) {
+function ProfilSaya({
+  onNavigate,
+  onLogout,
+  currentUser,
+  onUpdateUser,
+  onDeleteUser,
+}) {
   const [formData, setFormData] = useState({
-    fullName: "Jennie Ruby Jane",
-    email: "rubyjane@gmail.com",
-    gender: "wanita",
-    phone: "81234567890",
-    password: "howyoulikethat",
-    confirmPassword: "howyoulikethat",
+    fullName: "",
+    email: "",
+    gender: "",
+    phone: "",
+    password: "",
   });
+
+  useEffect(() => {
+    if (currentUser) {
+      setFormData({
+        fullName: currentUser.fullName || "",
+        email: currentUser.email || "",
+        gender: currentUser.gender || "pria",
+        phone: currentUser.phone || "",
+        password: currentUser.password || "",
+      });
+    }
+  }, [currentUser]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -30,6 +47,19 @@ function ProfilSaya({ onNavigate, onLogout }) {
       [name]: value,
     }));
   };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onUpdateUser(formData); // Panggil fungsi update dari props
+  };
+
+  const handleDelete = () => {
+    onDeleteUser(currentUser.id); // Panggil fungsi delete dari props
+  };
+
+  if (!currentUser) {
+    return <div>Loading...</div>;
+  }
 
   const genderOptions = [
     { value: "wanita", label: "Wanita" },
@@ -159,8 +189,11 @@ function ProfilSaya({ onNavigate, onLogout }) {
                     onChange={handleInputChange}
                   />
                 </div>
-                <div className="flex justify-end pt-4">
-                  <Button variant="primary" onClick={(e) => e.preventDefault()}>
+                <div className="flex justify-end pt-4 gap-2">
+                  <Button variant="tertiary" onClick={handleDelete}>
+                    Hapus
+                  </Button>
+                  <Button variant="primary" onClick={handleSubmit}>
                     Simpan
                   </Button>
                 </div>

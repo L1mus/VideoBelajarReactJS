@@ -8,11 +8,10 @@ import FilterTabs from "../components/Filtertabs";
 import OrderCard from "../components/Card/OrderCard";
 import Pagination from "../components/Pagination";
 import Sidebar from "../components/Layout/Sidebar";
-import { orders } from "../Data/Order";
 import userAvatar from "/assets/images/avatar.png";
 import iconLogout from "/assets/icon/icon-logout.png";
 
-function PesananSaya({ onNavigate, onLogout }) {
+function PesananSaya({ onNavigate, onLogout, currentUser, onDeleteOrder }) {
   const [activeOrderTab, setActiveOrderTab] = useState("Semua Pesanan");
   const [currentPage, setCurrentPage] = useState(1);
   const [sortOption, setSortOption] = useState(null);
@@ -40,11 +39,12 @@ function PesananSaya({ onNavigate, onLogout }) {
   const filterTabs = ["Semua Pesanan", "Menunggu", "Berhasil", "Gagal"];
 
   const filteredOrders = useMemo(() => {
-    if (activeOrderTab === "Semua Pesanan") {
-      return orders;
+    if (!currentUser || !currentUser.orders) {
+      return [];
     }
-    return orders.filter((order) => order.status === activeOrderTab);
-  }, [activeOrderTab]);
+    // Logika filter bisa tetap digunakan jika diperlukan
+    return currentUser.orders;
+  }, [currentUser]);
 
   return (
     <div className="bg-main-secondary4">
@@ -144,11 +144,15 @@ function PesananSaya({ onNavigate, onLogout }) {
               <div className="space-y-5">
                 {filteredOrders.length > 0 ? (
                   filteredOrders.map((order) => (
-                    <OrderCard key={order.id} data={order} />
+                    <OrderCard
+                      key={order.id}
+                      data={order}
+                      onDelete={() => onDeleteOrder(order.id)}
+                    />
                   ))
                 ) : (
                   <p className="text-center text-text-dark-secondary">
-                    Tidak ada pesanan dalam kategori ini.
+                    Anda belum memiliki pesanan.
                   </p>
                 )}
               </div>

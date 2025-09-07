@@ -120,7 +120,6 @@ function Beranda({ isLoggedIn, onNavigate, onLogout }) {
       <main className="container mx-auto max-w-screen-xl px-6 py-10 space-y-16">
         <Hero />
 
-        {/* --- BAGIAN KOLEKSI VIDEO DENGAN JUDUL BARU --- */}
         <section className="space-y-6">
           <div className="text-center md:text-left">
             <h2 className="text-3xl font-bold font-poppins text-text-dark-primary">
@@ -142,7 +141,7 @@ function Beranda({ isLoggedIn, onNavigate, onLogout }) {
               <CourseCard
                 key={`${course.id}-${index}`}
                 data={course}
-                onClick={() => onNavigate("detailproduk")}
+                onClick={() => onNavigate("detailproduk", course)}
               />
             ))}
           </div>

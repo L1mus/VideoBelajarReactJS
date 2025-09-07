@@ -6,7 +6,7 @@ import Button from "../components/Button/Button";
 import iconGoogle from "/assets/icon/icon-google.png";
 import PhoneNumberInput from "../components/InputFormControl/PhoneNumberInput";
 
-const RegisterPage = ({ onNavigate }) => {
+const RegisterPage = ({ onNavigate, onAddUser }) => {
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -22,6 +22,23 @@ const RegisterPage = ({ onNavigate }) => {
       ...prevData,
       [name]: value,
     }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault(); // Mencegah reload halaman
+
+    // Validasi sederhana (bisa dikembangkan lebih lanjut)
+    if (formData.password !== formData.confirmPassword) {
+      alert("Konfirmasi kata sandi tidak cocok!");
+      return;
+    }
+    if (!formData.fullName || !formData.email || !formData.password) {
+      alert("Harap isi semua kolom yang wajib diisi.");
+      return;
+    }
+
+    // Memanggil fungsi onAddUser dari props dengan membawa data form
+    onAddUser(formData);
   };
 
   const genderOptions = [
@@ -94,7 +111,7 @@ const RegisterPage = ({ onNavigate }) => {
                 <Button
                   variant="primary"
                   className="w-full"
-                  onClick={(e) => e.preventDefault()}
+                  onClick={handleSubmit}
                 >
                   Daftar
                 </Button>

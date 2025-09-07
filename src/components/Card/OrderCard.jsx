@@ -1,4 +1,5 @@
 import Chip from "../Button/Chip";
+import Button from "../Button/Button";
 
 const statusStyles = {
   Berhasil: { variant: "success", style: "light" },
@@ -7,7 +8,7 @@ const statusStyles = {
   Menunggu: { variant: "info", style: "light" },
 };
 
-function OrderCard({ data }) {
+function OrderCard({ data, onDelete }) {
   const { invoice, date, title, price, status, image } = data;
   const chipProps = statusStyles[status] || {
     variant: "primary",
@@ -36,7 +37,6 @@ function OrderCard({ data }) {
 
       {/* Body */}
       <div className="p-4 border-t border-b border-other-border">
-        {/* Top section for Image, Title, and Desktop Price */}
         <div className="flex items-start">
           <img
             src={image}
@@ -48,7 +48,6 @@ function OrderCard({ data }) {
               {title}
             </h3>
           </div>
-          {/* Desktop-only Price, Divider, and Container */}
           <div className="ml-6 pl-6 border-l border-other-border w-32 flex-shrink-0 hidden md:block">
             <p className="text-sm text-text-dark-secondary text-left">Harga</p>
             <p className="font-bold text-text-dark-primary text-lg text-left">
@@ -57,7 +56,7 @@ function OrderCard({ data }) {
           </div>
         </div>
 
-        {/* Mobile-only Price */}
+        {/* Mobile */}
         <div className="mt-4 md:hidden">
           <p className="text-sm text-text-dark-secondary">Harga</p>
           <p className="font-bold text-text-dark-primary text-lg">Rp {price}</p>
@@ -66,10 +65,15 @@ function OrderCard({ data }) {
 
       {/* Footer */}
       <div className="flex flex-grow justify-between items-center p-4">
-        <p className="text-sm font-medium text-text-dark-primary leading-tight">
-          Total Pembayaran
-        </p>
-        <p className="text-lg font-bold text-green-600">Rp {price}</p>
+        <div>
+          <p className="text-sm font-medium text-text-dark-primary leading-tight">
+            Total Pembayaran
+          </p>
+          <p className="text-lg font-bold text-green-600">Rp {price}</p>
+        </div>
+        <Button variant="tertiary" onClick={onDelete}>
+          Batalkan
+        </Button>
       </div>
     </div>
   );

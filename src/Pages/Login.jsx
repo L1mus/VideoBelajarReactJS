@@ -18,6 +18,11 @@ const LoginPage = ({ onNavigate, onLogin }) => {
     }));
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onLogin(formData);
+  };
+
   return (
     <div>
       <Navbar />
@@ -52,7 +57,7 @@ const LoginPage = ({ onNavigate, onLogin }) => {
               </a>
             </div>
             <div className="flex flex-col gap-3 pt-3">
-              <Button variant="primary" onClick={onLogin}>
+              <Button variant="primary" onClick={handleSubmit}>
                 Masuk
               </Button>
               <Button variant="primary1" onClick={() => onNavigate("register")}>

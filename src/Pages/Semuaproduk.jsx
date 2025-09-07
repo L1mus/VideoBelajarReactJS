@@ -247,7 +247,7 @@ function SemuaProduk({ isLoggedIn, onNavigate, onLogout }) {
                   <CourseCard
                     key={`${course.id}-${index}`}
                     data={course}
-                    onClick={() => onNavigate("detailproduk")}
+                    onClick={() => onNavigate("detailproduk", course)}
                   />
                 ))}
               </div>

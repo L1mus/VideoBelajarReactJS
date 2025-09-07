@@ -13,22 +13,14 @@ import iconStar from "/assets/icon/icon-star.png";
 import iconStarEmpty from "/assets/icon/icon-star2.png";
 import heroImage from "/assets/images/cover4.png";
 
-import iconUjian from "/assets/icon/icon-checktask.png";
-import iconVideo from "/assets/icon/icon-video.png";
-import iconDokumen from "/assets/icon/icon-notebook.png";
-import iconCertificate from "/assets/icon/icon-certificate.png";
-import iconPretest from "/assets/icon/icon-edittask.png";
-import iconWorld from "/assets/icon/icon-world.png";
 import iconPlay2 from "/assets/icon/icon-play2.png";
 
-const PurchaseCard = ({ course, onNavigate }) => {
-  // menampilkan harga dalam format 'K'
+const PurchaseCard = ({ course, onBuatPesanan }) => {
   const formatPriceK = (value) => {
     if (value === 0) return "Gratis";
     return `Rp ${value / 1000}K`;
   };
 
-  // menghitung diskon
   const discount = course.originalPrice
     ? Math.round(
         ((course.originalPrice - course.price) / course.originalPrice) * 100
@@ -57,34 +49,26 @@ const PurchaseCard = ({ course, onNavigate }) => {
           </Chip>
         )}
       </div>
-
       <p className="text-sm text-info-default font-semibold mb-4 cursor-pointer hover:underline">
         {course.offerText}
       </p>
-
-      <Button
-        variant="primary"
-        className="w-full"
-        onClick={() => onNavigate("metodepembayaran")}
-      >
+      <Button variant="primary" className="w-full" onClick={onBuatPesanan}>
         Beli Sekarang
       </Button>
-
       <hr className="my-5 border-other-border" />
-
       <h4 className="font-bold mb-3 text-text-dark-primary">
         Kelas Ini Sudah Termasuk
       </h4>
       <div className="grid grid-cols-2 gap-y-2 text-sm text-text-dark-secondary">
-        {course.includes.map((item, index) => (
-          <div key={index} className="flex items-center gap-2">
-            <img src={item.icon} alt="" className="w-4 h-4" /> {item.text}
-          </div>
-        ))}
+        {(course.includes || []).map((item, index) =>
+          item && item.icon && item.text ? (
+            <div key={index} className="flex items-center gap-2">
+              <img src={item.icon} alt="" className="w-4 h-4" /> {item.text}
+            </div>
+          ) : null
+        )}
       </div>
-
       <hr className="my-5 border-other-border" />
-
       <h4 className="font-bold mb-3 text-text-dark-primary">
         Bahasa Pengantar
       </h4>
@@ -168,24 +152,10 @@ const CourseModuleItem = ({ title, type, duration }) => (
   </div>
 );
 
-function DetailProdukPage({ onNavigate, isLoggedIn }) {
-  // Data dummy
-  const currentCourse = {
-    title:
-      "Gapai Karier Impianmu sebagai Seorang UI/UX Designer & Product Manager.",
-    price: 250000,
-    originalPrice: 500000,
-    offerText: "Penawaran spesial tersisa 2 hari lagi!",
-    includes: [
-      { icon: iconUjian, text: "Ujian Akhir" },
-      { icon: iconVideo, text: "49 Video" },
-      { icon: iconDokumen, text: "7 Dokumen" },
-      { icon: iconCertificate, text: "Sertifikat" },
-      { icon: iconPretest, text: "Pretest" },
-    ],
-    language: { icon: iconWorld, text: "Bahasa Indonesia" },
-  };
-
+function DetailProdukPage({ onNavigate, isLoggedIn, course, onBuatPesanan }) {
+  if (!course) {
+    return <div>Memuat data kursus...</div>;
+  }
   const NavLinks = () => (
     <a
       href="#"
@@ -227,24 +197,20 @@ function DetailProdukPage({ onNavigate, isLoggedIn }) {
         }
         mobileMenu={<NavLinks />}
       />
-
       <main className="container mx-auto px-6 py-8">
         <p className="text-sm text-text-dark-secondary mb-4">
-          Beranda &gt; Desain &gt;{" "}
+          Beranda &gt; {course.category} &gt;
           <span className="text-text-dark-primary">
-            Gapai Karier Impianmu...
+            {course.title.substring(0, 20)}...
           </span>
         </p>
-
         <section
           className="py-12 px-8 text-text-light-primary rounded-lg relative overflow-hidden bg-cover bg-center"
           style={{ backgroundImage: `url(${heroImage})` }}
         >
           <div className="absolute inset-0 bg-black opacity-60"></div>
           <div className="relative z-10 max-w-3xl">
-            <h1 className="text-4xl font-bold leading-tight">
-              {currentCourse.title}
-            </h1>
+            <h1 className="text-4xl font-bold leading-tight">{course.title}</h1>
             <p className="mt-2 text-otheborder-other-border">
               Ikuti jejak para expert di bidang UI/UX Design & Product
               Management bersama tutor profesional di Video Course.
@@ -254,12 +220,10 @@ function DetailProdukPage({ onNavigate, isLoggedIn }) {
             </div>
           </div>
         </section>
-
         <div className="flex flex-col lg:flex-row gap-8 mt-8 items-start">
           <div className="w-full lg:w-auto order-1 lg:order-2">
-            <PurchaseCard course={currentCourse} onNavigate={onNavigate} />
+            <PurchaseCard course={course} onBuatPesanan={onBuatPesanan} />
           </div>
-
           <div className="w-full lg:flex-grow space-y-8 order-2 lg:order-1">
             <div className="bg-other-primary-background p-6 rounded-lg shadow-sm">
               <h2 className="text-2xl font-bold font-poppins mb-3">
@@ -276,7 +240,6 @@ function DetailProdukPage({ onNavigate, isLoggedIn }) {
                 diakses.
               </p>
             </div>
-
             <div className="bg-other-primary-background p-6 rounded-lg shadow-sm">
               <h2 className="text-2xl font-bold font-poppins mb-4">
                 Belajar bersama Tutor Profesional
@@ -296,7 +259,6 @@ function DetailProdukPage({ onNavigate, isLoggedIn }) {
                 />
               </div>
             </div>
-
             <div className="bg-other-primary-background p-6 rounded-lg shadow-sm">
               <h2 className="text-2xl font-bold font-poppins mb-2">
                 Kamu akan Mempelajari
@@ -323,11 +285,8 @@ function DetailProdukPage({ onNavigate, isLoggedIn }) {
                   duration="12 Menit"
                 />
               </Accordion>
-              <Accordion title="Universal design, inclusive design, and equity-focused design">
-                {/* Konten bisa ditambahkan di sini */}
-              </Accordion>
+              <Accordion title="Universal design, inclusive design, and equity-focused design"></Accordion>
             </div>
-
             <div className="bg-other-primary-background p-6 rounded-lg shadow-sm">
               <h2 className="text-2xl font-bold font-poppins mb-4">
                 Rating dan Review
@@ -349,7 +308,6 @@ function DetailProdukPage({ onNavigate, isLoggedIn }) {
                 />
               </div>
             </div>
-
             <div>
               <h2 className="text-2xl font-bold font-poppins mb-4">
                 Video Pembelajaran Terkait Lainnya
@@ -367,7 +325,6 @@ function DetailProdukPage({ onNavigate, isLoggedIn }) {
           </div>
         </div>
       </main>
-
       <Footer />
     </div>
   );
