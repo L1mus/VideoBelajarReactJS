@@ -5,30 +5,23 @@
       "image": "/assets/images/cover1.png",
       "title": "Big 4 Auditor Financial Analyst",
       "description": "Mulai transformasi dengan instruktur profesional, harga terjangkau, kurikulum terbaik, dan langsung dari praktisi.",
-      "author": {
-        "avatar": "/assets/images/avatar1.png",
-        "name": "Jenna Ortega",
-        "role": "Senior Accountant"
-      },
+      "authorId": 1,
       "rating": 3.5,
       "reviews": 86,
       "price": 300000,
+      "originalPrice": null,
       "category": "Bisnis",
       "duration": 5,
       "tutorIds": [101, 102],
       "reviewIds": [201, 202],
-      "relatedCourseIds": [2, 3]
+      "relatedCourseIds": [2, 3, 4, 5, 6]
     },
     {
       "id": 2,
       "image": "/assets/images/cover2.png",
       "title": "Digital Marketing Strategy",
       "description": "Pelajari strategi pemasaran digital terbaru dari para ahli di industri.",
-      "author": {
-        "avatar": "/assets/images/avatar2.png",
-        "name": "Mark Johnson",
-        "role": "Digital Marketer"
-      },
+      "authorId": 2,
       "rating": 4.8,
       "reviews": 150,
       "price": 100000,
@@ -37,48 +30,111 @@
       "duration": 10,
       "tutorIds": [101],
       "reviewIds": [],
-      "relatedCourseIds": [1, 3]
+      "relatedCourseIds": [1, 3, 4, 5, 6]
     },
     {
       "id": 3,
       "image": "/assets/images/cover3.png",
       "title": "Web Development Bootcamp",
       "description": "Kuasai web development dari dasar hingga mahir dalam bootcamp ini.",
-      "author": {
-        "avatar": "/assets/images/avatar3.png",
-        "name": "Alex Lee",
-        "role": "Full-Stack Developer"
-      },
+      "authorId": 3,
       "rating": 4.9,
       "reviews": 230,
       "price": 300000,
+      "originalPrice": null,
       "category": "Digital & Teknologi",
       "duration": 3,
       "tutorIds": [102],
       "reviewIds": [201],
-      "relatedCourseIds": [1, 2]
+      "relatedCourseIds": [1, 2, 4, 5, 6]
+    },
+    {
+      "id": 4,
+      "image": "/assets/images/cover4.png",
+      "title": "Public Speaking Mastery",
+      "description": "Tingkatkan kepercayaan diri dan kemampuan berbicaramu di depan umum.",
+      "authorId": 4,
+      "rating": 4.7,
+      "reviews": 95,
+      "price": 100000,
+      "originalPrice": 500000,
+      "category": "Pengembangan Diri",
+      "duration": 6,
+      "tutorIds": [101, 102],
+      "reviewIds": [],
+      "relatedCourseIds": [1, 2, 3, 5, 6]
+    },
+    {
+      "id": 5,
+      "image": "/assets/images/cover5.png",
+      "title": "Advanced UI/UX Design",
+      "description": "Dalam kursus ini, Anda akan mempelajari prinsip-prinsip desain UI/UX.",
+      "authorId": 5,
+      "rating": 4.6,
+      "reviews": 180,
+      "price": 300000,
+      "originalPrice": null,
+      "category": "Desain",
+      "duration": 12,
+      "tutorIds": [101],
+      "reviewIds": [202],
+      "relatedCourseIds": [1, 2, 3, 4, 6]
+    },
+    {
+      "id": 6,
+      "image": "/assets/images/cover6.png",
+      "title": "Startup Business Management",
+      "description": "Pelajari cara membangun dan mengelola bisnis startup dari awal.",
+      "authorId": 6,
+      "rating": 4.8,
+      "reviews": 210,
+      "price": 100000,
+      "originalPrice": 500000,
+      "category": "Bisnis",
+      "duration": 7,
+      "tutorIds": [102],
+      "reviewIds": [201, 202],
+      "relatedCourseIds": [1, 2, 3, 4, 5]
     }
   ],
-  "myCourses": [
+  "authors": [
     {
       "id": 1,
-      "status": "Selesai",
-      "progressModules": 12,
-      "totalModules": 12,
-      "image": "/assets/images/cover6.png",
-      "title": "Big 4 Auditor Financial Analyst",
-      "description": "Mulai transformasi dengan instruktur profesional, harga yang terjangkau, dan kurikulum terbaik.",
-      "author": {
-        "avatar": "/assets/images/avatar2.png",
-        "name": "Jenna Ortega",
-        "role": "Senior Accountant di Gojek"
-      },
-      "moduleCount": 12,
-      "duration": 360,
-      "progressPercent": 100
+      "name": "Jenna Ortega",
+      "avatar": "/assets/images/avatar1.png",
+      "role": "Senior Accountant"
+    },
+    {
+      "id": 2,
+      "name": "Mark Johnson",
+      "avatar": "/assets/images/avatar2.png",
+      "role": "Digital Marketer"
+    },
+    {
+      "id": 3,
+      "name": "Alex Lee",
+      "avatar": "/assets/images/avatar3.png",
+      "role": "Full-Stack Developer"
+    },
+    {
+      "id": 4,
+      "name": "Sarah Chen",
+      "avatar": "/assets/images/avatar4.png",
+      "role": "Communication Coach"
+    },
+    {
+      "id": 5,
+      "name": "David Kim",
+      "avatar": "/assets/images/avatar5.png",
+      "role": "Senior UI/UX Designer"
+    },
+    {
+      "id": 6,
+      "name": "Emily White",
+      "avatar": "/assets/images/avatar6.png",
+      "role": "Entrepreneur"
     }
   ],
-  "users": [],
   "tutors": [
     {
       "id": 101,
@@ -111,6 +167,49 @@
       "subtitle": "Alumni Batch 4",
       "description": "Penjelasan dari tutor sangat mudah dipahami, bahkan untuk pemula seperti saya. Sangat direkomendasikan!",
       "rating": 5
+    }
+  ],
+  "users": [],
+  "orders": [],
+  "myCourses": [
+    {
+      "id": 1,
+      "status": "Selesai",
+      "progressModules": 12,
+      "totalModules": 12,
+      "image": "/assets/images/cover6.png",
+      "title": "Big 4 Auditor Financial Analyst",
+      "description": "Mulai transformasi dengan instruktur profesional, harga yang terjangkau, dan kurikulum terbaik.",
+      "authorId": 1,
+      "moduleCount": 12,
+      "duration": 360,
+      "progressPercent": 100
+    },
+    {
+      "id": 2,
+      "status": "Sedang Berjalan",
+      "progressModules": 2,
+      "totalModules": 12,
+      "image": "/assets/images/cover2.png",
+      "title": "Digital Marketing Strategy",
+      "description": "Mulai transformasi dengan instruktur profesional, harga yang terjangkau, dan kurikulum terbaik.",
+      "authorId": 2,
+      "moduleCount": 12,
+      "duration": 360,
+      "progressPercent": 28
+    },
+    {
+      "id": 3,
+      "status": "Sedang Berjalan",
+      "progressModules": 5,
+      "totalModules": 15,
+      "image": "/assets/images/cover4.png",
+      "title": "Public Speaking Mastery",
+      "description": "Mulai transformasi dengan instruktur profesional, harga yang terjangkau, dan kurikulum terbaik.",
+      "authorId": 4,
+      "moduleCount": 15,
+      "duration": 450,
+      "progressPercent": 33
     }
   ],
   "paymentMethods": [
@@ -177,18 +276,6 @@
           "Konfirmasi dengan PIN OVO."
         ]
       }
-    }
-  ],
-  "orders": [
-    {
-      "id": 1,
-      "userId": 1,
-      "invoice": "INV/20230610/001",
-      "date": "10 Juni 2023, 14.17",
-      "title": "Belajar Microsoft Office dan Google Workspace untuk Pemula",
-      "price": "300.000",
-      "status": "Berhasil",
-      "image": "/assets/images/cover1.png"
     }
   ]
 }
