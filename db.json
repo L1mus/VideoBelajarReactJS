@@ -1,0 +1,194 @@
+{
+  "courses": [
+    {
+      "id": 1,
+      "image": "/assets/images/cover1.png",
+      "title": "Big 4 Auditor Financial Analyst",
+      "description": "Mulai transformasi dengan instruktur profesional, harga terjangkau, kurikulum terbaik, dan langsung dari praktisi.",
+      "author": {
+        "avatar": "/assets/images/avatar1.png",
+        "name": "Jenna Ortega",
+        "role": "Senior Accountant"
+      },
+      "rating": 3.5,
+      "reviews": 86,
+      "price": 300000,
+      "category": "Bisnis",
+      "duration": 5,
+      "tutorIds": [101, 102],
+      "reviewIds": [201, 202],
+      "relatedCourseIds": [2, 3]
+    },
+    {
+      "id": 2,
+      "image": "/assets/images/cover2.png",
+      "title": "Digital Marketing Strategy",
+      "description": "Pelajari strategi pemasaran digital terbaru dari para ahli di industri.",
+      "author": {
+        "avatar": "/assets/images/avatar2.png",
+        "name": "Mark Johnson",
+        "role": "Digital Marketer"
+      },
+      "rating": 4.8,
+      "reviews": 150,
+      "price": 100000,
+      "originalPrice": 500000,
+      "category": "Pemasaran",
+      "duration": 10,
+      "tutorIds": [101],
+      "reviewIds": [],
+      "relatedCourseIds": [1, 3]
+    },
+    {
+      "id": 3,
+      "image": "/assets/images/cover3.png",
+      "title": "Web Development Bootcamp",
+      "description": "Kuasai web development dari dasar hingga mahir dalam bootcamp ini.",
+      "author": {
+        "avatar": "/assets/images/avatar3.png",
+        "name": "Alex Lee",
+        "role": "Full-Stack Developer"
+      },
+      "rating": 4.9,
+      "reviews": 230,
+      "price": 300000,
+      "category": "Digital & Teknologi",
+      "duration": 3,
+      "tutorIds": [102],
+      "reviewIds": [201],
+      "relatedCourseIds": [1, 2]
+    }
+  ],
+  "myCourses": [
+    {
+      "id": 1,
+      "status": "Selesai",
+      "progressModules": 12,
+      "totalModules": 12,
+      "image": "/assets/images/cover6.png",
+      "title": "Big 4 Auditor Financial Analyst",
+      "description": "Mulai transformasi dengan instruktur profesional, harga yang terjangkau, dan kurikulum terbaik.",
+      "author": {
+        "avatar": "/assets/images/avatar2.png",
+        "name": "Jenna Ortega",
+        "role": "Senior Accountant di Gojek"
+      },
+      "moduleCount": 12,
+      "duration": 360,
+      "progressPercent": 100
+    }
+  ],
+  "users": [],
+  "tutors": [
+    {
+      "id": 101,
+      "name": "Gregorius Edrik Lawanto",
+      "avatar": "/assets/images/avatar5.png",
+      "subtitle": "Senior Talent Acquisition di WingsGroup",
+      "description": "Berkarier di bidang HR selama lebih dari 3 tahun. Saat ini bekerja sebagai Senior Talent Acquisition Specialist di Wings Group Indonesia."
+    },
+    {
+      "id": 102,
+      "name": "Olivia Wilson",
+      "avatar": "/assets/images/avatar4.png",
+      "subtitle": "Product Manager di TechCorp",
+      "description": "Memiliki pengalaman 5 tahun dalam manajemen produk, berfokus pada pengembangan produk digital yang berpusat pada pengguna."
+    }
+  ],
+  "reviews": [
+    {
+      "id": 201,
+      "name": "Ahmad Subarjo",
+      "avatar": "/assets/images/avatar3.png",
+      "subtitle": "Alumni Batch 2",
+      "description": "Materi yang disampaikan sangat relevan dengan industri saat ini. Sangat membantu saya dalam mendapatkan pekerjaan baru.",
+      "rating": 4.5
+    },
+    {
+      "id": 202,
+      "name": "Siti Aminah",
+      "avatar": "/assets/images/avatar2.png",
+      "subtitle": "Alumni Batch 4",
+      "description": "Penjelasan dari tutor sangat mudah dipahami, bahkan untuk pemula seperti saya. Sangat direkomendasikan!",
+      "rating": 5
+    }
+  ],
+  "paymentMethods": [
+    {
+      "id": "bca",
+      "name": "Bank BCA",
+      "va": "11739 081234567890",
+      "icon": "/assets/images/bca.png",
+      "type": "bank",
+      "instructions": {
+        "atm": [
+          "Masukkan kartu ATM dan PIN BCA Anda.",
+          "Di menu utama, pilih 'Transaksi Lainnya'.",
+          "Pilih 'Transfer', lalu pilih 'Ke BCA Virtual Account'.",
+          "Masukkan nomor Virtual Account.",
+          "Pastikan data Virtual Account Anda benar, kemudian masukkan angka yang perlu Anda bayarkan, kemudian pilih 'Benar'.",
+          "Transaksi Anda sudah selesai."
+        ],
+        "mobile": [
+          "Buka Aplikasi BCA Mobile.",
+          "Pilih 'm-Transfer', kemudian pilih 'BCA Virtual Account'.",
+          "Masukkan nomor Virtual Account, lalu pilih 'OK'.",
+          "Masukkan PIN Anda untuk mengotorisasi transaksi."
+        ]
+      }
+    },
+    {
+      "id": "bni",
+      "name": "Bank BNI",
+      "va": "88739 081234567891",
+      "icon": "/assets/images/bni.png",
+      "type": "bank",
+      "instructions": {
+        "atm": ["Instruksi ATM BNI..."],
+        "mobile": ["Instruksi Mobile Banking BNI..."]
+      }
+    },
+    {
+      "id": "dana",
+      "name": "Dana",
+      "va": "081234567892",
+      "icon": "/assets/images/dana.png",
+      "type": "ewallet",
+      "instructions": {
+        "ewallet": [
+          "Buka aplikasi Dana Anda.",
+          "Pilih 'Kirim & Bayar'.",
+          "Masukkan nomor Virtual Account dan jumlah pembayaran.",
+          "Konfirmasi pembayaran."
+        ]
+      }
+    },
+    {
+      "id": "ovo",
+      "name": "OVO",
+      "va": "081234567893",
+      "icon": "/assets/images/ovo.png",
+      "type": "ewallet",
+      "instructions": {
+        "ewallet": [
+          "Buka aplikasi OVO.",
+          "Pilih 'Transfer'.",
+          "Masukkan nomor Virtual Account dan jumlah.",
+          "Konfirmasi dengan PIN OVO."
+        ]
+      }
+    }
+  ],
+  "orders": [
+    {
+      "id": 1,
+      "userId": 1,
+      "invoice": "INV/20230610/001",
+      "date": "10 Juni 2023, 14.17",
+      "title": "Belajar Microsoft Office dan Google Workspace untuk Pemula",
+      "price": "300.000",
+      "status": "Berhasil",
+      "image": "/assets/images/cover1.png"
+    }
+  ]
+}
