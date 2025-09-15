@@ -131,14 +131,14 @@ function HalamanBayar({ onNavigate, selectedMethodId = "bca" }) {
                 <Button
                   variant="primary1"
                   className="w-full"
-                  onClick={() => onNavigate("ubahmetode")}
+                  onClick={() => onNavigate("/ubahmetode")}
                 >
                   Ganti Metode Pembayaran
                 </Button>
                 <Button
                   variant="primary"
                   className="w-full"
-                  onClick={() => onNavigate("infopayment")}
+                  onClick={() => onNavigate("/infopayment")}
                 >
                   Bayar Sekarang
                 </Button>

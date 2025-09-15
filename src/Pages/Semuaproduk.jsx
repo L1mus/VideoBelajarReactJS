@@ -97,7 +97,7 @@ function SemuaProduk({ isLoggedIn, onNavigate, onLogout }) {
   const NavLinks = () => (
     <a
       href="#"
-      onClick={() => onNavigate("semuaproduk")}
+      onClick={() => onNavigate("/semuaproduk")}
       className="text-gray-600 hover:text-primary py-2 font-semibold"
     >
       Kategori
@@ -112,7 +112,7 @@ function SemuaProduk({ isLoggedIn, onNavigate, onLogout }) {
   return (
     <div className="bg-main-secondary4 min-h-screen">
       <Navbar
-        onLogoClick={() => onNavigate("beranda")}
+        onLogoClick={() => onNavigate("/")}
         desktopContent={
           isLoggedIn ? (
             <>
@@ -124,13 +124,13 @@ function SemuaProduk({ isLoggedIn, onNavigate, onLogout }) {
                   </button>
                 }
               >
-                <DropdownItem onClick={() => onNavigate("profil")}>
+                <DropdownItem onClick={() => onNavigate("/profil")}>
                   Profil Saya
                 </DropdownItem>
-                <DropdownItem onClick={() => onNavigate("kelas")}>
+                <DropdownItem onClick={() => onNavigate("/kelas")}>
                   Kelas Saya
                 </DropdownItem>
-                <DropdownItem onClick={() => onNavigate("pesanan")}>
+                <DropdownItem onClick={() => onNavigate("/pesanan")}>
                   Pesanan Saya
                 </DropdownItem>
                 <div className="my-1 border-t border-gray-200" />
@@ -145,12 +145,12 @@ function SemuaProduk({ isLoggedIn, onNavigate, onLogout }) {
             <>
               <NavLinks />
               <div className="flex items-center space-x-2">
-                <Button variant="primary" onClick={() => onNavigate("login")}>
+                <Button variant="primary" onClick={() => onNavigate("/login")}>
                   Masuk
                 </Button>
                 <Button
                   variant="primary1"
-                  onClick={() => onNavigate("register")}
+                  onClick={() => onNavigate("/register")}
                 >
                   Daftar
                 </Button>
@@ -166,14 +166,14 @@ function SemuaProduk({ isLoggedIn, onNavigate, onLogout }) {
                 <Button
                   variant="primary"
                   className="w-full"
-                  onClick={() => onNavigate("login")}
+                  onClick={() => onNavigate("/login")}
                 >
                   Masuk
                 </Button>
                 <Button
                   variant="primary1"
                   className="w-full"
-                  onClick={() => onNavigate("register")}
+                  onClick={() => onNavigate("/register")}
                 >
                   Daftar
                 </Button>

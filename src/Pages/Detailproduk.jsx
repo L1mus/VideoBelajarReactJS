@@ -188,7 +188,7 @@ function DetailProdukPage({ onNavigate, isLoggedIn, course, onBuatPesanan }) {
   const NavLinks = () => (
     <a
       href="#"
-      onClick={() => onNavigate("semuaproduk")}
+      onClick={() => onNavigate("/semuaproduk")}
       className="text-text-dark-secondary hover:text-primary py-2"
     >
       Kategori
@@ -211,12 +211,12 @@ function DetailProdukPage({ onNavigate, isLoggedIn, course, onBuatPesanan }) {
             <>
               <NavLinks />
               <div className="flex items-center space-x-2">
-                <Button variant="primary" onClick={() => onNavigate("login")}>
+                <Button variant="primary" onClick={() => onNavigate("/login")}>
                   Login
                 </Button>
                 <Button
                   variant="primary1"
-                  onClick={() => onNavigate("register")}
+                  onClick={() => onNavigate("/register")}
                 >
                   Register
                 </Button>

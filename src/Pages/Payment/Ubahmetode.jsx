@@ -67,7 +67,7 @@ function UbahMetode({ onNavigate, selectedMethodId, onMethodChange }) {
     if (!selectedMethodId) {
       alert("Silakan pilih metode pembayaran terlebih dahulu.");
     } else {
-      onNavigate("bayar");
+      onNavigate("/bayar");
     }
   };
 

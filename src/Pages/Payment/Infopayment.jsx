@@ -20,7 +20,7 @@ const InfoCard = ({ status, onNavigate }) => {
       <img src={image} alt={title} className="w-64 h-auto mx-auto mb-6" />
       <h1 className="text-3xl font-bold font-poppins mb-3">{title}</h1>
       <p className="text-text-dark-secondary mb-8">{message}</p>
-      <Button variant="primary" onClick={() => onNavigate("pesanan")}>
+      <Button variant="primary" onClick={() => onNavigate("/pesanan")}>
         Lihat Detail Pesanan
       </Button>
     </div>

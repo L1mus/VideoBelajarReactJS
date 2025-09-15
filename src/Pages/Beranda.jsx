@@ -20,7 +20,7 @@ function Beranda({ isLoggedIn, onNavigate, onLogout }) {
   const NavLinks = () => (
     <a
       href="#"
-      onClick={() => onNavigate("semuaproduk")}
+      onClick={() => onNavigate("/semuaproduk")}
       className="text-text-dark-secondary hover:text-primary py-2"
     >
       Kategori
@@ -43,7 +43,7 @@ function Beranda({ isLoggedIn, onNavigate, onLogout }) {
   return (
     <div className="bg-main-secondary4">
       <Navbar
-        onLogoClick={() => onNavigate("beranda")}
+        onLogoClick={() => onNavigate("/")}
         desktopContent={
           isLoggedIn ? (
             <>
@@ -55,13 +55,13 @@ function Beranda({ isLoggedIn, onNavigate, onLogout }) {
                   </button>
                 }
               >
-                <DropdownItem onClick={() => onNavigate("profil")}>
+                <DropdownItem onClick={() => onNavigate("/profil")}>
                   Profil Saya
                 </DropdownItem>
-                <DropdownItem onClick={() => onNavigate("kelas")}>
+                <DropdownItem onClick={() => onNavigate("/kelas")}>
                   Kelas Saya
                 </DropdownItem>
-                <DropdownItem onClick={() => onNavigate("pesanan")}>
+                <DropdownItem onClick={() => onNavigate("/pesanan")}>
                   Pesanan Saya
                 </DropdownItem>
                 <div className="my-1 border-t border-other-border" />
@@ -81,7 +81,7 @@ function Beranda({ isLoggedIn, onNavigate, onLogout }) {
                 </Button>
                 <Button
                   variant="primary1"
-                  onClick={() => onNavigate("register")}
+                  onClick={() => onNavigate("/register")}
                 >
                   Register
                 </Button>
@@ -99,14 +99,14 @@ function Beranda({ isLoggedIn, onNavigate, onLogout }) {
                 <Button
                   variant="primary"
                   className="w-full"
-                  onClick={() => onNavigate("login")}
+                  onClick={() => onNavigate("/login")}
                 >
                   Login
                 </Button>
                 <Button
                   variant="primary1"
                   className="w-full"
-                  onClick={() => onNavigate("register")}
+                  onClick={() => onNavigate("/register")}
                 >
                   Register
                 </Button>

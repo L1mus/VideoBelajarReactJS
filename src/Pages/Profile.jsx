@@ -69,7 +69,7 @@ function ProfilSaya({
   const NavLinks = () => (
     <a
       href="#"
-      onClick={() => onNavigate("semuaproduk")}
+      onClick={() => onNavigate("/semuaproduk")}
       className="text-text-dark-secondary hover:text-primary py-2 font-semibold"
     >
       Kategori
@@ -83,7 +83,7 @@ function ProfilSaya({
   return (
     <div className="bg-main-secondary4">
       <Navbar
-        onLogoClick={() => onNavigate("beranda")}
+        onLogoClick={() => onNavigate("/")}
         desktopContent={
           <>
             <NavLinks />
@@ -94,13 +94,13 @@ function ProfilSaya({
                 </button>
               }
             >
-              <DropdownItem onClick={() => onNavigate("profil")}>
+              <DropdownItem onClick={() => onNavigate("/profil")}>
                 Profil Saya
               </DropdownItem>
-              <DropdownItem onClick={() => onNavigate("kelas")}>
+              <DropdownItem onClick={() => onNavigate("/kelas")}>
                 Kelas Saya
               </DropdownItem>
-              <DropdownItem onClick={() => onNavigate("pesanan")}>
+              <DropdownItem onClick={() => onNavigate("/pesanan")}>
                 Pesanan Saya
               </DropdownItem>
               <div className="my-1 border-t border-other-border" />

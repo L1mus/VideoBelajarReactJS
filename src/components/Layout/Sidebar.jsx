@@ -28,13 +28,13 @@ function Sidebar({ activeTab, onNavigate }) {
         </SidebarLink>
         <SidebarLink
           active={activeTab === "Kelas Saya"}
-          onClick={() => onNavigate("kelas")}
+          onClick={() => onNavigate("/kelas")}
         >
           <IconClass className="w-5 h-5" /> <span>Kelas Saya</span>
         </SidebarLink>
         <SidebarLink
           active={activeTab === "Pesanan Saya"}
-          onClick={() => onNavigate("pesanan")}
+          onClick={() => onNavigate("/pesanan")}
         >
           <IconOrder className="w-5 h-5" /> <span>Pesanan Saya</span>
         </SidebarLink>

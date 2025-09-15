@@ -60,7 +60,10 @@ const LoginPage = ({ onNavigate, onLogin }) => {
               <Button variant="primary" onClick={handleSubmit}>
                 Masuk
               </Button>
-              <Button variant="primary1" onClick={() => onNavigate("register")}>
+              <Button
+                variant="primary1"
+                onClick={() => onNavigate("/register")}
+              >
                 Daftar
               </Button>
               <div className="text-center text-text-dark-secondary">atau</div>

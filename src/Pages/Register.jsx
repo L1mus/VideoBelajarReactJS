@@ -116,7 +116,7 @@ const RegisterPage = ({ onNavigate, onAddUser }) => {
                 <Button
                   variant="primary1"
                   className="w-full"
-                  onClick={() => onNavigate("login")}
+                  onClick={() => onNavigate("/login")}
                 >
                   Masuk
                 </Button>
