@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { UserContext } from "../context/UserContext";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Avatar from "../components/Avatar";
@@ -13,13 +14,9 @@ import PhoneNumberInput from "../components/InputFormControl/PhoneNumberInput";
 import userAvatar from "/assets/images/avatar.png";
 import iconLogout from "/assets/icon/icon-logout.png";
 
-function ProfilSaya({
-  onNavigate,
-  onLogout,
-  currentUser,
-  onUpdateUser,
-  onDeleteUser,
-}) {
+function ProfilSaya({ onNavigate }) {
+  const { currentUser, handleUpdateUser, handleDeleteUser, handleLogout } =
+    useContext(UserContext);
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -50,11 +47,19 @@ function ProfilSaya({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onUpdateUser(formData); // Panggil fungsi update dari props
+    handleUpdateUser(formData);
+    alert("Profil berhasil diperbarui!");
   };
 
   const handleDelete = () => {
-    onDeleteUser(currentUser.id); // Panggil fungsi delete dari props
+    if (
+      window.confirm(
+        "Apakah Anda yakin ingin menghapus akun ini? Aksi ini tidak dapat dibatalkan."
+      )
+    ) {
+      handleDeleteUser(currentUser.id);
+      alert("Akun berhasil dihapus.");
+    }
   };
 
   if (!currentUser) {
@@ -104,7 +109,7 @@ function ProfilSaya({
                 Pesanan Saya
               </DropdownItem>
               <div className="my-1 border-t border-other-border" />
-              <DropdownItem onClick={onLogout}>
+              <DropdownItem onClick={handleLogout}>
                 <div className="flex items-center font-semibold text-error-hover">
                   Keluar <LogoutIcon />
                 </div>

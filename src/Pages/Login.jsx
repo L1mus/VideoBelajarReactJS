@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { UserContext } from "../context/UserContext";
 import Navbar from "../components/Navbar";
 import InputField from "../components/InputFormControl/InputField";
 import Button from "../components/Button/Button";
 import iconGoogle from "/assets/icon/icon-google.png";
 
-const LoginPage = ({ onNavigate, onLogin }) => {
+const LoginPage = ({ onNavigate }) => {
+  const { handleLogin } = useContext(UserContext);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -20,7 +22,12 @@ const LoginPage = ({ onNavigate, onLogin }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onLogin(formData);
+    const isSuccess = handleLogin(formData);
+    if (isSuccess) {
+      onNavigate("/");
+    } else {
+      alert("Email atau kata sandi salah!");
+    }
   };
 
   return (

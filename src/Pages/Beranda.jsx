@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { UserContext } from "../context/UserContext";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import FilterTabs from "../components/Filtertabs";
@@ -13,9 +14,17 @@ import Dropdown from "../components/Dropdown/Dropdownmenu";
 import DropdownItem from "../components/Dropdown/Dropdonwitem";
 import iconLogout from "/assets/icon/icon-logout.png";
 
-function Beranda({ isLoggedIn, onNavigate, onLogout }) {
-  // Menggandakan data kursus untuk mengisi halaman
+function Beranda({ onNavigate }) {
+  const { isLoggedIn, currentUser, handleLogout } = useContext(UserContext);
   const displayCourses = [...courses, ...courses];
+  const [activeCategory, setActiveCategory] = useState("Semua Kelas");
+  const categories = [
+    "Semua Kelas",
+    "Pemasaran",
+    "Desain",
+    "Pengembangan Diri",
+    "Bisnis",
+  ];
 
   const NavLinks = () => (
     <a
@@ -31,27 +40,22 @@ function Beranda({ isLoggedIn, onNavigate, onLogout }) {
     <img src={iconLogout} alt="Logout" className="pl-1 w-5 h-5" />
   );
 
-  const [activeCategory, setActiveCategory] = useState("Semua Kelas");
-  const categories = [
-    "Semua Kelas",
-    "Pemasaran",
-    "Desain",
-    "Pengembangan Diri",
-    "Bisnis",
-  ];
-
   return (
     <div className="bg-main-secondary4">
       <Navbar
         onLogoClick={() => onNavigate("/")}
         desktopContent={
-          isLoggedIn ? (
+          isLoggedIn && currentUser ? (
             <>
               <NavLinks />
               <Dropdown
                 trigger={
                   <button>
-                    <Avatar src={userAvatar} alt="User Avatar" size="md" />
+                    <Avatar
+                      src={currentUser.avatar || userAvatar}
+                      alt={currentUser.fullName || "User Avatar"}
+                      size="md"
+                    />
                   </button>
                 }
               >
@@ -65,7 +69,7 @@ function Beranda({ isLoggedIn, onNavigate, onLogout }) {
                   Pesanan Saya
                 </DropdownItem>
                 <div className="my-1 border-t border-other-border" />
-                <DropdownItem onClick={onLogout}>
+                <DropdownItem onClick={handleLogout}>
                   <div className="flex items-center font-semibold text-error-default">
                     Keluar <LogoutIcon />
                   </div>
@@ -116,7 +120,6 @@ function Beranda({ isLoggedIn, onNavigate, onLogout }) {
         }
       />
 
-      {/* --- PERUBAHAN CONTAINER UTAMA UNTUK RESPONSIVITAS LAYAR LEBAR --- */}
       <main className="container mx-auto max-w-screen-xl px-6 py-10 space-y-16">
         <Hero />
 

@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useContext } from "react";
+import { UserContext } from "../context/UserContext";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Avatar from "../components/Avatar";
@@ -11,7 +12,9 @@ import Sidebar from "../components/Layout/Sidebar";
 import userAvatar from "/assets/images/avatar.png";
 import iconLogout from "/assets/icon/icon-logout.png";
 
-function PesananSaya({ onNavigate, onLogout, currentUser, onDeleteOrder }) {
+function PesananSaya({ onNavigate }) {
+  const { currentUser, handleLogout, handleDeleteOrder } =
+    useContext(UserContext);
   const [activeOrderTab, setActiveOrderTab] = useState("Semua Pesanan");
   const [currentPage, setCurrentPage] = useState(1);
   const [sortOption, setSortOption] = useState(null);
@@ -70,7 +73,7 @@ function PesananSaya({ onNavigate, onLogout, currentUser, onDeleteOrder }) {
                 Pesanan Saya
               </DropdownItem>
               <div className="my-1 border-t border-other-border" />
-              <DropdownItem onClick={onLogout}>
+              <DropdownItem onClick={handleLogout}>
                 <div className="flex items-center font-semibold text-error-hover">
                   Keluar <LogoutIcon />
                 </div>
@@ -147,7 +150,7 @@ function PesananSaya({ onNavigate, onLogout, currentUser, onDeleteOrder }) {
                     <OrderCard
                       key={order.id}
                       data={order}
-                      onDelete={() => onDeleteOrder(order.id)}
+                      onDelete={() => handleDeleteOrder(order.id)}
                     />
                   ))
                 ) : (

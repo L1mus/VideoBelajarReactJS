@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 import Navbar from "../components/Navbar";
 import InputField from "../components/InputFormControl/InputField";
 import SelectField from "../components/InputFormControl/SelectField";
@@ -6,7 +8,10 @@ import Button from "../components/Button/Button";
 import iconGoogle from "/assets/icon/icon-google.png";
 import PhoneNumberInput from "../components/InputFormControl/PhoneNumberInput";
 
-const RegisterPage = ({ onNavigate, onAddUser }) => {
+const RegisterPage = () => {
+  const navigate = useNavigate();
+  const { handleAddUser } = useContext(UserContext);
+
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -35,8 +40,9 @@ const RegisterPage = ({ onNavigate, onAddUser }) => {
       return;
     }
 
-    // fungsi onAddUser dari props
-    onAddUser(formData);
+    handleAddUser(formData);
+    alert("Pendaftaran berhasil! Silakan login.");
+    navigate("/login");
   };
 
   const genderOptions = [
@@ -116,7 +122,7 @@ const RegisterPage = ({ onNavigate, onAddUser }) => {
                 <Button
                   variant="primary1"
                   className="w-full"
-                  onClick={() => onNavigate("/login")}
+                  onClick={() => navigate("/login")}
                 >
                   Masuk
                 </Button>

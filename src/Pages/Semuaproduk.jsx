@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useContext } from "react"; // Tambahkan useContext
+import { UserContext } from "../context/UserContext";
 import Navbar from "../components/Navbar";
 import FilterSidebar from "../components/Layout/Filtersidebar";
 import CourseCard from "../components/Card/CourseCard";
@@ -12,7 +13,8 @@ import DropdownItem from "../components/Dropdown/Dropdonwitem";
 import Pagination from "../components/Pagination";
 import iconLogout from "/assets/icon/icon-logout.png";
 
-function SemuaProduk({ isLoggedIn, onNavigate, onLogout }) {
+function SemuaProduk({ onNavigate }) {
+  const { isLoggedIn, handleLogout } = useContext(UserContext);
   const SORT_OPTIONS = [
     { value: "harga-rendah", label: "Harga Rendah" },
     { value: "harga-tinggi", label: "Harga Tinggi" },
@@ -134,7 +136,7 @@ function SemuaProduk({ isLoggedIn, onNavigate, onLogout }) {
                   Pesanan Saya
                 </DropdownItem>
                 <div className="my-1 border-t border-gray-200" />
-                <DropdownItem onClick={onLogout}>
+                <DropdownItem onClick={handleLogout}>
                   <div className="flex items-center font-semibold text-red-600">
                     Keluar <LogoutIcon />
                   </div>

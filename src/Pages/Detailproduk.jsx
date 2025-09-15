@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import { UserContext } from "../context/UserContext";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Avatar from "../components/Avatar";
@@ -181,7 +183,8 @@ const CourseModuleItem = ({ title, type, duration }) => (
   </div>
 );
 
-function DetailProdukPage({ onNavigate, isLoggedIn, course, onBuatPesanan }) {
+function DetailProdukPage({ onNavigate, course }) {
+  const { isLoggedIn, handleCreateOrder } = useContext(UserContext);
   if (!course) {
     return <div>Memuat data kursus...</div>;
   }
@@ -197,6 +200,17 @@ function DetailProdukPage({ onNavigate, isLoggedIn, course, onBuatPesanan }) {
 
   const tutorDescription =
     "Berkarier di bidang HR selama lebih dari 3 tahun. Saat ini bekerja sebagai Senior Talent Acquisition Specialist di Wings Group Indonesia (Sayap Mas Utama) selama hampir 1 tahun.";
+
+  const handleBeliSekarang = () => {
+    if (!isLoggedIn) {
+      alert("Anda harus login untuk membeli kursus.");
+      onNavigate("/login");
+      return;
+    }
+    handleCreateOrder(course);
+    alert("Pesanan berhasil dibuat! Silakan selesaikan pembayaran.");
+    onNavigate("/pesanan");
+  };
 
   return (
     <div className="bg-main-secondary4">
@@ -251,7 +265,7 @@ function DetailProdukPage({ onNavigate, isLoggedIn, course, onBuatPesanan }) {
         </section>
         <div className="flex flex-col lg:flex-row gap-8 mt-8 items-start">
           <div className="w-full lg:w-auto order-1 lg:order-2">
-            <PurchaseCard course={course} onBuatPesanan={onBuatPesanan} />
+            <PurchaseCard course={course} onBuatPesanan={handleBeliSekarang} />
           </div>
           <div className="w-full lg:flex-grow space-y-8 order-2 lg:order-1">
             <div className="bg-other-primary-background p-6 rounded-lg shadow-sm">
