@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useContext } from "react";
+import { UserContext } from "../context/UserContext";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Avatar from "../components/Avatar";
@@ -8,15 +9,65 @@ import FilterTabs from "../components/Filtertabs";
 import MyCourseCard from "../components/Card/MyCourseCard";
 import Pagination from "../components/Pagination";
 import Sidebar from "../components/Layout/Sidebar";
-import { myCourses } from "../Data/MyCourses";
-
 import userAvatar from "/assets/images/avatar.png";
 import iconLogout from "/assets/icon/icon-logout.png";
 
-function KelasSaya({ onNavigate, onLogout }) {
+function KelasSaya({ onNavigate }) {
+  const { currentUser, handleLogout } = useContext(UserContext);
+
+  const [myCourses, setMyCourses] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const [activeCourseTab, setActiveCourseTab] = useState("Semua Kelas");
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = 5;
+
+  useEffect(() => {
+    if (!currentUser) {
+      setIsLoading(false);
+      return;
+    }
+
+    const fetchMyCoursesAndAuthors = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const [myCoursesResponse, authorsResponse] = await Promise.all([
+          fetch(`http://localhost:3001/myCourses?userId=${currentUser.id}`),
+          fetch("http://localhost:3001/authors"),
+        ]);
+
+        if (!myCoursesResponse.ok || !authorsResponse.ok) {
+          throw new Error("Gagal mengambil data kelas saya");
+        }
+
+        const myCoursesData = await myCoursesResponse.json();
+        const authorsData = await authorsResponse.json();
+
+        const authorsMap = new Map(
+          authorsData.map((author) => [author.id, author])
+        );
+        const unknownAuthor = { name: "Unknown Author", role: "", avatar: "" };
+
+        const combinedCourses = myCoursesData.map((course) => {
+          const authorInfo = authorsMap.get(course.authorId) || unknownAuthor;
+          return {
+            ...course,
+            author: authorInfo,
+          };
+        });
+
+        setMyCourses(combinedCourses);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchMyCoursesAndAuthors();
+  }, [currentUser]);
 
   const NavLinks = () => (
     <a
@@ -39,7 +90,7 @@ function KelasSaya({ onNavigate, onLogout }) {
       return myCourses;
     }
     return myCourses.filter((course) => course.status === activeCourseTab);
-  }, [activeCourseTab]);
+  }, [activeCourseTab, myCourses]);
 
   return (
     <div className="bg-main-secondary4">
@@ -65,7 +116,7 @@ function KelasSaya({ onNavigate, onLogout }) {
                 Pesanan Saya
               </DropdownItem>
               <div className="my-1 border-t border-other-border" />
-              <DropdownItem onClick={onLogout}>
+              <DropdownItem onClick={handleLogout}>
                 <div className="flex items-center font-semibold text-error-hover">
                   Keluar <LogoutIcon />
                 </div>
@@ -75,7 +126,6 @@ function KelasSaya({ onNavigate, onLogout }) {
         }
         mobileMenu={<NavLinks />}
       />
-
       <main className="container mx-auto max-w-screen-xl px-4 sm:px-6 py-10">
         <h1 className="text-2xl md:text-3xl font-bold font-poppins text-text-dark-primary">
           Daftar Kelas
@@ -83,10 +133,8 @@ function KelasSaya({ onNavigate, onLogout }) {
         <p className="text-text-dark-secondary mt-1">
           Akses Materi Belajar dan Mulailah Meningkatkan Pengetahuan Anda!
         </p>
-
         <div className="flex flex-col lg:flex-row gap-8 mt-8">
           <Sidebar activeTab="Kelas Saya" onNavigate={onNavigate} />
-
           <div className="w-full lg:w-3/4">
             <div className="bg-other-primary-background p-6 rounded-lg shadow-sm">
               <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
@@ -106,13 +154,23 @@ function KelasSaya({ onNavigate, onLogout }) {
                   </span>
                 </div>
               </div>
-
-              <div className="space-y-5">
-                {filteredCourses.map((course) => (
-                  <MyCourseCard key={course.id} data={course} />
-                ))}
-              </div>
-
+              {isLoading ? (
+                <p className="text-center">Memuat kelas Anda...</p>
+              ) : error ? (
+                <p className="text-center text-error-default">{error}</p>
+              ) : (
+                <div className="space-y-5">
+                  {filteredCourses.length > 0 ? (
+                    filteredCourses.map((course) => (
+                      <MyCourseCard key={course.id} data={course} />
+                    ))
+                  ) : (
+                    <p className="text-center text-text-dark-secondary">
+                      Anda belum memiliki kelas.
+                    </p>
+                  )}
+                </div>
+              )}
               <div className="flex justify-center md:justify-end mt-10">
                 <Pagination
                   currentPage={currentPage}

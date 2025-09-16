@@ -1,7 +1,7 @@
 {
   "courses": [
     {
-      "id": 1,
+      "id": "1",
       "image": "/assets/images/cover1.png",
       "title": "Big 4 Auditor Financial Analyst",
       "description": "Mulai transformasi dengan instruktur profesional, harga terjangkau, kurikulum terbaik, dan langsung dari praktisi.",
@@ -17,7 +17,7 @@
       "relatedCourseIds": [2, 3, 4, 5, 6]
     },
     {
-      "id": 2,
+      "id": "2",
       "image": "/assets/images/cover2.png",
       "title": "Digital Marketing Strategy",
       "description": "Pelajari strategi pemasaran digital terbaru dari para ahli di industri.",
@@ -33,7 +33,7 @@
       "relatedCourseIds": [1, 3, 4, 5, 6]
     },
     {
-      "id": 3,
+      "id": "3",
       "image": "/assets/images/cover3.png",
       "title": "Web Development Bootcamp",
       "description": "Kuasai web development dari dasar hingga mahir dalam bootcamp ini.",
@@ -49,7 +49,7 @@
       "relatedCourseIds": [1, 2, 4, 5, 6]
     },
     {
-      "id": 4,
+      "id": "4",
       "image": "/assets/images/cover4.png",
       "title": "Public Speaking Mastery",
       "description": "Tingkatkan kepercayaan diri dan kemampuan berbicaramu di depan umum.",
@@ -65,7 +65,7 @@
       "relatedCourseIds": [1, 2, 3, 5, 6]
     },
     {
-      "id": 5,
+      "id": "5",
       "image": "/assets/images/cover5.png",
       "title": "Advanced UI/UX Design",
       "description": "Dalam kursus ini, Anda akan mempelajari prinsip-prinsip desain UI/UX.",
@@ -81,7 +81,7 @@
       "relatedCourseIds": [1, 2, 3, 4, 6]
     },
     {
-      "id": 6,
+      "id": "6",
       "image": "/assets/images/cover6.png",
       "title": "Startup Business Management",
       "description": "Pelajari cara membangun dan mengelola bisnis startup dari awal.",
@@ -99,37 +99,37 @@
   ],
   "authors": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Jenna Ortega",
       "avatar": "/assets/images/avatar1.png",
       "role": "Senior Accountant"
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Mark Johnson",
       "avatar": "/assets/images/avatar2.png",
       "role": "Digital Marketer"
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "Alex Lee",
       "avatar": "/assets/images/avatar3.png",
       "role": "Full-Stack Developer"
     },
     {
-      "id": 4,
+      "id": "4",
       "name": "Sarah Chen",
       "avatar": "/assets/images/avatar4.png",
       "role": "Communication Coach"
     },
     {
-      "id": 5,
+      "id": "5",
       "name": "David Kim",
       "avatar": "/assets/images/avatar5.png",
       "role": "Senior UI/UX Designer"
     },
     {
-      "id": 6,
+      "id": "6",
       "name": "Emily White",
       "avatar": "/assets/images/avatar6.png",
       "role": "Entrepreneur"
@@ -137,14 +137,14 @@
   ],
   "tutors": [
     {
-      "id": 101,
+      "id": "101",
       "name": "Gregorius Edrik Lawanto",
       "avatar": "/assets/images/avatar5.png",
       "subtitle": "Senior Talent Acquisition di WingsGroup",
       "description": "Berkarier di bidang HR selama lebih dari 3 tahun. Saat ini bekerja sebagai Senior Talent Acquisition Specialist di Wings Group Indonesia."
     },
     {
-      "id": 102,
+      "id": "102",
       "name": "Olivia Wilson",
       "avatar": "/assets/images/avatar4.png",
       "subtitle": "Product Manager di TechCorp",
@@ -153,7 +153,7 @@
   ],
   "reviews": [
     {
-      "id": 201,
+      "id": "201",
       "name": "Ahmad Subarjo",
       "avatar": "/assets/images/avatar3.png",
       "subtitle": "Alumni Batch 2",
@@ -161,7 +161,7 @@
       "rating": 4.5
     },
     {
-      "id": 202,
+      "id": "202",
       "name": "Siti Aminah",
       "avatar": "/assets/images/avatar2.png",
       "subtitle": "Alumni Batch 4",
@@ -169,44 +169,69 @@
       "rating": 5
     }
   ],
-  "users": [],
-  "orders": [],
+  "users": [
+    {
+      "fullName": "Ali Firefox",
+      "email": "ali.firefox@yahoo.co.id",
+      "gender": "pria",
+      "phone": "",
+      "password": "1234",
+      "confirmPassword": "1234",
+      "id": "1"
+    }
+  ],
+  "orders": [
+    {
+      "id": "8be1",
+      "userId": "1",
+      "courseId": "2",
+      "invoice": "INV/1757995391268",
+      "date": "16/9/2025, 11.03.11",
+      "title": "Digital Marketing Strategy",
+      "price": "100.000",
+      "status": "Belum Bayar",
+      "image": "/assets/images/cover2.png"
+    }
+  ],
   "myCourses": [
     {
       "id": 1,
+      "userId": 1,
+      "authorId": 1,
       "status": "Selesai",
       "progressModules": 12,
       "totalModules": 12,
       "image": "/assets/images/cover6.png",
       "title": "Big 4 Auditor Financial Analyst",
       "description": "Mulai transformasi dengan instruktur profesional, harga yang terjangkau, dan kurikulum terbaik.",
-      "authorId": 1,
       "moduleCount": 12,
       "duration": 360,
       "progressPercent": 100
     },
     {
       "id": 2,
+      "userId": 1,
+      "authorId": 2,
       "status": "Sedang Berjalan",
       "progressModules": 2,
       "totalModules": 12,
       "image": "/assets/images/cover2.png",
       "title": "Digital Marketing Strategy",
       "description": "Mulai transformasi dengan instruktur profesional, harga yang terjangkau, dan kurikulum terbaik.",
-      "authorId": 2,
       "moduleCount": 12,
       "duration": 360,
       "progressPercent": 28
     },
     {
       "id": 3,
+      "userId": 1,
+      "authorId": 4,
       "status": "Sedang Berjalan",
       "progressModules": 5,
       "totalModules": 15,
       "image": "/assets/images/cover4.png",
       "title": "Public Speaking Mastery",
       "description": "Mulai transformasi dengan instruktur profesional, harga yang terjangkau, dan kurikulum terbaik.",
-      "authorId": 4,
       "moduleCount": 15,
       "duration": 450,
       "progressPercent": 33

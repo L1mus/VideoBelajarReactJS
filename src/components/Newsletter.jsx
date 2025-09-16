@@ -20,13 +20,14 @@ function Newsletter() {
           spesial dan program-program terbaik lainnya.
         </p>
         <div className="mt-6 max-w-md mx-auto">
-          {/* Form sekarang hanya mengatur layout, bukan sebagai kontainer putih */}
           <form
             action="Submit"
             className="flex flex-col sm:flex-row gap-3 sm:gap-0 items-center"
           >
             <input
               type="email"
+              name="email"
+              autoComplete="email"
               placeholder="Masukkan alamat email"
               className="w-full flex-grow px-4 py-3 bg-other-primary-background text-text-dark-primary rounded-lg sm:rounded-r-none focus:outline-none focus:ring-2 focus:ring-main-secondary"
             />

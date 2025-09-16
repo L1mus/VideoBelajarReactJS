@@ -8,7 +8,7 @@ const statusStyles = {
   Menunggu: { variant: "info", style: "light" },
 };
 
-function OrderCard({ data, onDelete }) {
+function OrderCard({ data, onDelete, onPay }) {
   const { invoice, date, title, price, status, image } = data;
   const chipProps = statusStyles[status] || {
     variant: "primary",
@@ -55,8 +55,6 @@ function OrderCard({ data, onDelete }) {
             </p>
           </div>
         </div>
-
-        {/* Mobile */}
         <div className="mt-4 md:hidden">
           <p className="text-sm text-text-dark-secondary">Harga</p>
           <p className="font-bold text-text-dark-primary text-lg">Rp {price}</p>
@@ -71,9 +69,18 @@ function OrderCard({ data, onDelete }) {
           </p>
           <p className="text-lg font-bold text-green-600">Rp {price}</p>
         </div>
-        <Button variant="tertiary" onClick={onDelete}>
-          Batalkan
-        </Button>
+        <div className="flex items-center gap-2">
+          {status === "Belum Bayar" && (
+            <Button variant="primary" onClick={onPay}>
+              Bayar
+            </Button>
+          )}
+          {status === "Belum Bayar" && (
+            <Button variant="tertiary" onClick={onDelete}>
+              Batalkan
+            </Button>
+          )}
+        </div>
       </div>
     </div>
   );

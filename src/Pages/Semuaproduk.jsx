@@ -1,9 +1,8 @@
-import React, { useState, useMemo, useContext } from "react"; // Tambahkan useContext
+import React, { useState, useMemo, useContext, useEffect } from "react";
 import { UserContext } from "../context/UserContext";
 import Navbar from "../components/Navbar";
 import FilterSidebar from "../components/Layout/Filtersidebar";
 import CourseCard from "../components/Card/CourseCard";
-import { courses } from "../data/courses";
 import Footer from "../components/Footer";
 import Button from "../components/Button/Button";
 import Avatar from "../components/Avatar";
@@ -13,16 +12,18 @@ import DropdownItem from "../components/Dropdown/Dropdonwitem";
 import Pagination from "../components/Pagination";
 import iconLogout from "/assets/icon/icon-logout.png";
 
+const SORT_OPTIONS = [
+  { value: "harga-rendah", label: "Harga Terendah" },
+  { value: "harga-tinggi", label: "Harga Tertinggi" },
+  { value: "rating-tertinggi", label: "Rating Tertinggi" },
+];
+
 function SemuaProduk({ onNavigate }) {
   const { isLoggedIn, handleLogout } = useContext(UserContext);
-  const SORT_OPTIONS = [
-    { value: "harga-rendah", label: "Harga Rendah" },
-    { value: "harga-tinggi", label: "Harga Tinggi" },
-    { value: "a-to-z", label: "A to Z" },
-    { value: "z-to-a", label: "Z to A" },
-    { value: "rating-tertinggi", label: "Rating Tertinggi" },
-    { value: "rating-terendah", label: "Rating Terendah" },
-  ];
+
+  const [courses, setCourses] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = 6;
@@ -32,6 +33,44 @@ function SemuaProduk({ onNavigate }) {
     price: {},
     duration: "",
   });
+
+  useEffect(() => {
+    const fetchCoursesAndAuthors = async () => {
+      try {
+        const [coursesResponse, authorsResponse] = await Promise.all([
+          fetch("http://localhost:3001/courses"),
+          fetch("http://localhost:3001/authors"),
+        ]);
+
+        if (!coursesResponse.ok || !authorsResponse.ok) {
+          throw new Error("Gagal mengambil data dari server");
+        }
+
+        const coursesData = await coursesResponse.json();
+        const authorsData = await authorsResponse.json();
+
+        const authorsMap = new Map(
+          authorsData.map((author) => [author.id, author])
+        );
+
+        const combinedCourses = coursesData.map((course) => ({
+          ...course,
+          author: authorsMap.get(course.authorId) || {
+            name: "Unknown Author",
+            role: "",
+          },
+        }));
+
+        setCourses(combinedCourses);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchCoursesAndAuthors();
+  }, []);
 
   const handleFilterChange = (filterType, filterName, value) => {
     setFilters((prev) => {
@@ -56,45 +95,26 @@ function SemuaProduk({ onNavigate }) {
     });
   };
 
-  const filteredCourses = useMemo(() => {
-    let filtered = [...courses, ...courses, ...courses, ...courses];
-
-    // Filter Bidang Studi
-    const selectedFields = Object.keys(filters.studyFields).filter(
-      (key) => filters.studyFields[key]
-    );
-    if (selectedFields.length > 0) {
-      filtered = filtered.filter((course) =>
-        selectedFields.includes(
-          course.category.toLowerCase().replace(" & ", " ").replace("-", " ")
-        )
-      );
+  const processedCourses = useMemo(() => {
+    let sortedCourses = [...courses];
+    if (sortOption) {
+      switch (sortOption.value) {
+        case "harga-rendah":
+          sortedCourses.sort((a, b) => a.price - b.price);
+          break;
+        case "harga-tinggi":
+          sortedCourses.sort((a, b) => b.price - a.price);
+          break;
+        case "rating-tertinggi":
+          sortedCourses.sort((a, b) => b.rating - a.rating);
+          break;
+        default:
+          break;
+      }
     }
 
-    // Filter Harga
-    const selectedPrices = Object.keys(filters.price).filter(
-      (key) => filters.price[key]
-    );
-    if (selectedPrices.length > 0) {
-      filtered = filtered.filter((course) => {
-        if (selectedPrices.includes("berbayar") && course.price > 0)
-          return true;
-        if (selectedPrices.includes("gratis") && course.price === 0)
-          return true;
-        return false;
-      });
-    }
-
-    // Filter Durasi
-    if (filters.duration) {
-      const [min, max] = filters.duration.split("-");
-      filtered = max
-        ? filtered.filter((c) => c.duration >= +min && c.duration <= +max)
-        : filtered.filter((c) => c.duration >= +min);
-    }
-
-    return filtered;
-  }, [filters]);
+    return sortedCourses;
+  }, [courses, sortOption]);
 
   const NavLinks = () => (
     <a
@@ -166,16 +186,16 @@ function SemuaProduk({ onNavigate }) {
             {!isLoggedIn && (
               <div className="pt-2 space-y-2">
                 <Button
-                  variant="primary"
                   className="w-full"
                   onClick={() => onNavigate("/login")}
+                  variant="primary"
                 >
                   Masuk
                 </Button>
                 <Button
-                  variant="primary1"
                   className="w-full"
                   onClick={() => onNavigate("/register")}
+                  variant="primary1"
                 >
                   Daftar
                 </Button>
@@ -213,8 +233,8 @@ function SemuaProduk({ onNavigate }) {
                         </span>
                         <svg
                           className="fill-current h-4 w-4 text-text-dark-secondary flex-shrink-0"
-                          xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 20 20"
+                          xmlns="http://www.w3.org/2000/svg"
                         >
                           <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                         </svg>
@@ -224,7 +244,6 @@ function SemuaProduk({ onNavigate }) {
                     {SORT_OPTIONS.map((option) => (
                       <DropdownItem
                         key={option.value}
-                        isSelected={sortOption?.value === option.value}
                         onClick={() => setSortOption(option)}
                       >
                         {option.label}
@@ -234,9 +253,9 @@ function SemuaProduk({ onNavigate }) {
                 </div>
                 <div className="relative w-full sm:w-auto">
                   <input
-                    type="text"
-                    placeholder="Cari Kelas..."
                     className="w-full px-4 py-2.5 border border-other-border rounded-lg focus:outline-none focus:border-primary bg-other-primary-background"
+                    placeholder="Cari Kelas..."
+                    type="text"
                   />
                   <span className="absolute right-3 top-1/2 -translate-y-1/2 text-text-light-disabled">
                     🔍
@@ -244,21 +263,27 @@ function SemuaProduk({ onNavigate }) {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {filteredCourses.map((course, index) => (
-                  <CourseCard
-                    key={`${course.id}-${index}`}
-                    data={course}
-                    onClick={() => onNavigate("detailproduk", course)}
-                  />
-                ))}
-              </div>
+              {isLoading ? (
+                <p className="text-center">Memuat kursus...</p>
+              ) : error ? (
+                <p className="text-center text-red-500">{error}</p>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {processedCourses.map((course) => (
+                    <CourseCard
+                      data={course}
+                      key={course.id}
+                      onClick={() => onNavigate("detailproduk", course)}
+                    />
+                  ))}
+                </div>
+              )}
 
               <div className="flex justify-center md:justify-end mt-10">
                 <Pagination
                   currentPage={currentPage}
-                  totalPages={totalPages}
                   onPageChange={handlePageChange}
+                  totalPages={totalPages}
                 />
               </div>
             </div>

@@ -1,5 +1,6 @@
-import { useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from "../context/UserContext";
+import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Avatar from "../components/Avatar";
@@ -8,7 +9,6 @@ import Chip from "../components/Button/Chip";
 import CourseCard from "../components/Card/CourseCard";
 import Accordion from "../components/Layout/Accordion";
 
-import { courses } from "../data/courses";
 import userAvatar from "/assets/images/avatar.png";
 import tutorAvatar from "/assets/images/avatar5.png";
 import iconStar from "/assets/icon/icon-star.png";
@@ -183,11 +183,84 @@ const CourseModuleItem = ({ title, type, duration }) => (
   </div>
 );
 
-function DetailProdukPage({ onNavigate, course }) {
+function DetailProdukPage({ onNavigate }) {
+  const { id } = useParams();
   const { isLoggedIn, handleCreateOrder } = useContext(UserContext);
-  if (!course) {
-    return <div>Memuat data kursus...</div>;
+
+  const [course, setCourse] = useState(null);
+  const [relatedCourses, setRelatedCourses] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchCourseDetails = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const [courseResponse, relatedResponse, authorsResponse] =
+          await Promise.all([
+            fetch(`http://localhost:3001/courses/${id}`),
+            fetch(`http://localhost:3001/courses?id_ne=${id}&_limit=3`),
+            fetch(`http://localhost:3001/authors`),
+          ]);
+
+        if (!courseResponse.ok || !relatedResponse.ok || !authorsResponse.ok) {
+          throw new Error("Gagal mengambil data dari server.");
+        }
+
+        const courseData = await courseResponse.json();
+        const relatedData = await relatedResponse.json();
+        const authorsData = await authorsResponse.json();
+
+        const authorsMap = new Map(
+          authorsData.map((author) => [author.id, author])
+        );
+        const unknownAuthor = { name: "Unknown Author", role: "" };
+
+        const mainCourseWithAuthor = {
+          ...courseData,
+          author: authorsMap.get(courseData.authorId) || unknownAuthor,
+        };
+        setCourse(mainCourseWithAuthor);
+
+        const relatedCoursesWithAuthors = relatedData.map((relatedCourse) => ({
+          ...relatedCourse,
+          author: authorsMap.get(relatedCourse.authorId) || unknownAuthor,
+        }));
+        setRelatedCourses(relatedCoursesWithAuthors);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchCourseDetails();
+  }, [id]);
+
+  const handleBeliSekarang = () => {
+    if (!isLoggedIn) {
+      alert("Anda harus login untuk membeli kursus.");
+      onNavigate("/login");
+      return;
+    }
+    handleCreateOrder(course);
+  };
+
+  if (isLoading) {
+    return <div className="text-center p-20">Memuat data kursus...</div>;
   }
+
+  if (error) {
+    return (
+      <div className="text-center p-20 text-error-default">Error: {error}</div>
+    );
+  }
+
+  if (!course) {
+    return <div className="text-center p-20">Kursus tidak ditemukan.</div>;
+  }
+
   const NavLinks = () => (
     <a
       href="#"
@@ -200,17 +273,6 @@ function DetailProdukPage({ onNavigate, course }) {
 
   const tutorDescription =
     "Berkarier di bidang HR selama lebih dari 3 tahun. Saat ini bekerja sebagai Senior Talent Acquisition Specialist di Wings Group Indonesia (Sayap Mas Utama) selama hampir 1 tahun.";
-
-  const handleBeliSekarang = () => {
-    if (!isLoggedIn) {
-      alert("Anda harus login untuk membeli kursus.");
-      onNavigate("/login");
-      return;
-    }
-    handleCreateOrder(course);
-    alert("Pesanan berhasil dibuat! Silakan selesaikan pembayaran.");
-    onNavigate("/pesanan");
-  };
 
   return (
     <div className="bg-main-secondary4">
@@ -283,15 +345,15 @@ function DetailProdukPage({ onNavigate, course }) {
               <div className="flex flex-col md:flex-row gap-4">
                 <InfoCard
                   avatar={tutorAvatar}
+                  description={tutorDescription}
                   name="Gregorius Edrik Lawanto"
                   subtitle="Senior Talent Acquisition di WingsGroup"
-                  description={tutorDescription}
                 />
                 <InfoCard
                   avatar={tutorAvatar}
+                  description={tutorDescription}
                   name="Gregorius Edrik Lawanto"
                   subtitle="Senior Talent Acquisition di WingsGroup"
-                  description={tutorDescription}
                 />
               </div>
             </div>
@@ -300,25 +362,25 @@ function DetailProdukPage({ onNavigate, course }) {
                 Kamu akan Mempelajari
               </h2>
               <Accordion
-                title="Introduction to Course 1: Foundations of User Experience Design"
                 defaultOpen={true}
+                title="Introduction to Course 1: Foundations of User Experience Design"
               >
                 <CourseModuleItem
+                  duration="12 Menit"
                   title="The basics of user experience design"
                   type="Video"
-                  duration="12 Menit"
                 />
                 <CourseModuleItem
+                  duration="12 Menit"
                   title="Jobs in the field of user experience"
                   type="Video"
-                  duration="12 Menit"
                 />
               </Accordion>
               <Accordion title="The product development life cycle">
                 <CourseModuleItem
+                  duration="12 Menit"
                   title="The product development life cycle"
                   type="Video"
-                  duration="12 Menit"
                 />
               </Accordion>
               <Accordion title="Universal design, inclusive design, and equity-focused design"></Accordion>
@@ -330,17 +392,17 @@ function DetailProdukPage({ onNavigate, course }) {
               <div className="flex flex-col md:flex-row gap-4">
                 <InfoCard
                   avatar={tutorAvatar}
-                  name="Gregorius Edrik Lawanto"
-                  subtitle="Alumni Batch 2"
                   description={tutorDescription}
+                  name="Gregorius Edrik Lawanto"
                   rating={3.5}
+                  subtitle="Alumni Batch 2"
                 />
                 <InfoCard
                   avatar={tutorAvatar}
-                  name="Gregorius Edrik Lawanto"
-                  subtitle="Alumni Batch 4"
                   description={tutorDescription}
+                  name="Gregorius Edrik Lawanto"
                   rating={3.5}
+                  subtitle="Alumni Batch 4"
                 />
               </div>
             </div>
@@ -349,11 +411,11 @@ function DetailProdukPage({ onNavigate, course }) {
                 Video Pembelajaran Terkait Lainnya
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {courses.slice(0, 3).map((course) => (
+                {relatedCourses.map((relatedCourse) => (
                   <CourseCard
-                    key={course.id}
-                    data={course}
-                    onClick={() => onNavigate("detailproduk", course)}
+                    data={relatedCourse}
+                    key={relatedCourse.id}
+                    onClick={() => onNavigate("detailproduk", relatedCourse)}
                   />
                 ))}
               </div>

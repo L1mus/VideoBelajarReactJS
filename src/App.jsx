@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute";
 import Beranda from "./Pages/Beranda";
 import LoginPage from "./Pages/Login";
 import RegisterPage from "./Pages/Register";
@@ -12,16 +13,13 @@ import InfoPayment from "./Pages/Payment/Infopayment";
 import PesananSaya from "./Pages/Pesanan";
 import KelasSaya from "./Pages/Kelas";
 import ProfilSaya from "./Pages/Profile";
-import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
-  const [selectedCourse, setSelectedCourse] = useState(null);
   const navigate = useNavigate();
 
   const handleNavigate = (path, data = null) => {
     if (path === "detailproduk" && data) {
-      setSelectedCourse(data);
       navigate(`/detailproduk/${data.id}`);
     } else {
       navigate(path);
@@ -48,9 +46,7 @@ function App() {
         />
         <Route
           path="/detailproduk/:id"
-          element={
-            <DetailProduk onNavigate={handleNavigate} course={selectedCourse} />
-          }
+          element={<DetailProduk onNavigate={handleNavigate} />}
         />
 
         {/* Rute Terproteksi */}

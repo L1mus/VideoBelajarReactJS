@@ -1,4 +1,10 @@
-import React, { useState, useMemo, useContext } from "react";
+import React, {
+  useState,
+  useMemo,
+  useContext,
+  useEffect,
+  useCallback,
+} from "react";
 import { UserContext } from "../context/UserContext";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -15,6 +21,11 @@ import iconLogout from "/assets/icon/icon-logout.png";
 function PesananSaya({ onNavigate }) {
   const { currentUser, handleLogout, handleDeleteOrder } =
     useContext(UserContext);
+
+  const [orders, setOrders] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const [activeOrderTab, setActiveOrderTab] = useState("Semua Pesanan");
   const [currentPage, setCurrentPage] = useState(1);
   const [sortOption, setSortOption] = useState(null);
@@ -24,6 +35,37 @@ function PesananSaya({ onNavigate }) {
     { value: "terbaru", label: "Terbaru" },
     { value: "terlama", label: "Terlama" },
   ];
+
+  const fetchOrders = useCallback(async () => {
+    if (!currentUser) {
+      setIsLoading(false);
+      return;
+    }
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        `http://localhost:3001/orders?userId=${currentUser.id}`
+      );
+      if (!response.ok) throw new Error("Gagal mengambil data pesanan");
+      const data = await response.json();
+      setOrders(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [currentUser]);
+
+  useEffect(() => {
+    fetchOrders();
+  }, [fetchOrders]);
+
+  const onDeleteClick = async (orderId) => {
+    const success = await handleDeleteOrder(orderId);
+    if (success) {
+      fetchOrders(); // Jika berhasil, muat ulang daftar pesanan
+    }
+  };
 
   const NavLinks = () => (
     <a
@@ -42,12 +84,11 @@ function PesananSaya({ onNavigate }) {
   const filterTabs = ["Semua Pesanan", "Menunggu", "Berhasil", "Gagal"];
 
   const filteredOrders = useMemo(() => {
-    if (!currentUser || !currentUser.orders) {
-      return [];
+    if (activeOrderTab === "Semua Pesanan") {
+      return orders;
     }
-
-    return currentUser.orders;
-  }, [currentUser]);
+    return orders.filter((order) => order.status === activeOrderTab);
+  }, [activeOrderTab, orders]);
 
   return (
     <div className="bg-main-secondary4">
@@ -114,7 +155,6 @@ function PesananSaya({ onNavigate }) {
                       🔍
                     </span>
                   </div>
-
                   <div className="w-full sm:w-48">
                     <Dropdown
                       trigger={
@@ -143,22 +183,30 @@ function PesananSaya({ onNavigate }) {
                   </div>
                 </div>
               </div>
-
-              <div className="space-y-5">
-                {filteredOrders.length > 0 ? (
-                  filteredOrders.map((order) => (
-                    <OrderCard
-                      key={order.id}
-                      data={order}
-                      onDelete={() => handleDeleteOrder(order.id)}
-                    />
-                  ))
-                ) : (
-                  <p className="text-center text-text-dark-secondary">
-                    Anda belum memiliki pesanan.
-                  </p>
-                )}
-              </div>
+              {isLoading ? (
+                <p className="text-center">Memuat pesanan Anda...</p>
+              ) : error ? (
+                <p className="text-center text-error-default">{error}</p>
+              ) : (
+                <div className="space-y-5">
+                  {filteredOrders.length > 0 ? (
+                    filteredOrders.map((order) => (
+                      <OrderCard
+                        key={order.id}
+                        data={order}
+                        onDelete={() => onDeleteClick(order.id)}
+                        onPay={() =>
+                          onNavigate("/metodepembayaran", { orderId: order.id })
+                        }
+                      />
+                    ))
+                  ) : (
+                    <p className="text-center text-text-dark-secondary">
+                      Anda belum memiliki pesanan.
+                    </p>
+                  )}
+                </div>
+              )}
 
               <div className="flex justify-end mt-10">
                 <Pagination

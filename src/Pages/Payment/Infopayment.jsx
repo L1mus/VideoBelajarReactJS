@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { UserContext } from "../../context/UserContext";
 import useMediaQuery from "../../hooks/useMediaQuery";
 import Navbar from "../../components/Navbar";
 import Stepper from "../../components/Step/Stepper";
 import Button from "../../components/Button/Button";
 import Footer from "../../components/Footer";
-
 import paymentDoneImg from "/assets/images/paymentdone.png";
 import paymentFailedImg from "/assets/images/paymentfailed.png";
 
@@ -27,9 +28,26 @@ const InfoCard = ({ status, onNavigate }) => {
   );
 };
 
-function InfoPayment({ onNavigate, status = "success" }) {
-  const isDesktop = useMediaQuery("(min-width: 768px)");
+function InfoPayment({ status = "success" }) {
+  const { handlePayment } = useContext(UserContext);
+  const location = useLocation();
+  const navigate = useNavigate();
 
+  const { orderId } = location.state || {};
+
+  useEffect(() => {
+    const processPayment = async () => {
+      if (orderId) {
+        const paymentStatus = status === "success" ? "Berhasil" : "Gagal";
+        await handlePayment(orderId, paymentStatus);
+      }
+    };
+
+    processPayment();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [orderId, status]);
+
+  const isDesktop = useMediaQuery("(min-width: 768px)");
   const stepperComponent = (
     <Stepper steps={["Pilih Metode", "Bayar", "Selesai"]} currentStep={2} />
   );
@@ -37,7 +55,6 @@ function InfoPayment({ onNavigate, status = "success" }) {
   return (
     <div className="bg-main-secondary4 min-h-screen flex flex-col">
       <Navbar desktopContent={isDesktop ? stepperComponent : null} />
-
       <main className="flex-grow flex items-center justify-center container mx-auto px-4 sm:px-6 py-10">
         <div className="w-full">
           {!isDesktop && (
@@ -45,10 +62,9 @@ function InfoPayment({ onNavigate, status = "success" }) {
               {stepperComponent}
             </div>
           )}
-          <InfoCard status={status} onNavigate={onNavigate} />
+          <InfoCard status={status} onNavigate={navigate} />
         </div>
       </main>
-
       <Footer />
     </div>
   );
