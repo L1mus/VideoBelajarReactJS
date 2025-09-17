@@ -1,13 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import logo from "/assets/images/logo.png";
 
-function Navbar({
-  onLogoClick,
-  leftContent,
-  centerContent,
-  desktopContent,
-  mobileMenu,
-}) {
+function Navbar({ leftSection, rightSection, mobileMenu }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navRef = useRef(null);
 
@@ -23,31 +16,20 @@ function Navbar({
 
   return (
     <nav
-      className="bg-other-primary-background shadow-sm w-full relative"
+      className="bg-other-primary-background shadow-sm w-full relative border-b border-other-border"
       ref={navRef}
     >
-      <div className="container mx-auto px-4 sm:px-6 py-4 flex items-center">
+      <div className="container mx-auto px-4 sm:px-6 py-4 flex items-center justify-between min-h-[70px]">
         {/* Bagian Kiri */}
-        <div className="flex-1 flex justify-start items-center space-x-4">
-          <img
-            src={logo}
-            alt="Videobelajar Logo"
-            className="h-7 cursor-pointer"
-            onClick={onLogoClick}
-          />
-          <div className="hidden md:flex items-center">{leftContent}</div>
-        </div>
-
-        {/* Bagian Tengah (Desktop) */}
-        <div className="hidden md:flex justify-center">{centerContent}</div>
+        <div className="flex items-center gap-4">{leftSection}</div>
 
         {/* Bagian Kanan */}
-        <div className="flex-1 flex justify-end items-center">
-          <div className="hidden md:flex items-center space-x-4">
-            {desktopContent}
+        <div className="flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-4">
+            {rightSection}
           </div>
 
-          {/* Tombol Hamburger (Hanya muncul jika ada mobileMenu) */}
+          {/* Tombol Hamburger */}
           {mobileMenu && (
             <div className="md:hidden">
               <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>

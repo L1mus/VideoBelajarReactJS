@@ -1,73 +1,62 @@
-import React, { useState, useEffect, useMemo, useContext } from "react";
+import React, { useState, useMemo, useContext } from "react";
 import { UserContext } from "../context/UserContext";
+import useApi from "../Hooks/useAPI";
+import api from "../services/API";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Avatar from "../components/Avatar";
 import Dropdown from "../components/Dropdown/Dropdownmenu";
 import DropdownItem from "../components/Dropdown/Dropdonwitem";
+import StateDisplay from "../components/StateDisplay";
+import Button from "../components/Button/Button";
+import SkeletonCard from "../components/Card/SkeletonCard";
 import FilterTabs from "../components/Filtertabs";
 import MyCourseCard from "../components/Card/MyCourseCard";
 import Pagination from "../components/Pagination";
 import Sidebar from "../components/Layout/Sidebar";
+import logo from "/assets/images/logo.png";
 import userAvatar from "/assets/images/avatar.png";
 import iconLogout from "/assets/icon/icon-logout.png";
+import emptyClassImage from "/assets/images/teammeeting.png";
+import errorImage from "/assets/images/paymentfailed.png";
 
 function KelasSaya({ onNavigate }) {
   const { currentUser, handleLogout } = useContext(UserContext);
 
-  const [myCourses, setMyCourses] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const {
+    data: myCoursesData,
+    isLoading: coursesLoading,
+    error: coursesError,
+    refetch: refetchCourses,
+  } = useApi(api.getMyCourses, currentUser?.id);
+
+  const {
+    data: authorsData,
+    isLoading: authorsLoading,
+    error: authorsError,
+  } = useApi(api.getAuthors);
+
+  const myCourses = useMemo(() => {
+    if (!myCoursesData || !authorsData) return [];
+    const authorsMap = new Map(
+      authorsData.map((author) => [author.id, author])
+    );
+    return myCoursesData.map((course) => ({
+      ...course,
+      author: authorsMap.get(course.authorId) || {
+        name: "Unknown Author",
+        role: "",
+        avatar: "",
+      },
+    }));
+  }, [myCoursesData, authorsData]);
+
+  const isLoading = coursesLoading || authorsLoading;
+  const error = coursesError || authorsError;
 
   const [activeCourseTab, setActiveCourseTab] = useState("Semua Kelas");
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = 5;
-
-  useEffect(() => {
-    if (!currentUser) {
-      setIsLoading(false);
-      return;
-    }
-
-    const fetchMyCoursesAndAuthors = async () => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        const [myCoursesResponse, authorsResponse] = await Promise.all([
-          fetch(`http://localhost:3001/myCourses?userId=${currentUser.id}`),
-          fetch("http://localhost:3001/authors"),
-        ]);
-
-        if (!myCoursesResponse.ok || !authorsResponse.ok) {
-          throw new Error("Gagal mengambil data kelas saya");
-        }
-
-        const myCoursesData = await myCoursesResponse.json();
-        const authorsData = await authorsResponse.json();
-
-        const authorsMap = new Map(
-          authorsData.map((author) => [author.id, author])
-        );
-        const unknownAuthor = { name: "Unknown Author", role: "", avatar: "" };
-
-        const combinedCourses = myCoursesData.map((course) => {
-          const authorInfo = authorsMap.get(course.authorId) || unknownAuthor;
-          return {
-            ...course,
-            author: authorInfo,
-          };
-        });
-
-        setMyCourses(combinedCourses);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchMyCoursesAndAuthors();
-  }, [currentUser]);
 
   const NavLinks = () => (
     <a
@@ -95,8 +84,16 @@ function KelasSaya({ onNavigate }) {
   return (
     <div className="bg-main-secondary4">
       <Navbar
-        onLogoClick={() => onNavigate("/")}
-        desktopContent={
+        leftSection={
+          <img
+            src={logo}
+            alt="Videobelajar Logo"
+            className="h-7 cursor-pointer"
+            onClick={() => onNavigate("/")}
+          />
+        }
+        rightSection={
+          // Navbar di halaman ini selalu dalam keadaan login
           <>
             <NavLinks />
             <Dropdown
@@ -155,29 +152,50 @@ function KelasSaya({ onNavigate }) {
                 </div>
               </div>
               {isLoading ? (
-                <p className="text-center">Memuat kelas Anda...</p>
-              ) : error ? (
-                <p className="text-center text-error-default">{error}</p>
-              ) : (
                 <div className="space-y-5">
-                  {filteredCourses.length > 0 ? (
-                    filteredCourses.map((course) => (
-                      <MyCourseCard key={course.id} data={course} />
-                    ))
-                  ) : (
-                    <p className="text-center text-text-dark-secondary">
-                      Anda belum memiliki kelas.
-                    </p>
-                  )}
+                  {[...Array(3)].map((_, index) => (
+                    <SkeletonCard key={index} />
+                  ))}
+                </div>
+              ) : error ? (
+                <StateDisplay
+                  image={errorImage}
+                  title="Oops! Terjadi Kesalahan"
+                  message="Gagal memuat data kelas Anda. Silakan coba lagi beberapa saat nanti."
+                >
+                  <Button variant="primary" onClick={refetchCourses}>
+                    Coba Lagi
+                  </Button>
+                </StateDisplay>
+              ) : filteredCourses.length > 0 ? (
+                <div className="space-y-5">
+                  {filteredCourses.map((course) => (
+                    <MyCourseCard key={course.id} data={course} />
+                  ))}
+                </div>
+              ) : (
+                <StateDisplay
+                  image={emptyClassImage}
+                  title="Anda Belum Memiliki Kelas"
+                  message="Sepertinya Anda belum membeli kelas apa pun. Mari jelajahi katalog kami dan mulai perjalanan belajar Anda!"
+                >
+                  <Button
+                    variant="primary"
+                    onClick={() => onNavigate("/semuaproduk")}
+                  >
+                    Jelajahi Kelas
+                  </Button>
+                </StateDisplay>
+              )}
+              {!isLoading && !error && filteredCourses.length > 0 && (
+                <div className="flex justify-center md:justify-end mt-10">
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={setCurrentPage}
+                  />
                 </div>
               )}
-              <div className="flex justify-center md:justify-end mt-10">
-                <Pagination
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={setCurrentPage}
-                />
-              </div>
             </div>
           </div>
         </div>

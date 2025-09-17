@@ -1,11 +1,7 @@
-import React, {
-  useState,
-  useMemo,
-  useContext,
-  useEffect,
-  useCallback,
-} from "react";
+import React, { useState, useMemo, useContext } from "react";
 import { UserContext } from "../context/UserContext";
+import useApi from "../Hooks/useAPI";
+import api from "../services/API";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Avatar from "../components/Avatar";
@@ -15,6 +11,7 @@ import FilterTabs from "../components/Filtertabs";
 import OrderCard from "../components/Card/OrderCard";
 import Pagination from "../components/Pagination";
 import Sidebar from "../components/Layout/Sidebar";
+import logo from "/assets/images/logo.png";
 import userAvatar from "/assets/images/avatar.png";
 import iconLogout from "/assets/icon/icon-logout.png";
 
@@ -22,9 +19,12 @@ function PesananSaya({ onNavigate }) {
   const { currentUser, handleLogout, handleDeleteOrder } =
     useContext(UserContext);
 
-  const [orders, setOrders] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const {
+    data: orders,
+    isLoading,
+    error,
+    refetch: fetchOrders,
+  } = useApi(api.getOrders, currentUser?.id);
 
   const [activeOrderTab, setActiveOrderTab] = useState("Semua Pesanan");
   const [currentPage, setCurrentPage] = useState(1);
@@ -35,30 +35,6 @@ function PesananSaya({ onNavigate }) {
     { value: "terbaru", label: "Terbaru" },
     { value: "terlama", label: "Terlama" },
   ];
-
-  const fetchOrders = useCallback(async () => {
-    if (!currentUser) {
-      setIsLoading(false);
-      return;
-    }
-    setIsLoading(true);
-    try {
-      const response = await fetch(
-        `http://localhost:3001/orders?userId=${currentUser.id}`
-      );
-      if (!response.ok) throw new Error("Gagal mengambil data pesanan");
-      const data = await response.json();
-      setOrders(data);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [currentUser]);
-
-  useEffect(() => {
-    fetchOrders();
-  }, [fetchOrders]);
 
   const onDeleteClick = async (orderId) => {
     const success = await handleDeleteOrder(orderId);
@@ -93,8 +69,15 @@ function PesananSaya({ onNavigate }) {
   return (
     <div className="bg-main-secondary4">
       <Navbar
-        onLogoClick={() => onNavigate("/")}
-        desktopContent={
+        leftSection={
+          <img
+            src={logo}
+            alt="Videobelajar Logo"
+            className="h-7 cursor-pointer"
+            onClick={() => onNavigate("/")}
+          />
+        }
+        rightSection={
           <>
             <NavLinks />
             <Dropdown

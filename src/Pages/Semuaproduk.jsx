@@ -1,5 +1,7 @@
-import React, { useState, useMemo, useContext, useEffect } from "react";
+import React, { useState, useMemo, useContext } from "react";
 import { UserContext } from "../context/UserContext";
+import useApi from "../Hooks/useAPI";
+import api from "../services/API";
 import Navbar from "../components/Navbar";
 import FilterSidebar from "../components/Layout/Filtersidebar";
 import CourseCard from "../components/Card/CourseCard";
@@ -10,6 +12,7 @@ import userAvatar from "/assets/images/avatar.png";
 import Dropdown from "../components/Dropdown/Dropdownmenu";
 import DropdownItem from "../components/Dropdown/Dropdonwitem";
 import Pagination from "../components/Pagination";
+import logo from "/assets/images/logo.png";
 import iconLogout from "/assets/icon/icon-logout.png";
 
 const SORT_OPTIONS = [
@@ -19,11 +22,35 @@ const SORT_OPTIONS = [
 ];
 
 function SemuaProduk({ onNavigate }) {
-  const { isLoggedIn, handleLogout } = useContext(UserContext);
+  const { currentUser, isLoggedIn, handleLogout } = useContext(UserContext);
 
-  const [courses, setCourses] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const {
+    data: coursesData,
+    isLoading: coursesLoading,
+    error: coursesError,
+  } = useApi(api.getCourses);
+  const {
+    data: authorsData,
+    isLoading: authorsLoading,
+    error: authorsError,
+  } = useApi(api.getAuthors);
+
+  const courses = useMemo(() => {
+    if (!coursesData || !authorsData) return [];
+    const authorsMap = new Map(
+      authorsData.map((author) => [author.id, author])
+    );
+    return coursesData.map((course) => ({
+      ...course,
+      author: authorsMap.get(course.authorId) || {
+        name: "Unknown Author",
+        role: "",
+      },
+    }));
+  }, [coursesData, authorsData]);
+
+  const isLoading = coursesLoading || authorsLoading;
+  const error = coursesError || authorsError;
 
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = 6;
@@ -33,44 +60,6 @@ function SemuaProduk({ onNavigate }) {
     price: {},
     duration: "",
   });
-
-  useEffect(() => {
-    const fetchCoursesAndAuthors = async () => {
-      try {
-        const [coursesResponse, authorsResponse] = await Promise.all([
-          fetch("http://localhost:3001/courses"),
-          fetch("http://localhost:3001/authors"),
-        ]);
-
-        if (!coursesResponse.ok || !authorsResponse.ok) {
-          throw new Error("Gagal mengambil data dari server");
-        }
-
-        const coursesData = await coursesResponse.json();
-        const authorsData = await authorsResponse.json();
-
-        const authorsMap = new Map(
-          authorsData.map((author) => [author.id, author])
-        );
-
-        const combinedCourses = coursesData.map((course) => ({
-          ...course,
-          author: authorsMap.get(course.authorId) || {
-            name: "Unknown Author",
-            role: "",
-          },
-        }));
-
-        setCourses(combinedCourses);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchCoursesAndAuthors();
-  }, []);
 
   const handleFilterChange = (filterType, filterName, value) => {
     setFilters((prev) => {
@@ -112,7 +101,6 @@ function SemuaProduk({ onNavigate }) {
           break;
       }
     }
-
     return sortedCourses;
   }, [courses, sortOption]);
 
@@ -134,15 +122,26 @@ function SemuaProduk({ onNavigate }) {
   return (
     <div className="bg-main-secondary4 min-h-screen">
       <Navbar
-        onLogoClick={() => onNavigate("/")}
-        desktopContent={
-          isLoggedIn ? (
+        leftSection={
+          <img
+            src={logo}
+            alt="Videobelajar Logo"
+            className="h-7 cursor-pointer"
+            onClick={() => onNavigate("/")}
+          />
+        }
+        rightSection={
+          isLoggedIn && currentUser ? (
             <>
               <NavLinks />
               <Dropdown
                 trigger={
                   <button>
-                    <Avatar src={userAvatar} alt="User Avatar" size="md" />
+                    <Avatar
+                      alt={currentUser.fullName || "User Avatar"}
+                      size="md"
+                      src={currentUser.avatar || userAvatar}
+                    />
                   </button>
                 }
               >

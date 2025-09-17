@@ -1,6 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext, useMemo } from "react";
 import { UserContext } from "../context/UserContext";
 import { useParams } from "react-router-dom";
+import useApi from "../Hooks/useAPI";
+import api from "../services/API";
+import toast from "react-hot-toast";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Avatar from "../components/Avatar";
@@ -9,6 +12,10 @@ import Chip from "../components/Button/Chip";
 import CourseCard from "../components/Card/CourseCard";
 import Accordion from "../components/Layout/Accordion";
 
+import Dropdown from "../components/Dropdown/Dropdownmenu";
+import DropdownItem from "../components/Dropdown/Dropdonwitem";
+import iconLogout from "/assets/icon/icon-logout.png";
+import logo from "/assets/images/logo.png";
 import userAvatar from "/assets/images/avatar.png";
 import tutorAvatar from "/assets/images/avatar5.png";
 import iconStar from "/assets/icon/icon-star.png";
@@ -23,7 +30,7 @@ import iconPretest from "/assets/icon/icon-edittask.png";
 import iconWorld from "/assets/icon/icon-world.png";
 import iconPlay2 from "/assets/icon/icon-play2.png";
 
-const PurchaseCard = ({ course, onBuatPesanan }) => {
+const PurchaseCard = ({ course, onBeliSekarang }) => {
   const formatPriceK = (value) => {
     if (!value) return "Gratis";
     return `Rp ${value / 1000}K`;
@@ -77,7 +84,7 @@ const PurchaseCard = ({ course, onBuatPesanan }) => {
         </p>
       )}
 
-      <Button variant="primary" className="w-full" onClick={onBuatPesanan}>
+      <Button variant="primary" className="w-full" onClick={onBeliSekarang}>
         Beli Sekarang
       </Button>
       <hr className="my-5 border-other-border" />
@@ -185,66 +192,71 @@ const CourseModuleItem = ({ title, type, duration }) => (
 
 function DetailProdukPage({ onNavigate }) {
   const { id } = useParams();
-  const { isLoggedIn, handleCreateOrder } = useContext(UserContext);
+  const { isLoggedIn, handleLogout, currentUser, handleCreateOrder } =
+    useContext(UserContext);
 
-  const [course, setCourse] = useState(null);
-  const [relatedCourses, setRelatedCourses] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const {
+    data: courseData,
+    isLoading: courseLoading,
+    error: courseError,
+  } = useApi(api.getCourseDetails, id);
+  const {
+    data: relatedData,
+    isLoading: relatedLoading,
+    error: relatedError,
+  } = useApi(api.getRelatedCourses, id);
+  const {
+    data: authorsData,
+    isLoading: authorsLoading,
+    error: authorsError,
+  } = useApi(api.getAuthors);
 
-  useEffect(() => {
-    const fetchCourseDetails = async () => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        const [courseResponse, relatedResponse, authorsResponse] =
-          await Promise.all([
-            fetch(`http://localhost:3001/courses/${id}`),
-            fetch(`http://localhost:3001/courses?id_ne=${id}&_limit=3`),
-            fetch(`http://localhost:3001/authors`),
-          ]);
-
-        if (!courseResponse.ok || !relatedResponse.ok || !authorsResponse.ok) {
-          throw new Error("Gagal mengambil data dari server.");
-        }
-
-        const courseData = await courseResponse.json();
-        const relatedData = await relatedResponse.json();
-        const authorsData = await authorsResponse.json();
-
-        const authorsMap = new Map(
-          authorsData.map((author) => [author.id, author])
-        );
-        const unknownAuthor = { name: "Unknown Author", role: "" };
-
-        const mainCourseWithAuthor = {
-          ...courseData,
-          author: authorsMap.get(courseData.authorId) || unknownAuthor,
-        };
-        setCourse(mainCourseWithAuthor);
-
-        const relatedCoursesWithAuthors = relatedData.map((relatedCourse) => ({
-          ...relatedCourse,
-          author: authorsMap.get(relatedCourse.authorId) || unknownAuthor,
-        }));
-        setRelatedCourses(relatedCoursesWithAuthors);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
-      }
+  const course = useMemo(() => {
+    if (!courseData || !authorsData) return null;
+    const authorsMap = new Map(
+      authorsData.map((author) => [author.id, author])
+    );
+    return {
+      ...courseData,
+      author: authorsMap.get(courseData.authorId) || {
+        name: "Unknown Author",
+        role: "",
+      },
     };
+  }, [courseData, authorsData]);
 
-    fetchCourseDetails();
-  }, [id]);
+  const relatedCourses = useMemo(() => {
+    if (!relatedData || !authorsData) return [];
+    const authorsMap = new Map(
+      authorsData.map((author) => [author.id, author])
+    );
+    return relatedData.map((relatedCourse) => ({
+      ...relatedCourse,
+      author: authorsMap.get(relatedCourse.authorId) || {
+        name: "Unknown Author",
+        role: "",
+      },
+    }));
+  }, [relatedData, authorsData]);
 
-  const handleBeliSekarang = () => {
+  const isLoading = courseLoading || relatedLoading || authorsLoading;
+  const error = courseError || relatedError || authorsError;
+
+  const handleBeliSekarang = async () => {
     if (!isLoggedIn) {
-      alert("Anda harus login untuk membeli kursus.");
+      toast.error("Anda harus login untuk membeli kursus.");
       onNavigate("/login");
       return;
     }
-    handleCreateOrder(course);
+
+    const loadingToast = toast.loading("Membuat pesanan Anda...");
+    const newOrder = await handleCreateOrder(course);
+    toast.dismiss(loadingToast);
+
+    if (newOrder && newOrder.id) {
+      toast.success("Pesanan berhasil dibuat!");
+      onNavigate("/metodepembayaran", { state: { orderId: newOrder.id } });
+    }
   };
 
   if (isLoading) {
@@ -271,17 +283,55 @@ function DetailProdukPage({ onNavigate }) {
     </a>
   );
 
+  const LogoutIcon = () => (
+    <img src={iconLogout} alt="Logout" className="pl-1 w-5 h-5" />
+  );
+
   const tutorDescription =
     "Berkarier di bidang HR selama lebih dari 3 tahun. Saat ini bekerja sebagai Senior Talent Acquisition Specialist di Wings Group Indonesia (Sayap Mas Utama) selama hampir 1 tahun.";
 
   return (
     <div className="bg-main-secondary4">
       <Navbar
-        desktopContent={
-          isLoggedIn ? (
+        leftSection={
+          <img
+            src={logo}
+            alt="Videobelajar Logo"
+            className="h-7 cursor-pointer"
+            onClick={() => onNavigate("/")}
+          />
+        }
+        rightSection={
+          isLoggedIn && currentUser ? (
             <>
               <NavLinks />
-              <Avatar src={userAvatar} alt="User Avatar" size="md" />
+              <Dropdown
+                trigger={
+                  <button>
+                    <Avatar
+                      src={currentUser?.avatar || userAvatar}
+                      alt="User Avatar"
+                      size="md"
+                    />
+                  </button>
+                }
+              >
+                <DropdownItem onClick={() => onNavigate("/profil")}>
+                  Profil Saya
+                </DropdownItem>
+                <DropdownItem onClick={() => onNavigate("/kelas")}>
+                  Kelas Saya
+                </DropdownItem>
+                <DropdownItem onClick={() => onNavigate("/pesanan")}>
+                  Pesanan Saya
+                </DropdownItem>
+                <div className="my-1 border-t border-other-border" />
+                <DropdownItem onClick={handleLogout}>
+                  <div className="flex items-center font-semibold text-error-hover">
+                    Keluar <LogoutIcon />
+                  </div>
+                </DropdownItem>
+              </Dropdown>
             </>
           ) : (
             <>
@@ -327,7 +377,7 @@ function DetailProdukPage({ onNavigate }) {
         </section>
         <div className="flex flex-col lg:flex-row gap-8 mt-8 items-start">
           <div className="w-full lg:w-auto order-1 lg:order-2">
-            <PurchaseCard course={course} onBuatPesanan={handleBeliSekarang} />
+            <PurchaseCard course={course} onBeliSekarang={handleBeliSekarang} />
           </div>
           <div className="w-full lg:flex-grow space-y-8 order-2 lg:order-1">
             <div className="bg-other-primary-background p-6 rounded-lg shadow-sm">

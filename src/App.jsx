@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Beranda from "./Pages/Beranda";
 import LoginPage from "./Pages/Login";
@@ -16,11 +17,15 @@ import ProfilSaya from "./Pages/Profile";
 
 function App() {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
+  const [currentOrderId, setCurrentOrderId] = useState(null);
   const navigate = useNavigate();
 
   const handleNavigate = (path, data = null) => {
     if (path === "detailproduk" && data) {
       navigate(`/detailproduk/${data.id}`);
+    } else if (path === "/metodepembayaran" && data?.state?.orderId) {
+      setCurrentOrderId(data.state.orderId);
+      navigate(path);
     } else {
       navigate(path);
     }
@@ -29,6 +34,7 @@ function App() {
 
   return (
     <div>
+      <Toaster position="top-right" reverseOrder={false} />
       <Routes>
         {/* Rute Publik */}
         <Route path="/" element={<Beranda onNavigate={handleNavigate} />} />
@@ -82,6 +88,7 @@ function App() {
                 onNavigate={handleNavigate}
                 selectedMethodId={selectedPaymentMethod}
                 onMethodChange={setSelectedPaymentMethod}
+                orderId={currentOrderId}
               />
             </ProtectedRoute>
           }
@@ -93,6 +100,7 @@ function App() {
               <HalamanBayar
                 onNavigate={handleNavigate}
                 selectedMethodId={selectedPaymentMethod}
+                orderId={currentOrderId}
               />
             </ProtectedRoute>
           }
@@ -105,6 +113,7 @@ function App() {
                 onNavigate={handleNavigate}
                 selectedMethodId={selectedPaymentMethod}
                 onMethodChange={setSelectedPaymentMethod}
+                orderId={currentOrderId}
               />
             </ProtectedRoute>
           }
@@ -113,7 +122,11 @@ function App() {
           path="/infopayment"
           element={
             <ProtectedRoute>
-              <InfoPayment onNavigate={handleNavigate} status="success" />
+              <InfoPayment
+                onNavigate={handleNavigate}
+                status="success"
+                orderId={currentOrderId}
+              />
             </ProtectedRoute>
           }
         />

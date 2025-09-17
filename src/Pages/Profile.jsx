@@ -8,9 +8,10 @@ import DropdownItem from "../components/Dropdown/Dropdonwitem";
 import Sidebar from "../components/Layout/Sidebar";
 import InputField from "../components/InputFormControl/InputField";
 import SelectField from "../components/InputFormControl/SelectField";
-import Button from "../components/Button/Button";
 import PhoneNumberInput from "../components/InputFormControl/PhoneNumberInput";
+import Button from "../components/Button/Button";
 
+import logo from "/assets/images/logo.png";
 import userAvatar from "/assets/images/avatar.png";
 import iconLogout from "/assets/icon/icon-logout.png";
 
@@ -88,8 +89,15 @@ function ProfilSaya({ onNavigate }) {
   return (
     <div className="bg-main-secondary4">
       <Navbar
-        onLogoClick={() => onNavigate("/")}
-        desktopContent={
+        leftSection={
+          <img
+            src={logo}
+            alt="Videobelajar Logo"
+            className="h-7 cursor-pointer"
+            onClick={() => onNavigate("/")}
+          />
+        }
+        rightSection={
           <>
             <NavLinks />
             <Dropdown

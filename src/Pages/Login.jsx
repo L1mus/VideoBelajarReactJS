@@ -3,6 +3,7 @@ import { UserContext } from "../context/UserContext";
 import Navbar from "../components/Navbar";
 import InputField from "../components/InputFormControl/InputField";
 import Button from "../components/Button/Button";
+import logo from "/assets/images/logo.png";
 import iconGoogle from "/assets/icon/icon-google.png";
 
 const LoginPage = ({ onNavigate }) => {
@@ -32,7 +33,16 @@ const LoginPage = ({ onNavigate }) => {
 
   return (
     <div>
-      <Navbar />
+      <Navbar
+        leftSection={
+          <img
+            src={logo}
+            alt="Videobelajar Logo"
+            className="h-7 cursor-pointer"
+            onClick={() => onNavigate("/")}
+          />
+        }
+      />
       <div className="min-h-screen px-3 md:px-9 flex items-center justify-center gap-9 bg-main-secondary4">
         <div className="bg-other-primary-background p-9 rounded-xl shadow-lg w-full max-w-xl">
           <div className="text-center mb-8">

@@ -4,9 +4,10 @@ import { UserContext } from "../context/UserContext";
 import Navbar from "../components/Navbar";
 import InputField from "../components/InputFormControl/InputField";
 import SelectField from "../components/InputFormControl/SelectField";
-import Button from "../components/Button/Button";
-import iconGoogle from "/assets/icon/icon-google.png";
 import PhoneNumberInput from "../components/InputFormControl/PhoneNumberInput";
+import Button from "../components/Button/Button";
+import logo from "/assets/images/logo.png";
+import iconGoogle from "/assets/icon/icon-google.png";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -52,7 +53,16 @@ const RegisterPage = () => {
 
   return (
     <div>
-      <Navbar />
+      <Navbar
+        leftSection={
+          <img
+            src={logo}
+            alt="Videobelajar Logo"
+            className="h-7 cursor-pointer"
+            onClick={() => navigate("/")}
+          />
+        }
+      />
       <div className="min-h-screen px-3 py-6 md:px-9 flex items-center justify-center gap-9 bg-main-secondary4">
         <main className="flex-grow flex items-center justify-center p-4">
           <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-xl">
